@@ -1,4 +1,5 @@
 import "./globals.css";
+import RecoilRootWrapper from "./recoil/RecoilRootWrapper";
 
 export const metadata = {
   title: "Song Sieve",
@@ -13,7 +14,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <main>{children}</main>
+        <main>
+          <RecoilRootWrapper>{children}</RecoilRootWrapper>
+        </main>
       </body>
     </html>
   );

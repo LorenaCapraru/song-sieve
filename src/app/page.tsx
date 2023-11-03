@@ -29,9 +29,10 @@ export default function Home() {
 
   return (
     <div>
-      <button onClick={handleGoogleSignIn}>Sign in google</button>
+      Home
+      {/* <button onClick={handleGoogleSignIn}>Sign in google</button>
 
-      <button>Sign up</button>
+      <button>Sign up</button> */}
     </div>
   );
 }

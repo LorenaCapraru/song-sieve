@@ -1,3 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Kodchasan:wght@200;300;400;500;600;700&display=swap");
+
+:root {
+  --grey: #aeaeae;
+  --dark-purple: #1c0034;
+  /* for frame and background of 1 playlist */
+  --trans-white: rgba(255, 255, 255, 0.4);
+  /* for header and sidebar background */
+  --trans-black: #0000004d;
+  --font: "Kodchasan", sans-serif;
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -8,4 +20,48 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
+  font-family: var(--font);
+  color: white;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+body {
+  background-image: url("/background_images/background_2.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+main {
+  flex-grow: 1;
+  position: relative;
+  grid-area: main;
+}
+
+.bg-template {
+  display: flex;
+  flex-direction: column;
+  min-width: 100vw;
+  min-height: 100vh;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.1);
+}
+
+@media only screen and (min-width: 768px) {
+  .bg-template {
+    min-width: 80vw;
+    min-height: 80vh;
+    margin: 30px;
+    border: 15px solid var(--trans-white);
+    border-radius: 25px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      "sidebar header"
+      "sidebar main";
+  }
 }

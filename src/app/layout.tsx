@@ -1,3 +1,6 @@
+import Header from "./components/Header/Header";
+import MobileMenu from "./components/MobielMenu/MobileMenu";
+import SideBar from "./components/SideBar/SideBar";
 import "./globals.css";
 import RecoilRootWrapper from "./recoil/RecoilRootWrapper";
 
@@ -14,9 +17,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <main>
-          <RecoilRootWrapper>{children}</RecoilRootWrapper>
-        </main>
+        <RecoilRootWrapper>
+          <div className="bg-template">
+            <SideBar />
+            <Header />
+            <main> {children}</main>
+            <MobileMenu />
+          </div>
+        </RecoilRootWrapper>
       </body>
     </html>
   );

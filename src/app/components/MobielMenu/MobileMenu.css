@@ -1,0 +1,38 @@
+.mobile-menu {
+  background-color: var(--trans-black);
+}
+
+.mobile-menu ul {
+  display: flex;
+  justify-content: space-around;
+  list-style: none;
+  padding: 15px 0;
+}
+
+.mobile-menu ul a {
+  color: white;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 5px;
+  width: 100px;
+  transition: all ease-in-out 150ms;
+}
+
+.mobile-menu ul li:hover > a {
+  color: var(--grey);
+}
+
+.mobile-menu img {
+  /* color: white */
+  filter: invert(100%) sepia(3%) saturate(13%) hue-rotate(70deg)
+    brightness(106%) contrast(101%);
+}
+
+@media only screen and (min-width: 768px) {
+  .mobile-menu {
+    display: none;
+  }
+}

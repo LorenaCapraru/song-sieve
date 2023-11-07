@@ -1,3 +1,4 @@
+"use client";
 import Input from "../Input/Input";
 import "./CheckPlaylist.css";
 

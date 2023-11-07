@@ -1,0 +1,21 @@
+.input-section {
+  display: flex;
+  align-items: center;
+  border: 1px solid white;
+  border-radius: 10px;
+  padding: 5px;
+  margin: 5% 0px;
+}
+
+.input-field {
+  flex: 1;
+  border: none;
+  outline: none;
+  background-color: transparent;
+}
+
+.icon {
+  margin: 0px 10px;
+  filter: invert(100%) sepia(3%) saturate(13%) hue-rotate(70deg)
+    brightness(106%) contrast(101%);
+}

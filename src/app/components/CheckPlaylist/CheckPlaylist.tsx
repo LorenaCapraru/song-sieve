@@ -1,3 +1,4 @@
+import Input from "../Input/Input";
 import "./CheckPlaylist.css";
 
 const CheckPlaylist = () => {
@@ -9,7 +10,7 @@ const CheckPlaylist = () => {
       </h1>
       <div className="id-provide-section">
         <p>Provide id of Spotify playlist</p>
-        <p>place for input</p>
+        <Input />
       </div>
     </div>
   );

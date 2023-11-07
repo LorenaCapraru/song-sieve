@@ -1,5 +1,6 @@
 "use client";
 import Input from "../Input/Input";
+import Playlist from "../Playlist/Playlist";
 import "./CheckPlaylist.css";
 
 const CheckPlaylist = () => {
@@ -12,6 +13,7 @@ const CheckPlaylist = () => {
       <div className="id-provide-section">
         <p>Provide id of Spotify playlist</p>
         <Input />
+        <Playlist />
       </div>
     </div>
   );

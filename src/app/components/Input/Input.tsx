@@ -26,7 +26,7 @@ const Input = () => {
           type="text"
           value={inputSpotifyId}
           onChange={handleChange}
-          placeholder="Spotify playlist id"
+          placeholder="Spotify playlist link"
           className="input-field"
         />
       </div>

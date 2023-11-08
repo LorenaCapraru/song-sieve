@@ -10,7 +10,7 @@ const CheckPlaylist = () => {
         Check the playlist from your friend
       </h1>
       <div className="id-provide-section">
-        <p>Provide id of Spotify playlist</p>
+        <p>Provide link to Spotify playlist</p>
         <Input />
         <Playlist />
       </div>

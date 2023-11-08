@@ -1,0 +1,11 @@
+.check-playlist-header {
+  font-size: 28px;
+  font-weight: normal;
+}
+
+.id-provide-section {
+  padding: 5%;
+  margin: 2% 0;
+  background-color: var(--trans-black);
+  border-radius: 10px;
+}

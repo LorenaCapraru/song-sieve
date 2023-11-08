@@ -1,17 +1,20 @@
+import {
+  coverImageState,
+  descriptionState,
+  playListNameState,
+  playlistIdState,
+  tracksState,
+} from "@/app/recoil/atoms";
 import "./Playlist.css";
 import Image from "next/image";
-import { useState } from "react";
+import { useRecoilValue } from "recoil";
 
 const Playlist = () => {
-  const [playlistId, setPlayListId] = useState<string>("hfjdkvfhfolskdjfhf");
-  const [tracks, setTracks] = useState<number>(25);
-  const [description, setDescription] = useState<string>(
-    "Kick back to the best new and recent chill hits"
-  );
-  const [playListName, setPlayListName] = useState<string>("Chill hits");
-  const [coverImage, setCoverImage] = useState<string>(
-    "/background_images/background_2.jpg"
-  );
+  const playlistId = useRecoilValue(playlistIdState);
+  const tracks = useRecoilValue(tracksState);
+  const description = useRecoilValue(descriptionState);
+  const playListName = useRecoilValue(playListNameState);
+  const coverImage = useRecoilValue(coverImageState);
 
   return (
     <div className="playlist-section">
@@ -24,7 +27,7 @@ const Playlist = () => {
           className="album-cover"
         />
         <div className="playlist-brief">
-          <p className="playlist-name">Chill hits</p>
+          <p className="playlist-name">{playListName}</p>
           <p className="detail">{description} </p>
           <p className="detail">id: {playlistId}</p>
           <p className="detail">tracks:{tracks}</p>

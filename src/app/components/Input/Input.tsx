@@ -1,12 +1,15 @@
 import Image from "next/image";
 import { useState, ChangeEvent } from "react";
 import "./Input.css";
+import { inputSpotifyIdState } from "@/app/recoil/atoms";
+import { useRecoilState } from "recoil";
 
 const Input = () => {
-  const [inputValue, setInputValue] = useState<string>("");
+  const [inputSpotifyId, setInputSpotifyId] =
+    useRecoilState(inputSpotifyIdState);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
+    setInputSpotifyId(e.target.value);
   };
 
   return (
@@ -21,7 +24,7 @@ const Input = () => {
         />
         <input
           type="text"
-          value={inputValue}
+          value={inputSpotifyId}
           onChange={handleChange}
           placeholder="Spotify playlist id"
           className="input-field"

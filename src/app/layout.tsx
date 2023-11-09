@@ -3,6 +3,7 @@ import MobileMenu from "./components/MobielMenu/MobileMenu";
 import SideBar from "./components/SideBar/SideBar";
 import "./globals.css";
 import RecoilRootWrapper from "./recoil/RecoilRootWrapper";
+import SignIn from "./components/SignIn/SignIn";
 
 export const metadata = {
   title: "Song Sieve",
@@ -23,6 +24,7 @@ export default function RootLayout({
             <Header />
             <main> {children}</main>
             <MobileMenu />
+            <SignIn />
           </div>
         </RecoilRootWrapper>
       </body>

@@ -1,18 +1,25 @@
-
 import "./PlaylistCover.css";
-import { useRecoilValue } from "recoil";
+import Image from "next/image";
 
 const PlaylistCover = () => {
- 
-
+  //change this later
+  const playlistImage = require("../../../../../../public/playlist_images_temporary/album-cover-1.png");
   return (
-    <div className="">
-      <div className="playlist-container">
-      Image
-        <div className="playlist-brief">
-          <p className="playlist-name">playlist name</p>
-          <p className="detail">playlist description </p>
-        </div>
+    <div className="popular-playlist-container">
+      <div className="popular-playlist-image">
+        <Image
+          src={playlistImage.default}
+          alt="Playlist Cover"
+          width={127}
+          height={108}
+          layout="fixed"
+        />
+      </div>
+      <div className="popular-playlist-brief">
+        <p className="popular-playlist-name">Today’s top hits</p>
+        <p className="popular-playlist-description">
+          Jung Kook is on top of the hottest
+        </p>
       </div>
     </div>
   );

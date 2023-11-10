@@ -3,3 +3,9 @@
   font-weight: normal;
   color: #FFF;
 }
+
+.popular-playlist-row {
+  display: flex;
+  gap: 16px; /* Adjust the gap between playlists */
+  overflow-x: auto; /* Enable horizontal scrolling if there are more playlists than the container can show */
+}

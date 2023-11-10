@@ -1,11 +1,17 @@
 .popular-playlist-header {
   font-size: 28px;
   font-weight: normal;
-  color: #FFF;
+  color: #fff;
+  margin-bottom: 2%;
 }
 
 .popular-playlist-row {
   display: flex;
-  gap: 16px; /* Adjust the gap between playlists */
-  overflow-x: auto; /* Enable horizontal scrolling if there are more playlists than the container can show */
+  gap: 10px;
+  overflow-x: auto; /*horizontal scrolling if there are more playlists than the container can show*/
+  justify-content: space-between;
+}
+
+.popular-playlist-container {
+  margin-bottom: 10%;
 }

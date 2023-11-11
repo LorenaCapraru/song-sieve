@@ -27,7 +27,10 @@ const PopularPlaylist = () => {
       <h1 className="popular-playlist-header">Popular Playlists</h1>
       <div className="popular-playlist-row">
         {playlistImages.map((playlistImage, index) => (
-          <PlaylistCover key={index} playlistImage={playlistImage.image} />
+          <PlaylistCover
+            key={`${index}-${playlistImage.image}`}
+            playlistImage={playlistImage.image}
+          />
         ))}
       </div>
     </div>

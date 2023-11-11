@@ -1,7 +1,7 @@
 import "./PlaylistCover.css";
 import Image from "next/image";
 
-const PlaylistCover = ({playlistImage}) => {
+const PlaylistCover = ({ playlistImage }) => {
   return (
     <div className="popular-playlist-container">
       <div className="popular-playlist-image">
@@ -10,7 +10,6 @@ const PlaylistCover = ({playlistImage}) => {
           alt="Playlist Cover"
           width={127}
           height={108}
-          layout="fixed"
         />
       </div>
       <div className="popular-playlist-brief">

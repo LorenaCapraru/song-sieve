@@ -3,23 +3,22 @@ import "./PopularPlaylist.css";
 import PlaylistCover from "./components/PlaylistCover/PlaylistCover";
 
 const PopularPlaylist = () => {
-  
   //replace this later with the actual popular playlists
   const playlistImages = [
     {
-      image: "/playlist_images_temporary/album-cover-1.png",
+      image: "/playlist_images_temporary/album-cover-1.webp",
     },
     {
-      image: "/playlist_images_temporary/album-cover-2.png",
+      image: "/playlist_images_temporary/album-cover-2.webp",
     },
     {
-      image: "/playlist_images_temporary/album-cover-3.png",
+      image: "/playlist_images_temporary/album-cover-3.webp",
     },
     {
-      image: "/playlist_images_temporary/album-cover-4.png",
+      image: "/playlist_images_temporary/album-cover-4.webp",
     },
     {
-      image: "/playlist_images_temporary/album-cover-5.png",
+      image: "/playlist_images_temporary/album-cover-5.webp",
     },
   ];
 

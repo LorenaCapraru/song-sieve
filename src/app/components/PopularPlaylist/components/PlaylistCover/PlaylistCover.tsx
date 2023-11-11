@@ -1,7 +1,11 @@
 import "./PlaylistCover.css";
 import Image from "next/image";
 
-const PlaylistCover = ({ playlistImage }) => {
+interface PlaylistProps {
+  playlistImage: string;
+}
+
+const PlaylistCover = ({ playlistImage }: PlaylistProps) => {
   return (
     <div className="popular-playlist-container">
       <div className="popular-playlist-image">

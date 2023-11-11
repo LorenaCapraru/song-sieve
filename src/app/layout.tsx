@@ -1,9 +1,5 @@
-import Header from "./components/Header/Header";
-import MobileMenu from "./components/MobielMenu/MobileMenu";
-import SideBar from "./components/SideBar/SideBar";
 import "./globals.css";
 import RecoilRootWrapper from "./recoil/RecoilRootWrapper";
-import SignIn from "./components/SignIn/SignIn";
 
 export const metadata = {
   title: "Song Sieve",
@@ -19,13 +15,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <RecoilRootWrapper>
-          <div className="bg-template">
-            <SideBar />
-            <Header />
-            <main> {children}</main>
-            <MobileMenu />
-            <SignIn />
-          </div>
+          <main> {children}</main>
         </RecoilRootWrapper>
       </body>
     </html>

@@ -1,9 +1,12 @@
 .main-home-page {
-  padding: 0 5% 5% 5%;
+  padding: 30px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 }
 
-@media (max-width: 500px) {
+@media (min-width: 768px) {
   .main-home-page {
-    padding: 5%;
+    padding: 0 25px;
   }
 }

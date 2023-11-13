@@ -11,13 +11,3 @@
   overflow-x: auto;
   justify-content: space-between;
 }
-
-.popular-playlist-container {
-  margin-bottom: 5%;
-}
-
-@media (max-width: 500px) {
-  .popular-playlist-container {
-    margin-bottom: 10%;
-  }
-}

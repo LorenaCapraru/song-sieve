@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useState, ChangeEvent } from "react";
+import { ChangeEvent } from "react";
 import "./Input.css";
 import {
   inputSpotifyIdState,
@@ -26,7 +26,6 @@ const Input = () => {
 
   const fetchPlaylist = async () => {
     try {
-      console.log(process.env.NEXT_PUBLIC_SPOTIFY_API);
       const response = await fetch(
         `https://api.spotify.com/v1/playlists/${inputSpotifyId}`,
         {
@@ -46,7 +45,6 @@ const Input = () => {
       console.error("Error fetching playlist");
     }
   };
-  console.log(playlistData);
 
   return (
     <>

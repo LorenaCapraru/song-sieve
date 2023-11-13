@@ -2,9 +2,10 @@ import { playlistDataState } from "@/app/recoil/atoms";
 import "./Playlist.css";
 import Image from "next/image";
 import { useRecoilValue } from "recoil";
+import { PlaylistData } from "@/app/recoil/atoms";
 
 const Playlist = () => {
-  const playlistData = useRecoilValue(playlistDataState);
+  const playlistData = useRecoilValue<PlaylistData>(playlistDataState);
 
   const isPlaylistDataNotEmpty = Object.keys(playlistData).length > 0;
   return (

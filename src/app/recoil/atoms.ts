@@ -28,7 +28,27 @@ export const playlistIdState = atom<string>({
   default: "",
 });
 
-export const playlistDataState = atom<object>({
+export interface PlaylistData {
+  name: string;
+  description: string;
+  id: string;
+  images: Array<{
+    url: string;
+  }>;
+  tracks: {
+    total: number;
+  };
+}
+
+export const playlistDataState = atom<PlaylistData>({
   key: "playlistDataState",
-  default: {},
+  default: {
+    name: "",
+    description: "",
+    id: "",
+    images: [],
+    tracks: {
+      total: 0,
+    },
+  },
 });

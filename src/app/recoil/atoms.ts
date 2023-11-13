@@ -40,15 +40,7 @@ export interface PlaylistData {
   };
 }
 
-export const playlistDataState = atom<PlaylistData>({
+export const playlistDataState = atom<PlaylistData | undefined>({
   key: "playlistDataState",
-  default: {
-    name: "",
-    description: "",
-    id: "",
-    images: [],
-    tracks: {
-      total: 0,
-    },
-  },
+  default: undefined,
 });

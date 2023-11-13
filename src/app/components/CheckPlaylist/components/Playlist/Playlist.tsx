@@ -5,15 +5,20 @@ import { useRecoilValue } from "recoil";
 import { PlaylistData } from "@/app/recoil/atoms";
 
 const Playlist = () => {
-  const playlistData = useRecoilValue<PlaylistData>(playlistDataState);
+  const playlistData = useRecoilValue<PlaylistData | undefined>(
+    playlistDataState
+  );
 
-  const isPlaylistDataNotEmpty = Object.keys(playlistData).length > 0;
   return (
-    isPlaylistDataNotEmpty && (
+    playlistData && (
       <div className="playlist-section">
         <div className="playlist-song-and-description">
           <Image
-            src={playlistData.images[0].url}
+            src={
+              playlistData?.images[0]?.url
+                ? playlistData.images[0].url
+                : "/background_images/background_2.jpg"
+            }
             alt="album cover"
             width={87}
             height={80}

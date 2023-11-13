@@ -28,6 +28,11 @@ export const playlistIdState = atom<string>({
   default: "hfjdkvfhfolskdjfhf",
 });
 
+export const playlistDataState = atom<object>({
+  key: "playlistDataState",
+  default: {},
+});
+
 export const tracksState = atom<number>({
   key: "tracksState",
   default: 25,

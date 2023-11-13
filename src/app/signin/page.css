@@ -1,16 +1,35 @@
+.login-bg {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 100vw;
+  min-height: 100vh;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.1);
+}
+
+@media only screen and (min-width: 768px) {
+  .login-bg {
+    min-width: 80vw;
+    min-height: 80vh;
+    margin: 30px;
+    border: 15px solid var(--trans-white);
+    border-radius: 25px;
+  }
+}
 
 .login-container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
   width: 300px;
-  height: 643px;
+  min-height: 70vh;
   color: white;
-  padding: 35px 0;
-  margin: 0 auto;
+  margin: auto;
 }
+
 .login-header {
   width: 100%;
   padding: 2px;
@@ -30,8 +49,12 @@
   text-decoration: none;
 }
 
-.logo-container a {
+.login-header > a > p {
   text-decoration: none;
+}
+
+.login-container a:hover {
+  cursor: pointer;
 }
 
 /* Form Container ============> */
@@ -42,6 +65,9 @@
   justify-content: space-between;
   width: 100%;
   gap: 20px;
+}
+.form-container > h2 {
+  font-size: 35px;
 }
 
 form {
@@ -54,8 +80,10 @@ h2 {
 
 .form-group {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   position: relative;
+  margin-bottom: 10px;
 }
 
 .form-control {
@@ -63,28 +91,14 @@ h2 {
   padding: 1rem;
   border-radius: 15px;
   border: none;
-  margin-bottom: 15px;
   text-align: left;
   padding-left: 50px;
+  font-size: 15px;
 }
   
 .error {
-  color: red;
   font-size: 0.8rem;
-  margin-top: 5px;
-}
-
-.submit {
-  box-sizing: border-box;
-  position: absolute;
-  width: 100%;
-  border: 1px solid #FFFCFC;
-  border-radius: 15px;
-  padding: 1rem;
-  background: transparent;
-  color: white;
-  justify-content: center;
-  display: flex;
+  margin: 5px 0 8px 15px;
 }
 
 .input-icon {
@@ -96,6 +110,31 @@ h2 {
   color: black;
 }
 
+.Forget-password {
+  text-align: right;
+  margin: 0 10px 30px 0;
+  font-size: 15px;
+}
+
+.Forget-password p:hover {
+  cursor: pointer;
+}
+
+.submit-btn {
+  font-family: var(--font);
+  font-size: 1.4rem;
+  font-weight: bold;
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 15px;
+  border: 1px solid white;
+  color: white;
+  background-color: transparent;
+}
+
+.submit-btn:hover {
+  cursor: pointer;
+}
 
 /* Connect Container ============> */
 .connect-container {
@@ -105,10 +144,21 @@ h2 {
   align-items: center;
   justify-content: center;
   gap: 10px;
+  font-size: 15px;
 }
 
-.icon-connect Image {
-  border-radius: 50%;
-  border: 1px solid white;
+.icon-connect {
+  display: flex;
+  gap: 10px;
 }
 
+.icon:hover {
+  cursor: pointer;
+}
+.connect-container > p:first-child {
+  font-weight: bold;
+}
+
+.connect-container > p:last-child > a {
+  font-weight: bold;
+}

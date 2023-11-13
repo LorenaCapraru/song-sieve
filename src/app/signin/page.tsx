@@ -1,29 +1,80 @@
+"use client"
+
 import Image from "next/image";
 import Link from "next/link";
 import "./page.css";
-import Input from "../components/CheckPlaylist/components/Input/Input";
+import { useRecoilState } from "recoil";
+import { authState, AuthState} from "../recoil/atoms"
 
 function SignIn() {
+  const [auth, setAuth] = useRecoilState<AuthState>(authState)
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>)=> {
+    const { name, value} = e.target;
+    setAuth ((prevAuth) => ({
+      ...prevAuth,
+      [name]: value,
+      errors: {...prevAuth.errors, [name]: ""}
+    }))
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    const {email, password} = auth;
+    let formIsValid = true;
+
+    const newErrors = {email: "", password: ""};
+
+    if (email.trim() === "") {
+      formIsValid = false;
+      newErrors.email = "Email is required"
+    }
+
+     if (password.trim() === "") {
+      formIsValid = false;
+      newErrors.password = "Password is required"
+    }
+
+    if (!formIsValid) {
+     setAuth ((prevAuth) => ({
+      ...prevAuth,
+      errors: newErrors,
+
+      }));
+    } else {
+      // Handle successfull login
+      console.log("Logged in:", email)
+    }
+    
+  };
+
   return (
+    <section className="login-bg">
     <div className="login-container">
       <div className="login-header">
-      <Link href="/">
+      <Link
+        href="/"
+        style={{ 
+          textDecoration: 'none'
+        }}>
         <div className="logo-container">
           <Image src="/icons/logo.png" alt="logo" width={60} height={60} />
-          <p>Song Sieve</p>
+          <p>Song Sieve </p>
         </div>
       </Link>
       </div>
 
       <div className="form-container">
         <h2>Sign In</h2>
-        <form className="">
+        <form onSubmit={handleSubmit}>
           <div className="form-group">
             <input
-              type="text"
+              type="email"
               name="email"
               className="form-control"
               placeholder="Email"
+              value={auth.email}
+              onChange={handleInputChange}
             />
             <Image
               src="/icons/email-icon.svg"
@@ -32,15 +83,17 @@ function SignIn() {
               width={25}
               height={25}
             />
-            <div className="error"> </div>
+            <div className="error">{auth.errors.email}</div>
           </div>
 
           <div className="form-group">
             <input
-              type="text"
+              type="password"
               name="password"
               className="form-control"
               placeholder="Password"
+              value={auth.password}
+              onChange={handleInputChange}
             />
             <Image
               src="/icons/lock-icon.svg"
@@ -49,12 +102,15 @@ function SignIn() {
               width={25}
               height={25}
             />
-            <div className="error"> </div>
+            <div className="error">{auth.errors.password}</div>
           </div>
 
-          <p>Forget Password?</p>
+          <div className="Forget-password">
+            <p >Forget Password?</p>
+          </div>
 
-          <div className="submit">SING IN</div>
+          <button type="submit" className="submit-btn"><span>SIGN IN</span></button>
+
         </form>
       </div>
 
@@ -67,15 +123,31 @@ function SignIn() {
           <Image
             src="/icons/google-icon.svg"
             alt="Google icon"
-            width={35}
-            height={35}
+            width={40}
+            height={40}
+            className="icon"
+            style={{
+              filter: 'invert(100%)',
+              border: '1px solid black',
+              borderRadius: '50%',
+              padding:'5px',
+              background: 'white'}} 
           />
           <Image
           src="/icons/github-icon.svg"
           alt="GitHub icon"
+          width={40}
+          height={40}
+          className="icon"
+          style={{ 
+            filter: 'invert(100%)',
+            border: '1px solid black',
+            borderRadius: '50%',
+            padding: '5px',
+            background: 'white'
+          }} 
 
-          width={35}
-          height={35}
+
           />
         </div>
         
@@ -83,6 +155,7 @@ function SignIn() {
       </div>
       
     </div>
+    </section>
   );
 }
 

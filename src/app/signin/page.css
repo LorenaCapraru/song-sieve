@@ -46,10 +46,8 @@
   font-weight: bold;
   color: white;
   margin-left: 10px;
-  text-decoration: none;
 }
-
-.login-header > a > p {
+.login-link {
   text-decoration: none;
 }
 
@@ -95,7 +93,7 @@ h2 {
   padding-left: 50px;
   font-size: 15px;
 }
-  
+
 .error {
   font-size: 0.8rem;
   margin: 5px 0 8px 15px;
@@ -110,14 +108,15 @@ h2 {
   color: black;
 }
 
-.Forget-password {
+.forgot-password {
   text-align: right;
   margin: 0 10px 30px 0;
   font-size: 15px;
 }
 
-.Forget-password p:hover {
+.forgot-password p:hover {
   cursor: pointer;
+  color: black;
 }
 
 .submit-btn {
@@ -132,8 +131,10 @@ h2 {
   background-color: transparent;
 }
 
-.submit-btn:hover {
-  cursor: pointer;
+.submit-btn:hover,
+.submit-btn:focus {
+  color: black;
+  background-color: white;
 }
 
 /* Connect Container ============> */
@@ -159,6 +160,12 @@ h2 {
   font-weight: bold;
 }
 
-.connect-container > p:last-child > a {
+.signup-link {
+  text-decoration: none;
   font-weight: bold;
+  color: white;
+}
+.signup-link:hover {
+  color: black;
+  cursor: pointer;
 }

@@ -112,9 +112,10 @@ h2 {
   text-align: right;
   margin: 0 10px 30px 0;
   font-size: 15px;
+  transition: all ease-in-out 200ms;
 }
 
-.forgot-password p:hover {
+.forgot-password:hover {
   cursor: pointer;
   color: black;
 }
@@ -129,6 +130,8 @@ h2 {
   border: 1px solid white;
   color: white;
   background-color: transparent;
+  transition: all ease-in-out 200ms;
+  cursor: pointer;
 }
 
 .submit-btn:hover,
@@ -164,6 +167,7 @@ h2 {
   text-decoration: none;
   font-weight: bold;
   color: white;
+  transition: all ease-in-out 200ms;
 }
 .signup-link:hover {
   color: black;

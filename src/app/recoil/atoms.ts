@@ -17,6 +17,11 @@ export const inputSpotifyIdState = atom<string>({
   default: "",
 });
 
+export const inputSpotifyLinkState = atom<string>({
+  key: "inputSpotifyLinkState",
+  default: "",
+});
+
 //Playlist.tsx states for rendering data about a Playlist
 export const playlistIdState = atom<string>({
   key: "playlistIdState",

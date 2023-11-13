@@ -1,16 +1,25 @@
 import Image from "next/image";
 import { useState, ChangeEvent } from "react";
 import "./Input.css";
-import { inputSpotifyIdState } from "@/app/recoil/atoms";
+import { inputSpotifyIdState, inputSpotifyLinkState } from "@/app/recoil/atoms";
 import { useRecoilState } from "recoil";
 
 const Input = () => {
+  const [inputSpotifyLink, setInputSpotifyLink] = useRecoilState(
+    inputSpotifyLinkState
+  );
+
   const [inputSpotifyId, setInputSpotifyId] =
     useRecoilState(inputSpotifyIdState);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputSpotifyId(e.target.value);
+    const link = e.target.value;
+    setInputSpotifyLink(link);
+
+    const id = link.replace("https://open.spotify.com/playlist/", "");
+    setInputSpotifyId(id);
   };
+  console.log("input id", inputSpotifyId);
 
   return (
     <>
@@ -24,7 +33,7 @@ const Input = () => {
         />
         <input
           type="text"
-          value={inputSpotifyId}
+          value={inputSpotifyLink}
           onChange={handleChange}
           placeholder="Spotify playlist link"
           className="input-field"

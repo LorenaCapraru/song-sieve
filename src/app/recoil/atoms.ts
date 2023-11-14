@@ -44,3 +44,26 @@ export const playlistDataState = atom<PlaylistData | undefined>({
   key: "playlistDataState",
   default: undefined,
 });
+
+// ------------------> AuthState
+export interface AuthState {
+  email: string;
+  password: string;
+  errors: {
+    email: string;
+    password: string;
+  }
+}
+
+export const authState = atom<AuthState>({
+  key: "authState",
+  default: {
+    email:"",
+    password:"",
+    errors: {
+      email:"",
+      password:"",
+    }
+  }
+});
+

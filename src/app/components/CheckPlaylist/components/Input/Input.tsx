@@ -7,6 +7,7 @@ import {
   playlistDataState,
 } from "@/app/recoil/atoms";
 import { useRecoilState } from "recoil";
+import { PlaylistData } from "@/app/recoil/atoms";
 
 const Input = () => {
   const [inputSpotifyLink, setInputSpotifyLink] = useRecoilState(
@@ -14,7 +15,9 @@ const Input = () => {
   );
   const [inputSpotifyId, setInputSpotifyId] =
     useRecoilState(inputSpotifyIdState);
-  const [playlistData, setPlaylistData] = useRecoilState(playlistDataState);
+  const [playlistData, setPlaylistData] = useRecoilState<
+    PlaylistData | undefined
+  >(playlistDataState);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const link = e.target.value;

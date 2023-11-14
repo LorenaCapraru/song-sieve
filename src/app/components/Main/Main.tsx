@@ -7,7 +7,7 @@ const Main = () => {
     <div className="main-home-page">
       <PopularPlaylist />
       <CheckPlaylist />
-    </div>
+    </main>
   );
 };
 

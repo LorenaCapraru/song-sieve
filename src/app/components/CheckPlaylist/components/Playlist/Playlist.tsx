@@ -3,11 +3,17 @@ import "./Playlist.css";
 import Image from "next/image";
 import { useRecoilValue } from "recoil";
 import { PlaylistData } from "@/app/recoil/atoms";
+import DOMPurify from "dompurify";
 
 const Playlist = () => {
   const playlistData = useRecoilValue<PlaylistData | undefined>(
     playlistDataState
   );
+  let sanitizedDescription: string = "";
+
+  if (playlistData && playlistData.description) {
+    sanitizedDescription = DOMPurify.sanitize(playlistData?.description);
+  }
 
   return (
     playlistData && (
@@ -26,7 +32,10 @@ const Playlist = () => {
           />
           <div className="playlist-brief">
             <p className="playlist-name">{playlistData.name}</p>
-            <p className="detail">{playlistData.description}</p>
+            <p
+              className="detail"
+              dangerouslySetInnerHTML={{ __html: sanitizedDescription }}
+            ></p>
             <p className="detail">id: {playlistData.id}</p>
             <p className="detail">tracks: {playlistData.tracks.total}</p>
           </div>

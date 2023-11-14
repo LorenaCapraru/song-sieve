@@ -1,15 +1,52 @@
 import Image from "next/image";
-import { useState, ChangeEvent } from "react";
+import { ChangeEvent } from "react";
 import "./Input.css";
-import { inputSpotifyIdState } from "@/app/recoil/atoms";
+import {
+  inputSpotifyIdState,
+  inputSpotifyLinkState,
+  playlistDataState,
+} from "@/app/recoil/atoms";
 import { useRecoilState } from "recoil";
+import { PlaylistData } from "@/app/recoil/atoms";
 
 const Input = () => {
+  const [inputSpotifyLink, setInputSpotifyLink] = useRecoilState(
+    inputSpotifyLinkState
+  );
   const [inputSpotifyId, setInputSpotifyId] =
     useRecoilState(inputSpotifyIdState);
+  const [playlistData, setPlaylistData] = useRecoilState<
+    PlaylistData | undefined
+  >(playlistDataState);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputSpotifyId(e.target.value);
+    const link = e.target.value;
+    setInputSpotifyLink(link);
+
+    const id = link.replace("https://open.spotify.com/playlist/", "");
+    setInputSpotifyId(id);
+  };
+
+  const fetchPlaylist = async () => {
+    try {
+      const response = await fetch(
+        `https://api.spotify.com/v1/playlists/${inputSpotifyId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_SPOTIFY_API}`,
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error(`Error fetching playlist: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setPlaylistData(data);
+      console.log("Playlist Data:", data);
+    } catch (error) {
+      console.error("Error fetching playlist");
+    }
   };
 
   return (
@@ -24,7 +61,7 @@ const Input = () => {
         />
         <input
           type="text"
-          value={inputSpotifyId}
+          value={inputSpotifyLink}
           onChange={handleChange}
           placeholder="Spotify playlist link"
           className="input-field"
@@ -35,6 +72,7 @@ const Input = () => {
           className="submit-button"
           type="submit"
           value="GET THE PLAYLIST"
+          onClick={fetchPlaylist}
         />
       </div>
     </>

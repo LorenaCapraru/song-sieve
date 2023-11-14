@@ -1,46 +1,45 @@
-import {
-  coverImageState,
-  descriptionState,
-  playListNameState,
-  playlistIdState,
-  tracksState,
-} from "@/app/recoil/atoms";
+import { playlistDataState } from "@/app/recoil/atoms";
 import "./Playlist.css";
 import Image from "next/image";
 import { useRecoilValue } from "recoil";
+import { PlaylistData } from "@/app/recoil/atoms";
 
 const Playlist = () => {
-  const playlistId = useRecoilValue(playlistIdState);
-  const tracks = useRecoilValue(tracksState);
-  const description = useRecoilValue(descriptionState);
-  const playListName = useRecoilValue(playListNameState);
-  const coverImage = useRecoilValue(coverImageState);
+  const playlistData = useRecoilValue<PlaylistData | undefined>(
+    playlistDataState
+  );
 
   return (
-    <div className="playlist-section">
-      <div className="playlist-song-and-description">
-        <Image
-          src={coverImage}
-          alt="album cover"
-          width={87}
-          height={80}
-          className="album-cover"
-        />
-        <div className="playlist-brief">
-          <p className="playlist-name">{playListName}</p>
-          <p className="detail">{description} </p>
-          <p className="detail">id: {playlistId}</p>
-          <p className="detail">tracks:{tracks}</p>
+    playlistData && (
+      <div className="playlist-section">
+        <div className="playlist-song-and-description">
+          <Image
+            src={
+              playlistData?.images[0]?.url
+                ? playlistData.images[0].url
+                : "/background_images/background_2.jpg"
+            }
+            alt="album cover"
+            width={87}
+            height={80}
+            className="album-cover"
+          />
+          <div className="playlist-brief">
+            <p className="playlist-name">{playlistData.name}</p>
+            <p className="detail">{playlistData.description}</p>
+            <p className="detail">id: {playlistData.id}</p>
+            <p className="detail">tracks: {playlistData.tracks.total}</p>
+          </div>
         </div>
+        <Image
+          src="/icons/heart-icon.svg"
+          alt="heart icon to save"
+          width={15}
+          height={15}
+          className="heart-save"
+        />
       </div>
-      <Image
-        src="/icons/heart-icon.svg"
-        alt="heart icon to save"
-        width={15}
-        height={15}
-        className="heart-save"
-      />
-    </div>
+    )
   );
 };
 export default Playlist;

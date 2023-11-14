@@ -17,28 +17,30 @@ export const inputSpotifyIdState = atom<string>({
   default: "",
 });
 
+export const inputSpotifyLinkState = atom<string>({
+  key: "inputSpotifyLinkState",
+  default: "",
+});
+
 //Playlist.tsx states for rendering data about a Playlist
 export const playlistIdState = atom<string>({
   key: "playlistIdState",
-  default: "hfjdkvfhfolskdjfhf",
+  default: "",
 });
 
-export const tracksState = atom<number>({
-  key: "tracksState",
-  default: 25,
-});
+export interface PlaylistData {
+  name: string;
+  description: string;
+  id: string;
+  images: Array<{
+    url: string;
+  }>;
+  tracks: {
+    total: number;
+  };
+}
 
-export const descriptionState = atom<string>({
-  key: "descriptionState",
-  default: "Kick back to the best new and recent chill hits",
-});
-
-export const playListNameState = atom<string>({
-  key: "playListNameState",
-  default: "Chill hits",
-});
-
-export const coverImageState = atom<string>({
-  key: "coverImageState",
-  default: "/background_images/background_2.jpg",
+export const playlistDataState = atom<PlaylistData | undefined>({
+  key: "playlistDataState",
+  default: undefined,
 });

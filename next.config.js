@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // experimental: {
-  //   appDir: true,
-  // },
+  images: {
+    domains: ["seed-mix-image.spotifycdn.com", "i.scdn.co"],
+  },
 };
 
 module.exports = nextConfig;

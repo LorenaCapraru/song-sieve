@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRecoilState } from "recoil";
 import { authState, AuthState, userTypeState } from "../recoil/atoms";
 import "../signin/page.css";
+import "./page.css";
 
 export default function SignIn() {
   const [auth, setAuth] = useRecoilState<AuthState>(authState);
@@ -155,29 +156,30 @@ export default function SignIn() {
             </div>
 
             <div className="login-option">
-              <p>
-                <label>
-                  <input
-                    type="radio"
-                    name="userType"
-                    value="volunteer"
-                    checked={selectedOption === "volunteer"}
-                    onChange={() => setSelectedOption("volunteer")}
-                  />
-                  Volunteer
-                </label>{" "}
-                -{" "}
-                <label>
-                  <input
-                    type="radio"
-                    name="userType"
-                    value="trainee"
-                    checked={selectedOption === "trainee"}
-                    onChange={() => setSelectedOption("trainee")}
-                  />
-                  Trainee
-                </label>
-              </p>
+              <label className="custom-radio">
+                <input
+                  type="radio"
+                  name="userType"
+                  value="volunteer"
+                  checked={selectedOption === "volunteer"}
+                  onChange={() => setSelectedOption("volunteer")}
+                />
+
+                <span className="custom-radio"></span>
+                <p>Volunteer</p>
+              </label>
+              <label className="custom-radio">
+                <input
+                  type="radio"
+                  name="userType"
+                  value="trainee"
+                  checked={selectedOption === "trainee"}
+                  onChange={() => setSelectedOption("trainee")}
+                />
+
+                <span className="custom-radio"></span>
+                <p>Trainee</p>
+              </label>
             </div>
 
             <button type="submit" className="submit-btn">

@@ -3,11 +3,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRecoilState } from "recoil";
-import { authState, AuthState } from "../recoil/atoms";
+import { authState, AuthState, userTypeState } from "../recoil/atoms";
 import "../signin/page.css";
 
 export default function SignIn() {
   const [auth, setAuth] = useRecoilState<AuthState>(authState);
+  const [selectedOption, setSelectedOption] =
+    useRecoilState<string>(userTypeState);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -27,12 +29,12 @@ export default function SignIn() {
 
     if (name.trim() === "") {
       formIsValid = false;
-      newErrors.email = "Name is required";
+      newErrors.name = "Name is required";
     }
 
     if (surname.trim() === "") {
       formIsValid = false;
-      newErrors.email = "Surname is required";
+      newErrors.surname = "Surname is required";
     }
 
     if (email.trim() === "") {
@@ -94,6 +96,7 @@ export default function SignIn() {
               />
               <div className="error">{auth.errors.name}</div>
             </div>
+
             <div className="form-group">
               <input
                 type="text"
@@ -112,6 +115,7 @@ export default function SignIn() {
               />
               <div className="error">{auth.errors.surname}</div>
             </div>
+
             <div className="form-group">
               <input
                 type="email"
@@ -151,7 +155,29 @@ export default function SignIn() {
             </div>
 
             <div className="login-option">
-              <p>Volunteer - Trainee</p>
+              <p>
+                <label>
+                  <input
+                    type="radio"
+                    name="userType"
+                    value="volunteer"
+                    checked={selectedOption === "volunteer"}
+                    onChange={() => setSelectedOption("volunteer")}
+                  />
+                  Volunteer
+                </label>{" "}
+                -{" "}
+                <label>
+                  <input
+                    type="radio"
+                    name="userType"
+                    value="trainee"
+                    checked={selectedOption === "trainee"}
+                    onChange={() => setSelectedOption("trainee")}
+                  />
+                  Trainee
+                </label>
+              </p>
             </div>
 
             <button type="submit" className="submit-btn">

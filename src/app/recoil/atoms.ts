@@ -74,3 +74,8 @@ export const authState = atom<AuthState>({
     },
   },
 });
+
+export const userTypeState = atom<string>({
+  key: "userTypeState",
+  default: "volunteer", // "volunteer" is the default option
+});

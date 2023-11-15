@@ -41,7 +41,7 @@ main {
 }
 
 .bg-template {
-  /* display: flex; */
+  display: flex;
   min-width: 100vw;
   min-height: 100vh;
   -webkit-backdrop-filter: blur(10px);
@@ -71,5 +71,10 @@ main {
     grid-template-areas:
       "sidebar header"
       "sidebar main";
+  }
+  .auth-template {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 }

@@ -46,24 +46,57 @@ export const playlistDataState = atom<PlaylistData | undefined>({
 });
 
 // ------------------> AuthState
-export interface AuthState {
+export interface SingInState {
   email: string;
   password: string;
   errors: {
     email: string;
     password: string;
-  }
+  };
 }
 
-export const authState = atom<AuthState>({
-  key: "authState",
+export const singInState = atom<SingInState>({
+  key: "singInState",
   default: {
-    email:"",
-    password:"",
+    email: "",
+    password: "",
     errors: {
-      email:"",
-      password:"",
-    }
-  }
+      email: "",
+      password: "",
+    },
+  },
 });
 
+export interface SignUpState {
+  email: string;
+  password: string;
+  name: string;
+  surname: string;
+  errors: {
+    email: string;
+    password: string;
+    name: string;
+    surname: string;
+  };
+}
+
+export const signUpState = atom<SignUpState>({
+  key: "signUpState",
+  default: {
+    name: "",
+    surname: "",
+    email: "",
+    password: "",
+    errors: {
+      name: "",
+      surname: "",
+      email: "",
+      password: "",
+    },
+  },
+});
+
+export const userTypeState = atom<string>({
+  key: "userTypeState",
+  default: "volunteer",
+});

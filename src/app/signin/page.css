@@ -1,25 +1,4 @@
-/* .login-bg {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-width: 100vw;
-  min-height: 100vh;
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  background: rgba(0, 0, 0, 0.1);
-}
-
-@media only screen and (min-width: 768px) {
-  .login-bg {
-    min-width: 80vw;
-    min-height: 80vh;
-    margin: 30px;
-    border: 15px solid var(--trans-white);
-    border-radius: 25px;
-  }
-} */
-
-.login-container {
+.login-wrapper {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -27,7 +6,7 @@
   width: 300px;
   min-height: 70vh;
   color: white;
-  margin: auto;
+  margin: 60px auto;
 }
 
 .login-header {
@@ -47,11 +26,12 @@
   color: white;
   margin-left: 10px;
 }
+
 .login-link {
   text-decoration: none;
 }
 
-.login-container a:hover {
+.login-wrapper a:hover {
   cursor: pointer;
 }
 
@@ -65,7 +45,8 @@
   gap: 20px;
 }
 .form-container > h2 {
-  font-size: 35px;
+  font-size: 30px;
+  font-weight: normal;
 }
 
 form {
@@ -99,7 +80,7 @@ h2 {
   margin: 5px 0 8px 15px;
 }
 
-.input-icon {
+.svg-icon {
   position: absolute;
   transform: translateY(-50%);
   left: 10px;
@@ -163,13 +144,19 @@ h2 {
   font-weight: bold;
 }
 
-.signup-link {
-  text-decoration: none;
+.sign-link {
+  text-decoration: underline;
   font-weight: bold;
-  color: white;
+  color: mediumseagreen;
   transition: all ease-in-out 200ms;
 }
-.signup-link:hover {
+.sign-link:hover {
   color: black;
   cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .login-wrapper {
+    margin: auto;
+  }
 }

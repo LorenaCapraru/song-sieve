@@ -1,4 +1,4 @@
-.login-bg {
+/* .login-bg {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -17,7 +17,7 @@
     border: 15px solid var(--trans-white);
     border-radius: 25px;
   }
-}
+} */
 
 .login-container {
   display: flex;

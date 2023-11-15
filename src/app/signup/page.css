@@ -25,14 +25,14 @@
 
 .login-option input[type="radio"]:checked + .custom-radio::before {
   content: "";
-  width: 13px;
-  height: 13px;
+  width: 12px;
+  height: 12px;
   background-color: black;
   border-radius: 50%;
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(25%, -50%);
+  transform: translate(30%, -50%);
 }
 
 .login-option p {

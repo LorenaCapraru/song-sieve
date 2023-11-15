@@ -51,7 +51,7 @@ export default function SignIn() {
       <section className="login-container">
         <div className="login-header">
           <Link href="/" className="login-link">
-            <div className="logo-container">
+            <div className="logo-wrapper">
               <Image src="/icons/logo.png" alt="logo" width={60} height={60} />
               <p>Song Sieve </p>
             </div>

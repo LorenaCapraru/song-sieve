@@ -72,4 +72,9 @@ main {
       "sidebar header"
       "sidebar main";
   }
+  .auth-template {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
 }

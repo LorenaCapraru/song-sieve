@@ -47,7 +47,7 @@ export default function SignIn() {
   };
 
   return (
-    <main className="bg-template ">
+    <main className="bg-template auth-template">
       <section className="login-container">
         <div className="login-header">
           <Link href="/" className="login-link">

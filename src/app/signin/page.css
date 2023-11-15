@@ -145,9 +145,9 @@ h2 {
 }
 
 .sign-link {
-  text-decoration: none;
+  text-decoration: underline;
   font-weight: bold;
-  color: white;
+  color: mediumseagreen;
   transition: all ease-in-out 200ms;
 }
 .sign-link:hover {

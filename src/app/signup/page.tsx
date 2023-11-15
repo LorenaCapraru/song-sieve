@@ -3,19 +3,19 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRecoilState } from "recoil";
-import { signUpState, SingUpState, userTypeState } from "../recoil/atoms";
+import { signUpState, SignUpState, userTypeState } from "../recoil/atoms";
 import "../signin/page.css";
 import "./page.css";
 import { useEffect } from "react";
 
 export default function SignIn() {
-  const [auth, setAuth] = useRecoilState<SingUpState>(signUpState);
+  const [auth, setAuth] = useRecoilState<SignUpState>(signUpState);
   const [selectedOption, setSelectedOption] =
     useRecoilState<string>(userTypeState);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setAuth((prevAuth: SingUpState) => ({
+    setAuth((prevAuth: SignUpState) => ({
       ...prevAuth,
       [name]: value,
       errors: { ...prevAuth.errors, [name]: "" },
@@ -80,7 +80,7 @@ export default function SignIn() {
         },
       });
     };
-  }, []);
+  }, [setAuth]);
 
   return (
     <main className="bg-template auth-template">

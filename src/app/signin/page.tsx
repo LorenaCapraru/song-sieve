@@ -58,7 +58,7 @@ export default function SignIn() {
         },
       });
     };
-  }, []);
+  }, [setAuth]);
 
   return (
     <main className="bg-template auth-template">

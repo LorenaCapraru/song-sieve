@@ -45,7 +45,8 @@
   gap: 20px;
 }
 .form-container > h2 {
-  font-size: 35px;
+  font-size: 30px;
+  font-weight: normal;
 }
 
 form {
@@ -79,7 +80,7 @@ h2 {
   margin: 5px 0 8px 15px;
 }
 
-.input-icon {
+.svg-icon {
   position: absolute;
   transform: translateY(-50%);
   left: 10px;
@@ -143,13 +144,13 @@ h2 {
   font-weight: bold;
 }
 
-.signup-link {
+.sign-link {
   text-decoration: none;
   font-weight: bold;
   color: white;
   transition: all ease-in-out 200ms;
 }
-.signup-link:hover {
+.sign-link:hover {
   color: black;
   cursor: pointer;
 }

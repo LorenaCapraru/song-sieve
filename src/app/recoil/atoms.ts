@@ -54,8 +54,8 @@ export interface AuthState {
   errors: {
     email: string;
     password: string;
-    name: string;
-    surname: string;
+    name?: string;
+    surname?: string;
   };
 }
 

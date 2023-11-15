@@ -4,14 +4,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRecoilState } from "recoil";
 import { authState, AuthState } from "../recoil/atoms";
-import "./page.css";
+import "../signin/page.css";
 
 export default function SignIn() {
   const [auth, setAuth] = useRecoilState<AuthState>(authState);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setAuth((prevAuth) => ({
+    setAuth((prevAuth: AuthState) => ({
       ...prevAuth,
       [name]: value,
       errors: { ...prevAuth.errors, [name]: "" },
@@ -20,10 +20,20 @@ export default function SignIn() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const { email, password } = auth;
+    const { name, surname, email, password } = auth;
     let formIsValid = true;
 
-    const newErrors = { email: "", password: "" };
+    const newErrors = { name: "", surname: "", email: "", password: "" };
+
+    if (name.trim() === "") {
+      formIsValid = false;
+      newErrors.email = "Name is required";
+    }
+
+    if (surname.trim() === "") {
+      formIsValid = false;
+      newErrors.email = "Surname is required";
+    }
 
     if (email.trim() === "") {
       formIsValid = false;
@@ -41,8 +51,13 @@ export default function SignIn() {
         errors: newErrors,
       }));
     } else {
+      // Reset errors on successful form submission
+      setAuth((prevAuth) => ({
+        ...prevAuth,
+        errors: { name: "", surname: "", email: "", password: "" },
+      }));
       // Handle successful login
-      console.log("Logged in:", email);
+      console.log("Sign Up successful:", email);
     }
   };
 
@@ -59,8 +74,44 @@ export default function SignIn() {
         </div>
 
         <div className="form-container">
-          <h2>Sign In</h2>
+          <h2>Sign Up</h2>
           <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <input
+                type="text"
+                name="name"
+                className="form-control"
+                placeholder="Name"
+                value={auth.name}
+                onChange={handleInputChange}
+              />
+              <Image
+                src="/icons/person-icon.svg"
+                alt="Person"
+                className="svg-icon"
+                width={25}
+                height={25}
+              />
+              <div className="error">{auth.errors.name}</div>
+            </div>
+            <div className="form-group">
+              <input
+                type="text"
+                name="surname"
+                className="form-control"
+                placeholder="Surname"
+                value={auth.surname}
+                onChange={handleInputChange}
+              />
+              <Image
+                src="/icons/person-icon.svg"
+                alt="Person"
+                className="svg-icon"
+                width={25}
+                height={25}
+              />
+              <div className="error">{auth.errors.surname}</div>
+            </div>
             <div className="form-group">
               <input
                 type="email"
@@ -99,12 +150,12 @@ export default function SignIn() {
               <div className="error">{auth.errors.password}</div>
             </div>
 
-            <div className="forgot-password">
-              <p>Forgot Password?</p>
+            <div className="login-option">
+              <p>Volunteer - Trainee</p>
             </div>
 
             <button type="submit" className="submit-btn">
-              <span>SIGN IN</span>
+              <span>SIGN UP</span>
             </button>
           </form>
         </div>
@@ -145,9 +196,9 @@ export default function SignIn() {
 
           <div className="connect-container">
             <p>
-              Don’t have an account?{" "}
-              <Link href="/signup" className="sign-link">
-                Sign up
+              Already have an account!{" "}
+              <Link href="/signin" className="sign-link">
+                Sign in
               </Link>
             </p>
           </div>

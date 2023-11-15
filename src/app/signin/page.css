@@ -6,7 +6,7 @@
   width: 300px;
   min-height: 70vh;
   color: white;
-  margin: auto;
+  margin: 60px auto;
 }
 
 .login-header {
@@ -153,4 +153,10 @@ h2 {
 .sign-link:hover {
   color: black;
   cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .login-container {
+    margin: auto;
+  }
 }

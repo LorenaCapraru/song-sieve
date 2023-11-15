@@ -8,6 +8,7 @@ import {
 } from "@/app/recoil/atoms";
 import { useRecoilState } from "recoil";
 import { PlaylistData } from "@/app/recoil/atoms";
+import { checkTokenTime } from "@/utils/utils";
 
 const Input = () => {
   const [inputSpotifyLink, setInputSpotifyLink] = useRecoilState(
@@ -28,24 +29,26 @@ const Input = () => {
   };
 
   const fetchPlaylist = async () => {
+    await checkTokenTime();
+    const accessToken = localStorage.getItem("access_token");
+
     try {
       const response = await fetch(
         `https://api.spotify.com/v1/playlists/${inputSpotifyId}`,
         {
           headers: {
-            Authorization: `Bearer ${process.env.NEXT_PUBLIC_SPOTIFY_API}`,
+            Authorization: `Bearer ${accessToken}`,
           },
         }
       );
       if (!response.ok) {
         throw new Error(`Error fetching playlist: ${response.status}`);
       }
-
       const data = await response.json();
       setPlaylistData(data);
       console.log("Playlist Data:", data);
     } catch (error) {
-      console.error("Error fetching playlist");
+      console.error("Error fetching playlist" + error);
     }
   };
 

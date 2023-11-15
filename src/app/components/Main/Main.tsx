@@ -4,7 +4,7 @@ import PopularPlaylist from "../PopularPlaylist/PopularPlaylist";
 
 const Main = () => {
   return (
-    <div className="main-home-page">
+    <main className="main-home-page">
       <PopularPlaylist />
       <CheckPlaylist />
     </main>

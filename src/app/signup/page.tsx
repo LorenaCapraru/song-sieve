@@ -3,12 +3,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRecoilState } from "recoil";
-import { authState, AuthState, userTypeState } from "../recoil/atoms";
+import { signUpState, AuthState, userTypeState } from "../recoil/atoms";
 import "../signin/page.css";
 import "./page.css";
 
 export default function SignIn() {
-  const [auth, setAuth] = useRecoilState<AuthState>(authState);
+  const [auth, setAuth] = useRecoilState<AuthState>(signUpState);
   const [selectedOption, setSelectedOption] =
     useRecoilState<string>(userTypeState);
 

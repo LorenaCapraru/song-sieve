@@ -58,24 +58,37 @@ export interface AuthState {
     surname?: string;
   };
 }
+type SignInState = Pick<AuthState, "email" | "password" | "errors">;
 
-export const authState = atom<AuthState>({
-  key: "authState",
+export const signInState = atom<SignInState>({
+  key: "signInState",
   default: {
     email: "",
     password: "",
-    name: "",
-    surname: "",
     errors: {
       email: "",
       password: "",
+    },
+  },
+});
+
+export const signUpState = atom<AuthState>({
+  key: "signUpState",
+  default: {
+    name: "",
+    surname: "",
+    email: "",
+    password: "",
+    errors: {
       name: "",
       surname: "",
+      email: "",
+      password: "",
     },
   },
 });
 
 export const userTypeState = atom<string>({
   key: "userTypeState",
-  default: "volunteer", // "volunteer" is the default option
+  default: "volunteer",
 });

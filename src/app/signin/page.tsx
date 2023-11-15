@@ -3,11 +3,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRecoilState } from "recoil";
-import { authState, AuthState } from "../recoil/atoms";
+import { signInState, AuthState } from "../recoil/atoms";
 import "./page.css";
 
 export default function SignIn() {
-  const [auth, setAuth] = useRecoilState<AuthState>(authState);
+  const [auth, setAuth] = useRecoilState<AuthState>(signInState);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

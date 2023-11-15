@@ -1,0 +1,54 @@
+.popular-playlist-container {
+  background-color: var(--trans-black);
+  border-radius: 10px;
+  width: 142px;
+  height: 178px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.popular-playlist-image {
+  border-radius: 10px;
+  overflow: hidden;
+  width: 127px;
+  height: 108px;
+  margin: 10px;
+}
+
+.popular-playlist-brief {
+  margin: 0px 10px;
+}
+.popular-playlist-name {
+  color: #fff;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.popular-playlist-description {
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 10px;
+  font-style: normal;
+  color: #aaa;
+}
+
+@media (min-width: 768px) {
+  .popular-playlist-container {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .popular-playlist-image {
+    max-width: 254px;
+    margin: 10px;
+  }
+
+  .popular-playlist-image img {
+    max-width: 100%; 
+    height: auto; 
+    object-fit: cover;
+  }
+}

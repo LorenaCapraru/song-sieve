@@ -2,11 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import "./page.css";
 import { useRecoilState } from "recoil";
 import { authState, AuthState } from "../recoil/atoms";
+import "./page.css";
 
-function SignIn() {
+export default function SignIn() {
   const [auth, setAuth] = useRecoilState<AuthState>(authState);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,11 +47,11 @@ function SignIn() {
   };
 
   return (
-    <section className="login-bg">
-      <div className="login-container">
+    <main className="bg-template ">
+      <section className="login-container">
         <div className="login-header">
           <Link href="/" className="login-link">
-            <div className="logo-container">
+            <div className="logo-wrapper">
               <Image src="/icons/logo.png" alt="logo" width={60} height={60} />
               <p>Song Sieve </p>
             </div>
@@ -152,9 +152,7 @@ function SignIn() {
             </p>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </main>
   );
 }
-
-export default SignIn;

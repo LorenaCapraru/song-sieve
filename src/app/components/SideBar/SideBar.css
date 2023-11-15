@@ -23,6 +23,7 @@
   .sidebar-section .logo-container {
     display: flex;
     align-items: center;
+    justify-content: flex-start;
   }
 
   .sidebar-section a {

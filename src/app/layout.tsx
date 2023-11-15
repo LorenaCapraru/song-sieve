@@ -9,7 +9,6 @@ export const metadata = {
 
 export default function RootLayout({
   children,
-  className = "",
 }: {
   children: React.ReactNode;
   className?: string;
@@ -17,9 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <RecoilRootWrapper>
-          <div className={`${className}`}>{children}</div>
-        </RecoilRootWrapper>
+        <RecoilRootWrapper>{children}</RecoilRootWrapper>
       </body>
     </html>
   );

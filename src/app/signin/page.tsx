@@ -2,10 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import RootLayout from "../layout";
-import "./page.css";
 import { useRecoilState } from "recoil";
 import { authState, AuthState } from "../recoil/atoms";
+import "./page.css";
 
 export default function SignIn() {
   const [auth, setAuth] = useRecoilState<AuthState>(authState);
@@ -48,7 +47,7 @@ export default function SignIn() {
   };
 
   return (
-    <main className="bg-template">
+    <main className="bg-template ">
       <section className="login-container">
         <div className="login-header">
           <Link href="/" className="login-link">

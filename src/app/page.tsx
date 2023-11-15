@@ -6,7 +6,7 @@ import RootLayout from "./layout";
 
 export default function Home() {
   return (
-    <div className="bg-template">
+    <div className="bg-template home-template">
       <Header />
       <SideBar />
       <Main />

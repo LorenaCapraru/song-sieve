@@ -41,7 +41,7 @@ main {
 }
 
 .bg-template {
-  display: flex;
+  /* display: flex; */
   min-width: 100vw;
   min-height: 100vh;
   -webkit-backdrop-filter: blur(10px);

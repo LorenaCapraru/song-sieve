@@ -3,18 +3,19 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRecoilState } from "recoil";
-import { signUpState, AuthState, userTypeState } from "../recoil/atoms";
+import { signUpState, SingUpState, userTypeState } from "../recoil/atoms";
 import "../signin/page.css";
 import "./page.css";
+import { useEffect } from "react";
 
 export default function SignIn() {
-  const [auth, setAuth] = useRecoilState<AuthState>(signUpState);
+  const [auth, setAuth] = useRecoilState<SingUpState>(signUpState);
   const [selectedOption, setSelectedOption] =
     useRecoilState<string>(userTypeState);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setAuth((prevAuth: AuthState) => ({
+    setAuth((prevAuth: SingUpState) => ({
       ...prevAuth,
       [name]: value,
       errors: { ...prevAuth.errors, [name]: "" },
@@ -64,9 +65,26 @@ export default function SignIn() {
     }
   };
 
+  useEffect(() => {
+    return () => {
+      setAuth({
+        name: "",
+        surname: "",
+        email: "",
+        password: "",
+        errors: {
+          name: "",
+          surname: "",
+          email: "",
+          password: "",
+        },
+      });
+    };
+  }, []);
+
   return (
     <main className="bg-template auth-template">
-      <section className="login-container">
+      <section className="login-wrapper">
         <div className="login-header">
           <Link href="/" className="login-link">
             <div className="logo-wrapper">

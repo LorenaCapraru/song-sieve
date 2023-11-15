@@ -1,4 +1,4 @@
-.login-container {
+.login-wrapper {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -31,7 +31,7 @@
   text-decoration: none;
 }
 
-.login-container a:hover {
+.login-wrapper a:hover {
   cursor: pointer;
 }
 
@@ -156,7 +156,7 @@ h2 {
 }
 
 @media (min-width: 768px) {
-  .login-container {
+  .login-wrapper {
     margin: auto;
   }
 }

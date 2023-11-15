@@ -66,7 +66,7 @@ main {
   }
   .home-template {
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: auto minmax(100px, calc(100% - 60px));
     grid-template-rows: auto 1fr;
     grid-template-areas:
       "sidebar header"

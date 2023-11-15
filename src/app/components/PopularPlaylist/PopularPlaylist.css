@@ -1,0 +1,13 @@
+.popular-playlist-header {
+  font-size: 28px;
+  font-weight: normal;
+  color: #fff;
+  margin-bottom: 2%;
+}
+
+.popular-playlist-row {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  justify-content: space-between;
+}

@@ -1,4 +1,6 @@
 import { atom } from "recoil";
+import { FilterOptions } from "../components/SideBar/components/FilterOptions/FilterOptions";
+
 export const isUserLoggedInState = atom<boolean>({
   key: "isUserLoggedInState",
   default: false,
@@ -98,4 +100,9 @@ export const signUpState = atom<SignUpState>({
 export const userTypeState = atom<string>({
   key: "userTypeState",
   default: "volunteer",
+});
+
+export const filterOptionsState = atom<FilterOptions>({
+  key: "filterOptionsState",
+  default: { selectedDuration: null, explicit: null },
 });

@@ -13,12 +13,12 @@ export const isSideBarOpenState = atom<boolean>({
 // Input.tsx state for entering the spotify id
 export const inputSpotifyIdState = atom<string>({
   key: "inputSpotifyIdState",
-  default: "37i9dQZF1DWY4lFlS4Pnso",
+  default: "",
 });
 
 export const inputSpotifyLinkState = atom<string>({
   key: "inputSpotifyLinkState",
-  default: "https://open.spotify.com/playlist/37i9dQZF1DWY4lFlS4Pnso",
+  default: "",
 });
 
 //Playlist.tsx states for rendering data about a Playlist

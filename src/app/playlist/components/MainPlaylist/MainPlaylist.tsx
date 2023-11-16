@@ -4,7 +4,9 @@ import "./MainPlaylist.css";
 const MainPlaylist = () => {
   return (
     <div className="main-section">
-      <PlaylistHeader />
+      <div className="main-playlist-container">
+        <PlaylistHeader />
+      </div>
     </div>
   );
 };

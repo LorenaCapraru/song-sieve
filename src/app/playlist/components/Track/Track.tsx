@@ -49,13 +49,13 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
     return parseFloat(minutes.toFixed(2));
   }
 
-  const formattedDate = track?.album.release_date
-    ? new Date(track.album.release_date).toLocaleDateString("en-GB", {
-        day: "numeric",
-        month: "short",
-        year: "numeric",
-      })
-    : "N/A";
+  const formattedDate =
+    track?.album.release_date &&
+    new Date(track.album.release_date).toLocaleDateString("en-GB", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    });
 
   return (
     track && (

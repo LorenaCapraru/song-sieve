@@ -9,3 +9,7 @@
   background-color: var(--trans-black);
   border-radius: 10px;
 }
+
+.id-provide-section a {
+  text-decoration: none;
+}

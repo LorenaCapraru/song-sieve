@@ -2,11 +2,33 @@ import { FC } from "react";
 import Image from "next/image";
 import "./Track.css";
 
+interface ExternalUrls {
+  spotify: string;
+}
+
 interface Artist {
+  external_urls: ExternalUrls;
+  href: string;
+  id: string;
   name: string;
+  type: string;
+  uri: string;
+}
+
+interface Image {
+  height: number;
+  url: string;
+  width: number;
 }
 
 interface Album {
+  album_type: string;
+  artists: Artist[];
+  available_markets: string[];
+  external_urls: ExternalUrls;
+  href: string;
+  images: Image[]; // Add this line
+  name: string; // Assuming the album name is present
   release_date: string;
 }
 

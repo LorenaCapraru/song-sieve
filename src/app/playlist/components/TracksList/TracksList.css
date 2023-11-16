@@ -1,0 +1,33 @@
+.tracks-list-main {
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+.tracks-list-image {
+  border-radius: 5px;
+}
+
+.tracks-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0 10px; /* Adjust the second value for vertical spacing */
+}
+
+.tracks-table-header td {
+  border-bottom: 3px solid white;
+}
+
+.tracks-table tr {
+  /* padding: 5px; */
+}
+
+.tracks-table {
+  font-size: 12px;
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+.tracks-table-header {
+  font-size: 12px;
+  font-weight: bold;
+}

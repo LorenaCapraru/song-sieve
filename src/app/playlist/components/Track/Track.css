@@ -25,4 +25,8 @@
   font-weight: normal;
 }
 
-
+.track-row:hover {
+  z-index: -1;
+  background-color: var(--trans-black);
+  transition: cubic-bezier(0.165, 0.84, 0.44, 1);
+}

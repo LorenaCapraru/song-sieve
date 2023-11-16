@@ -6,6 +6,7 @@
 
 .tracks-list-image {
   border-radius: 5px;
+  margin: 5px;
 }
 
 .tracks-table {
@@ -27,4 +28,9 @@
 .tracks-table-header {
   font-size: 12px;
   font-weight: bold;
+}
+
+td {
+  min-width: 30px;
+  margin: 10px;
 }

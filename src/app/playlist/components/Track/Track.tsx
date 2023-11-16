@@ -62,7 +62,7 @@ const Track: FC<TrackProps> = ({ track }) => {
             alt="heart icon used to play"
             width={13}
             height={14}
-            className="playlist-header-heart-icon"
+            className="playlist-table-heart-icon"
           />
         </td>
         <td>{track.explicit === true ? "Yes" : "No"}</td>
@@ -72,7 +72,7 @@ const Track: FC<TrackProps> = ({ track }) => {
             alt="ellipsis icon used to play"
             width={13}
             height={14}
-            className="playlist-header-ellipsis-icon"
+            className="playlist-table-ellipsis-icon"
           />
         </td>
       </tr>

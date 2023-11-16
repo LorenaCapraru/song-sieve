@@ -9,11 +9,15 @@
   flex-direction: column;
   justify-content: center;
 }
-.playlist-header-heart-icon {
+.playlist-table-heart-icon {
   opacity: 0;
 }
-.track-row:hover .playlist-header-heart-icon {
+.track-row:hover .playlist-table-heart-icon {
   opacity: 1;
+  transition: all ease-in-out 200ms;
+  filter: invert(100%) sepia(3%) saturate(13%) hue-rotate(70deg)
+    brightness(106%) contrast(101%);
+  cursor: pointer;
 }
 .track-name {
   font-size: 12px;
@@ -26,7 +30,7 @@
 }
 
 .track-row:hover {
-  z-index: -1;
   background-color: var(--trans-black);
-  transition: cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all ease-in-out 200ms;
+  border-radius: 20px;
 }

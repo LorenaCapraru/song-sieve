@@ -27,8 +27,8 @@ interface Album {
   available_markets: string[];
   external_urls: ExternalUrls;
   href: string;
-  images: Image[]; // Add this line
-  name: string; // Assuming the album name is present
+  images: Image[];
+  name: string;
   release_date: string;
 }
 
@@ -49,14 +49,13 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
     return parseFloat(minutes.toFixed(2));
   }
 
-  const formattedDate = new Date(track?.album.release_date).toLocaleDateString(
-    "en-GB",
-    {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    }
-  );
+  const formattedDate = track?.album.release_date
+    ? new Date(track.album.release_date).toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      })
+    : "N/A";
 
   return (
     track && (

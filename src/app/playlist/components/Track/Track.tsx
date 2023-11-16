@@ -20,6 +20,7 @@ interface Album {
   available_markets: string[];
   external_urls: ExternalUrls;
   href: string;
+  release_date: string;
 }
 
 interface TrackProps {

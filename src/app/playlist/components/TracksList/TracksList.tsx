@@ -5,13 +5,14 @@ import Image from "next/image";
 import { playlistDataState, PlaylistData } from "@/app/recoil/atoms";
 import { useRecoilValue } from "recoil";
 import Track from "../Track/Track";
+import { TrackObject } from "../Track/Track";
 
 const TracksList: React.FC = () => {
   const playlistData = useRecoilValue<PlaylistData | undefined>(
     playlistDataState
   );
 
-  const tracksArr: any[] =
+  const tracksArr: TrackObject[] =
     playlistData?.tracks?.items?.map((el) => el.track) || [];
   console.log(tracksArr);
   return (

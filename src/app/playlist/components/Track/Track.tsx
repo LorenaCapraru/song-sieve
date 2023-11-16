@@ -32,14 +32,16 @@ interface Album {
   release_date: string;
 }
 
+export interface TrackObject {
+  album: Album;
+  name: string;
+  duration_ms: number;
+  explicit: boolean;
+  artists: Artist[];
+}
+
 interface TrackProps {
-  track: {
-    album: Album;
-    name: string;
-    duration_ms: number;
-    explicit: boolean;
-    artists: Artist[];
-  };
+  track: TrackObject;
   rowNumber: number;
 }
 

@@ -1,4 +1,6 @@
 import { atom } from "recoil";
+import { TrackObject } from "../playlist/components/Track/Track";
+
 export const isUserLoggedInState = atom<boolean>({
   key: "isUserLoggedInState",
   default: false,
@@ -36,6 +38,7 @@ export interface PlaylistData {
   }>;
   tracks: {
     total: number;
+    items: Array<{ track: TrackObject }>;
   };
 }
 

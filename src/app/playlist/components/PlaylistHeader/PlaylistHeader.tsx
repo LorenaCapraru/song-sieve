@@ -11,12 +11,14 @@ const PlaylistHeader = () => {
   console.log(playlistData);
   return (
     playlistData && (
-      <div>
+      <div className="playlist-header-main">
         <div className="playlist-header-data">
-          <p>Playlist</p>
-          <p>{playlistData?.name}</p>
-          <p>{playlistData?.tracks.total} songs</p>
-          <p>{playlistData?.id}</p>
+          <p className="playlist-word">Playlist</p>
+          <p className="playlist-header-name">{playlistData?.name}</p>
+          <p className="playlist-header-song-id">
+            {playlistData?.tracks.total} songs
+          </p>
+          <p className="playlist-header-song-id">{playlistData?.id}</p>
         </div>
         <div className="playlist-header-buttons">button</div>
       </div>

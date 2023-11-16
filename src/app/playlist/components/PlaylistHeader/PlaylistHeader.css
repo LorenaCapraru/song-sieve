@@ -1,1 +1,26 @@
+.playlist-header-main {
+  background-color: black;
+  padding: 30px;
+}
 
+.playlist-header-data {
+  background-color: gray;
+}
+
+.playlist-header-buttons {
+  background-color: darkolivegreen;
+}
+
+.playlist-word {
+  font-size: 20px;
+}
+
+.playlist-header-name {
+  font-size: 70px;
+  font-weight: bold;
+}
+
+.playlist-header-song-id {
+  font-size: 14px;
+  font-weight: bold;
+}

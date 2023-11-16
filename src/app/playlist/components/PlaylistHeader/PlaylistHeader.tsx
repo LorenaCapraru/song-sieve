@@ -12,13 +12,17 @@ const PlaylistHeader = () => {
   return (
     playlistData && (
       <div className="playlist-header-main">
-        <div className="playlist-header-data">
+        <div
+          className="playlist-header-data"
+          style={{
+            backgroundImage: `url(${playlistData.images[0]?.url})`,
+          }}
+        >
           <p className="playlist-word">Playlist</p>
           <p className="playlist-header-name">{playlistData?.name}</p>
           <p className="playlist-header-song-id">
-            {playlistData?.tracks.total} songs
+            <span>{playlistData?.tracks.total} songs •</span> {playlistData?.id}
           </p>
-          <p className="playlist-header-song-id">{playlistData?.id}</p>
         </div>
         <div className="playlist-header-buttons">button</div>
       </div>

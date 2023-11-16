@@ -1,13 +1,20 @@
 .playlist-header-main {
   background-color: black;
-  padding: 30px;
+  border-radius: 20px;
 }
 
 .playlist-header-data {
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+  padding: 30px;
   background-color: gray;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
 }
 
 .playlist-header-buttons {
+  padding: 30px;
   background-color: darkolivegreen;
 }
 
@@ -22,5 +29,7 @@
 
 .playlist-header-song-id {
   font-size: 14px;
+}
+.playlist-header-song-id span {
   font-weight: bold;
 }

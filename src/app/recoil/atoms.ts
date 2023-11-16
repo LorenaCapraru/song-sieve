@@ -14,7 +14,7 @@ export const isSideBarOpenState = atom<boolean>({
 // Input.tsx state for entering the spotify id
 export const inputSpotifyIdState = atom<string>({
   key: "inputSpotifyIdState",
-  default: "",
+  default: "37i9dQZF1DWY4lFlS4Pnso",
 });
 
 export const inputSpotifyLinkState = atom<string>({

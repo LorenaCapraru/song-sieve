@@ -56,6 +56,14 @@ main {
   justify-content: space-between;
 }
 
+.main-section {
+  width: 100%;
+  padding: 30px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
 @media only screen and (min-width: 768px) {
   .bg-template {
     box-sizing: border-box;
@@ -67,6 +75,7 @@ main {
     border: 15px solid var(--trans-white);
     border-radius: 25px;
   }
+
   .home-template {
     display: grid;
     grid-template-columns: auto minmax(100px, calc(100% - 60px));
@@ -75,9 +84,14 @@ main {
       "sidebar header"
       "sidebar main";
   }
+
   .auth-template {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+  }
+
+  .main-section {
+    padding: 0 25px;
   }
 }

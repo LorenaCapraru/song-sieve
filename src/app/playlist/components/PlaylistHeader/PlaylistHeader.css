@@ -10,24 +10,10 @@
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
-  height: 200px;
-}
-
-.playlist-header-image-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 200px;
-  border-radius: 20px 20px 0px 0px;
-  z-index: -1;
-}
-
-.playlist-header-image {
-  border-radius: 20px 20px 0px 0px;
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 .playlist-header-buttons {
@@ -65,7 +51,7 @@
 .playlist-header-play-button-div {
   background-color: white;
   border-radius: 40px;
-  padding: 15px 15px 15px 18px;
+  padding: 18px 15px 15px 18px;
   cursor: pointer;
 }
 @media only screen and (min-width: 768px) {

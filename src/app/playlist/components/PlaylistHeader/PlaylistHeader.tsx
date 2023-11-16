@@ -4,24 +4,21 @@ import "./PlaylistHeader.css";
 import { playlistDataState, PlaylistData } from "@/app/recoil/atoms";
 import Image from "next/image";
 const PlaylistHeader = () => {
-  // console.log()
   const playlistData = useRecoilValue<PlaylistData | undefined>(
     playlistDataState
   );
-  console.log(playlistData);
+
   return (
     playlistData && (
       <div className="playlist-header-main">
-        <div className="playlist-header-image-container">
-          <Image
-            src={`${playlistData.images[0]?.url}`}
-            alt="play icon used to play"
-            width={2000}
-            height={2000}
-            className="playlist-header-image"
-          />
-        </div>
-        <div className="playlist-header-data">
+        <div
+          className="playlist-header-data"
+          style={{
+            backgroundImage: `radial-gradient(
+            rgba(51, 51, 51, 0.5), 
+            rgba(51, 51, 51, 0.5)), url(${playlistData.images[0]?.url})`,
+          }}
+        >
           <p className="playlist-word">Playlist</p>
           <p className="playlist-header-name">{playlistData?.name}</p>
           <p className="playlist-header-song-id">

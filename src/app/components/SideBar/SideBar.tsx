@@ -4,6 +4,7 @@ import "./SideBar.css";
 import Image from "next/image";
 import Link from "next/link";
 import { useRecoilState } from "recoil";
+import FilterOptions from "./components/FilterOptions/FilterOptions";
 
 const SideBar = () => {
   const [isSideBarOpen, setIsSideBarOpen] = useRecoilState(isSideBarOpenState);
@@ -80,6 +81,7 @@ const SideBar = () => {
               </li>
             </ul>
           </nav>
+          <FilterOptions />
         </>
       )}
     </div>

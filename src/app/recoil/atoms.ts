@@ -1,5 +1,4 @@
 import { atom } from "recoil";
-
 export const isUserLoggedInState = atom<boolean>({
   key: "isUserLoggedInState",
   default: false,
@@ -19,7 +18,7 @@ export const inputSpotifyIdState = atom<string>({
 
 export const inputSpotifyLinkState = atom<string>({
   key: "inputSpotifyLinkState",
-  default: "",
+  default: "https://open.spotify.com/playlist/37i9dQZF1DWY4lFlS4Pnso",
 });
 
 //Playlist.tsx states for rendering data about a Playlist

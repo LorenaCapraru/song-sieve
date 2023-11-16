@@ -34,7 +34,7 @@ interface TrackProps {
 }
 
 const Track: FC<TrackProps> = ({ track }) => {
-  function millisecondsToMinutes(milliseconds) {
+  function millisecondsToMinutes(milliseconds: number) {
     const minutes = milliseconds / (1000 * 60);
     return parseFloat(minutes.toFixed(2));
   }

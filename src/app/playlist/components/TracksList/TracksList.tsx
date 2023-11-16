@@ -13,14 +13,17 @@ const TracksList: React.FC = () => {
 
   const tracksArr: any[] =
     playlistData?.tracks?.items?.map((el) => el.track) || [];
-
+  console.log(tracksArr);
   return (
     playlistData && (
       <div className="tracks-list-main">
         <table className="tracks-table">
           <thead className="tracks-table-header">
             <tr>
+              <td className="col-hide-on-mobile">#</td>
               <td>Title</td>
+              <td className="col-hide-on-mobile">Album</td>
+              <td className="col-hide-on-mobile">Date added</td>
               <td>Duration</td>
               <td></td>
               <td>Explicit</td>
@@ -29,7 +32,7 @@ const TracksList: React.FC = () => {
           </thead>
           <tbody>
             {tracksArr.map((track, index) => (
-              <Track key={index} track={track} />
+              <Track key={index} track={track} rowNumber={index + 1} />
             ))}
           </tbody>
         </table>

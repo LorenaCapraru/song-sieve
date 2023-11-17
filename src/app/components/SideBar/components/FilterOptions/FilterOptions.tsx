@@ -1,6 +1,6 @@
 import "./FilterOptions.css";
 import Image from "next/image";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import {
   filterOptionsState,
   isMobileFilterOptionsOpenState,

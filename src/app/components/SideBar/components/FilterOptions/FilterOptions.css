@@ -1,0 +1,59 @@
+.filter-options {
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.filter-icon-title {
+  display: flex;
+  gap: 10px;
+  font-size: 18px;
+}
+
+.filter-icon-title img {
+  /* color: white */
+  filter: invert(100%) sepia(3%) saturate(13%) hue-rotate(70deg)
+    brightness(106%) contrast(101%);
+}
+
+.checkbox-container {
+  margin-left: 35px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  border: none;
+}
+
+.checkbox-container legend {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.checkbox-container div {
+  display: flex;
+  gap: 8px;
+}
+
+.checkbox-container label {
+  font-size: 14px;
+}
+
+/* customizing checkboxes*/
+fieldset input[type="checkbox"] {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1px solid white;
+  background-clip: content-box;
+  padding: 4px;
+  cursor: pointer;
+}
+
+fieldset input[type="checkbox"]:checked::after {
+  content: "";
+  display: block;
+  width: 6px;
+  height: 6px;
+  background-color: white;
+}

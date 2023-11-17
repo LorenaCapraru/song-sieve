@@ -1,12 +1,23 @@
 "use client";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import "./PlaylistHeader.css";
-import { playlistDataState, PlaylistData } from "@/app/recoil/atoms";
+import {
+  playlistDataState,
+  PlaylistData,
+  isMobileFilterOptionsOpenState,
+} from "@/app/recoil/atoms";
 import Image from "next/image";
+
 const PlaylistHeader = () => {
   const playlistData = useRecoilValue<PlaylistData | undefined>(
     playlistDataState
   );
+  const [isMobileFilterOptionsOpen, setIsMobileFilterOptionsOpen] =
+    useRecoilState(isMobileFilterOptionsOpenState);
+
+  const handleFilterButtonClick = () => {
+    setIsMobileFilterOptionsOpen(!isMobileFilterOptionsOpen);
+  };
 
   return (
     playlistData && (
@@ -25,30 +36,35 @@ const PlaylistHeader = () => {
             <span>{playlistData?.tracks.total} songs •</span> {playlistData?.id}
           </p>
         </div>
-        <div className="playlist-header-buttons">
-          <div className="playlist-header-play-button-div">
+        <div className="header-filter-buttons">
+          <div className="playlist-header-buttons">
+            <div className="playlist-header-play-button-div">
+              <Image
+                src="/icons/play-icon.svg"
+                alt="play icon used to play"
+                width={22}
+                height={22}
+                className="playlist-header-play-icon"
+              />
+            </div>
             <Image
-              src="/icons/play-icon.svg"
-              alt="play icon used to play"
+              src="/icons/heart-icon.svg"
+              alt="heart icon used to save"
               width={22}
               height={22}
-              className="playlist-header-play-icon"
+              className="playlist-header-heart-icon"
+            />
+            <Image
+              src="/icons/ellipsis-icon.svg"
+              alt="ellipsis icon used for more options"
+              width={22}
+              height={22}
+              className="playlist-header-ellipsis-icon"
             />
           </div>
-          <Image
-            src="/icons/heart-icon.svg"
-            alt="heart icon used to save"
-            width={22}
-            height={22}
-            className="playlist-header-heart-icon"
-          />
-          <Image
-            src="/icons/ellipsis-icon.svg"
-            alt="ellipsis icon used for more options"
-            width={22}
-            height={22}
-            className="playlist-header-ellipsis-icon"
-          />
+          <button className="filter-button" onClick={handleFilterButtonClick}>
+            Filter
+          </button>
         </div>
       </div>
     )

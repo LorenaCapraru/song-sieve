@@ -1,7 +1,10 @@
 import "./FilterOptions.css";
 import Image from "next/image";
-import { useRecoilState } from "recoil";
-import { filterOptionsState } from "@/app/recoil/atoms";
+import { useRecoilState, useRecoilValue } from "recoil";
+import {
+  filterOptionsState,
+  isMobileFilterOptionsOpenState,
+} from "@/app/recoil/atoms";
 import { useEffect, useState } from "react";
 
 export interface FilterOptions {
@@ -13,6 +16,8 @@ const FilterOptions = () => {
   const [filterOptions, setFilterOptions] = useRecoilState(filterOptionsState);
   const [isAnyOptionSelected, setIsAnyOptionSelected] =
     useState<boolean>(false);
+  const [isMobileFilterOptionsOpen, setIsMobileFilterOptionsOpen] =
+    useRecoilState(isMobileFilterOptionsOpenState);
 
   const durations = [
     "less than 2 minutes",
@@ -44,16 +49,35 @@ const FilterOptions = () => {
   }, [filterOptions]);
 
   return (
-    <div className="filter-options">
-      <div className="filter-icon-title">
-        <Image
-          src="/icons/filter-icon.svg"
-          width={25}
-          height={25}
-          alt="Filter icon"
-        />
-        <p>Filter</p>
+    <div
+      className={`filter-options ${
+        isMobileFilterOptionsOpen ? "mobile-filter-options" : ""
+      }`}
+    >
+      <div className="filter-close">
+        <div className="filter-icon-title">
+          <Image
+            src="/icons/filter-icon.svg"
+            width={25}
+            height={25}
+            alt="Filter icon"
+          />
+          <p>Filter</p>
+        </div>
+        {isMobileFilterOptionsOpen && (
+          <Image
+            src="/icons/x-icon.svg"
+            width={17}
+            height={17}
+            alt="Close icon"
+            className="close-filters-icons"
+            onClick={() =>
+              setIsMobileFilterOptionsOpen(!isMobileFilterOptionsOpen)
+            }
+          />
+        )}
       </div>
+
       <fieldset className="checkbox-container">
         <legend>Duration</legend>
         {durations.map((duration) => (
@@ -99,8 +123,6 @@ const FilterOptions = () => {
           Clear all filters
         </button>
       )}
-      {/* will be visible only for mobile */}
-      {/* <button className="submit-filter-button">SUBMIT</button> */}
     </div>
   );
 };

@@ -102,7 +102,14 @@ export const userTypeState = atom<string>({
   default: "volunteer",
 });
 
+//FilterOptions.tsx
 export const filterOptionsState = atom<FilterOptions>({
   key: "filterOptionsState",
   default: { selectedDuration: null, explicit: null },
+});
+
+//PlaylistHeader.tsx and FilterOptions.tsx
+export const isMobileFilterOptionsOpenState = atom<boolean>({
+  key: "isMobileFilterOptionsOpenState",
+  default: false,
 });

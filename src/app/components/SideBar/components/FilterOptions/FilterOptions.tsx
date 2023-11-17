@@ -123,6 +123,8 @@ const FilterOptions = () => {
           Clear all filters
         </button>
       )}
+
+      <p className="filter-result">Found 5 tracks</p>
     </div>
   );
 };

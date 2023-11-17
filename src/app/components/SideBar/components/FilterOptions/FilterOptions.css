@@ -97,3 +97,8 @@ fieldset input[type="checkbox"]:checked::after {
   color: black;
   background-color: white;
 }
+
+.filter-result {
+  margin-left: 35px;
+  margin-top: 30px;
+}

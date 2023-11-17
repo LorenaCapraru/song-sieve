@@ -57,3 +57,42 @@ fieldset input[type="checkbox"]:checked::after {
   height: 6px;
   background-color: white;
 }
+
+/* buttons  */
+.clear-filter-button {
+  margin: 0 35px;
+  padding: 5px 25px;
+  background-color: transparent;
+  border: 1px solid white;
+  border-radius: 10px;
+  color: white;
+  font-family: var(--font);
+  font-size: 16px;
+  cursor: pointer;
+  transition: all ease-in-out 200ms;
+}
+
+.clear-filter-button:hover,
+.clear-filter-button:focus {
+  color: black;
+  background-color: white;
+}
+
+.submit-filter-button {
+  margin: 0 35px;
+  padding: 5px 25px;
+  background-color: white;
+  border: 1px solid white;
+  border-radius: 10px;
+  color: black;
+  font-family: var(--font);
+  font-size: 16px;
+  cursor: pointer;
+  transition: all ease-in-out 200ms;
+}
+
+.submit-filter-button:hover,
+.submit-filter-button:focus {
+  color: white;
+  background-color: transparent;
+}

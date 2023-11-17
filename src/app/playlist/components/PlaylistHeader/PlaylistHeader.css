@@ -1,0 +1,61 @@
+.playlist-header-main {
+  border-radius: 20px;
+  position: relative;
+}
+
+.playlist-header-data {
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+  padding: 30px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.playlist-header-buttons {
+  padding: 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+}
+
+.playlist-word {
+  font-size: 20px;
+}
+
+.playlist-header-name {
+  font-size: 40px;
+  font-weight: bold;
+  overflow-wrap: anywhere;
+}
+
+.playlist-header-song-id {
+  font-size: 14px;
+}
+.playlist-header-song-id span {
+  font-weight: bold;
+}
+
+.playlist-header-heart-icon,
+.playlist-header-ellipsis-icon {
+  filter: invert(100%) sepia(3%) saturate(13%) hue-rotate(70deg)
+    brightness(106%) contrast(101%);
+  cursor: pointer;
+}
+
+.playlist-header-play-button-div {
+  background-color: white;
+  border-radius: 40px;
+  padding: 18px 15px 15px 18px;
+  cursor: pointer;
+}
+@media only screen and (min-width: 768px) {
+  .playlist-header-name {
+    font-size: 50px;
+  }
+}

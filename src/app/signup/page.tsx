@@ -6,12 +6,16 @@ import { useRecoilState } from "recoil";
 import { signUpState, SignUpState, userTypeState } from "../recoil/atoms";
 import "../signin/page.css";
 import "./page.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { signUpWithEmailAndPassword } from "@/firebase/auth";
 
-export default function SignIn() {
+
+export default function Signup() {
   const [auth, setAuth] = useRecoilState<SignUpState>(signUpState);
   const [selectedOption, setSelectedOption] =
     useRecoilState<string>(userTypeState);
+  const [error, setError] = useState<string>("");
+
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -22,7 +26,7 @@ export default function SignIn() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const { name, surname, email, password } = auth;
     let formIsValid = true;
@@ -62,6 +66,25 @@ export default function SignIn() {
       }));
       // Handle successful login
       console.log("Sign Up successful:", email);
+    }
+
+    try {
+      const user = await signUpWithEmailAndPassword(email, password);
+      console.log("Sign Up successful:", user.email);
+      setAuth({
+         name: "",
+        surname: "",
+        email: "",
+        password: "",
+        errors: {
+          name: "",
+          surname: "",
+          email: "",
+          password: "",
+        },
+      })
+    } catch(error: any) {
+      setError(error.message || "An error occurred during sign-up")
     }
   };
 

@@ -2,6 +2,7 @@ import "./FilterOptions.css";
 import Image from "next/image";
 import { useRecoilState } from "recoil";
 import { filterOptionsState } from "@/app/recoil/atoms";
+import { useEffect, useState } from "react";
 
 export interface FilterOptions {
   selectedDuration: string | null;
@@ -10,6 +11,9 @@ export interface FilterOptions {
 
 const FilterOptions = () => {
   const [filterOptions, setFilterOptions] = useRecoilState(filterOptionsState);
+  const [isAnyOptionSelected, setIsAnyOptionSelected] =
+    useState<boolean>(false);
+
   const durations = [
     "less than 2 minutes",
     "2-5 minutes",
@@ -25,6 +29,19 @@ const FilterOptions = () => {
       setFilterOptions({ ...filterOptions, [type]: value });
     }
   };
+
+  const clearAllFilters = () => {
+    setFilterOptions({ selectedDuration: null, explicit: null });
+  };
+
+  //check if any of checkboxes is checked for displaying clear button
+  useEffect(() => {
+    const isSelected =
+      filterOptions.selectedDuration !== null ||
+      filterOptions.explicit !== null;
+
+    setIsAnyOptionSelected(isSelected);
+  }, [filterOptions]);
 
   return (
     <div className="filter-options">
@@ -76,6 +93,14 @@ const FilterOptions = () => {
           </div>
         ))}
       </fieldset>
+
+      {isAnyOptionSelected && (
+        <button className="clear-filter-button" onClick={clearAllFilters}>
+          Clear all filters
+        </button>
+      )}
+      {/* will be visible only for mobile */}
+      {/* <button className="submit-filter-button">SUBMIT</button> */}
     </div>
   );
 };

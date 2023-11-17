@@ -17,17 +17,18 @@ export const signUpWithEmailAndPassword = async (
 };;
 
 
-/*
+
 // Sign In
-export const signIn = async (email: string, password: string) => {
+export const signInWithEmailAndPassword = async (email: string, password: string) => {
   try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     return userCredential.user;
-  } catch (error) {
+  } catch (error: any) {
+    console.error("Error signing up:", error.message);
     throw error;
   }
 };
-
+/*
 // Sign Out
 export const signOut = async () => {
   try {

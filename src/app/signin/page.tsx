@@ -5,10 +5,15 @@ import Link from "next/link";
 import { useRecoilState } from "recoil";
 import { singInState, SingInState } from "../recoil/atoms";
 import "./page.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { signInWithEmailAndPassword } from "@/firebase/auth";
+import { useRouter } from "next/navigation";
+
 
 export default function SignIn() {
   const [auth, setAuth] = useRecoilState<SingInState>(singInState);
+  const [error, setError] = useState<string>("");
+  const router = useRouter();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -19,7 +24,7 @@ export default function SignIn() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const { email, password } = auth;
     let formIsValid = true;
@@ -43,7 +48,23 @@ export default function SignIn() {
       }));
     } else {
       // Handle successful login
-      console.log("Logged in:", email);
+      // console.log("Logged in:", email);
+    }
+    try {
+      const user = await signInWithEmailAndPassword( email, password);
+      console.log("Sign In successful:", user.email)
+      router.push("/")
+
+      setAuth({
+        email: "",
+        password: "",
+        errors: {
+          email: "",
+          password: "",
+        }
+      })
+    } catch (error: any) {
+      setError(error.message || "An error occurred during sign-in")
     }
   };
 

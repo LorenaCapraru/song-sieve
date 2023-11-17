@@ -37,42 +37,45 @@ const FilterOptions = () => {
         />
         <p>Filter</p>
       </div>
-      <div>
-        <label>
-          Duration
-          {durations.map((duration) => (
-            <div key={duration}>
-              <input
-                type="checkbox"
-                id={duration}
-                name="duration"
-                checked={filterOptions.selectedDuration === duration}
-                onChange={() =>
-                  handleCheckboxChange("selectedDuration", duration)
-                }
-              />
-              <label htmlFor={duration}>{duration}</label>
-            </div>
-          ))}
-        </label>
-      </div>
-      <div>
-        <label>
-          Explicit
-          {explicitOptions.map((option) => (
-            <div key={option}>
-              <input
-                type="checkbox"
-                id={option}
-                name="explicit"
-                checked={filterOptions.explicit === option}
-                onChange={() => handleCheckboxChange("explicit", option)}
-              />
-              <label htmlFor={option}>{option}</label>
-            </div>
-          ))}
-        </label>
-      </div>
+      <fieldset className="checkbox-container">
+        <legend>Duration</legend>
+        {durations.map((duration) => (
+          <div key={duration}>
+            <input
+              type="checkbox"
+              id={duration}
+              name="duration"
+              checked={filterOptions.selectedDuration === duration}
+              onChange={() =>
+                handleCheckboxChange("selectedDuration", duration)
+              }
+              aria-labelledby={duration}
+            />
+            <label htmlFor={duration} id={duration}>
+              {duration}
+            </label>
+          </div>
+        ))}
+      </fieldset>
+
+      <fieldset className="checkbox-container">
+        <legend>Explicit</legend>
+        {explicitOptions.map((option) => (
+          <div key={option}>
+            <input
+              type="checkbox"
+              id={option}
+              name="explicit"
+              checked={filterOptions.explicit === option}
+              onChange={() => handleCheckboxChange("explicit", option)}
+              aria-labelledby={option}
+            />
+            <label htmlFor={option} id={option}>
+              {option}
+            </label>
+          </div>
+        ))}
+      </fieldset>
     </div>
   );
 };

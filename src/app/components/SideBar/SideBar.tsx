@@ -5,13 +5,24 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRecoilState } from "recoil";
 import FilterOptions from "./components/FilterOptions/FilterOptions";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const SideBar = () => {
   const [isSideBarOpen, setIsSideBarOpen] = useRecoilState(isSideBarOpenState);
+  const [isPlaylistPage, setIsPlaylistPage] = useState<boolean>(false);
+  const pathname = usePathname();
 
   const toggleSidebar = () => {
     setIsSideBarOpen(!isSideBarOpen);
   };
+
+  //Check which page is now - for displaying filter menu
+  useEffect(() => {
+    pathname.includes("playlist")
+      ? setIsPlaylistPage(true)
+      : setIsPlaylistPage(false);
+  }, [pathname]);
 
   return (
     <div
@@ -81,7 +92,7 @@ const SideBar = () => {
               </li>
             </ul>
           </nav>
-          <FilterOptions />
+          {isPlaylistPage && <FilterOptions />}
         </>
       )}
     </div>

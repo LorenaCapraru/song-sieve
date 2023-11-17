@@ -1,27 +1,41 @@
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  Auth,
+  getAuth,
+  UserCredential,
+  signInWithEmailAndPassword as signIn,
+} from "firebase/auth";
+
 import { auth } from "./firebase";
 
+const app = initializeApp(firebaseConfig);
+const auth: Auth = getAuth(app);
+
 // Sign Up
-export const signUpWithEmailAndPassword = async (
-  email: string,
-  password: string
-) => {
-  try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    // Additional logic after successful sign-up
-    return userCredential.user;
-  } catch (error: any) {
-    console.error("Error signing up:", error.message);
-    throw error;
-  }
-};;
-
-
+// export const signUpWithEmailAndPassword = async (
+//   email: string,
+//   password: string
+// ) => {
+//   try {
+//     const userCredential = await createUserWithEmailAndPassword(
+//       auth,
+//       email,
+//       password
+//     );
+//     // Additional logic after successful sign-up
+//     return userCredential.user;
+//   } catch (error: any) {
+//     console.error("Error signing up:", error.message);
+//     throw error;
+//   }
+// };
 
 // Sign In
-export const signInWithEmailAndPassword = async (email: string, password: string) => {
+export const signInWithEmail = async (email: string, password: string) => {
   try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const userCredential = await auth.signInWithEmailAndPassword(
+      email,
+      password
+    );
     return userCredential.user;
   } catch (error: any) {
     console.error("Error signing up:", error.message);

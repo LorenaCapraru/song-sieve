@@ -4,11 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRecoilState } from "recoil";
 import { singInState, SingInState } from "../recoil/atoms";
-import "./page.css";
-import { useEffect, useState } from "react";
-import { signInWithEmailAndPassword } from "@/firebase/auth";
+import { signInWithEmailAndPassword } from "@/firebase/auth"; // Assuming this is correctly configured
 import { useRouter } from "next/navigation";
-
+import { useState, useEffect } from "react";
+import "./page.css";
 
 export default function SignIn() {
   const [auth, setAuth] = useRecoilState<SingInState>(singInState);
@@ -47,24 +46,29 @@ export default function SignIn() {
         errors: newErrors,
       }));
     } else {
-      // Handle successful login
-      // console.log("Logged in:", email);
-    }
-    try {
-      const user = await signInWithEmailAndPassword( email, password);
-      console.log("Sign In successful:", user.email)
-      router.push("/")
+      try {
+        const user = await signInWithEmailAndPassword(email, password);
+        console.log("Sign In successful:", user.email);
+        router.push("/"); // Redirect to home page after successful login
 
-      setAuth({
-        email: "",
-        password: "",
-        errors: {
+        setAuth({
           email: "",
           password: "",
+          errors: {
+            email: "",
+            password: "",
+          },
+        });
+      } catch (error: any) {
+        if (error.code === "auth/email-already-in-use") {
+          setError(
+            "Email is already registered. Try signing in or reset the password."
+          );
+          // Handle this error scenario by displaying a message to the user
+        } else {
+          setError("An error occurred during sign-up");
         }
-      })
-    } catch (error: any) {
-      setError(error.message || "An error occurred during sign-in")
+      }
     }
   };
 

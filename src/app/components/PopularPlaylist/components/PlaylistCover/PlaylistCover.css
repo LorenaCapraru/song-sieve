@@ -2,23 +2,29 @@
   background-color: var(--trans-black);
   border-radius: 10px;
   width: 142px;
-  height: 178px;
+  height: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 10px;
+  padding: 10px;
 }
 
 .popular-playlist-image {
   border-radius: 10px;
-  overflow: hidden;
-  width: 127px;
-  height: 108px;
-  margin: 10px;
+  min-width: 127px;
+  min-height: 108px;
+  max-width: 200px;
+  max-height: 200px;
 }
 
-.popular-playlist-brief {
-  margin: 0px 10px;
+.popular-playlist-image img {
+  border-radius: 10px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
+
 .popular-playlist-name {
   color: #fff;
   font-size: 14px;
@@ -30,7 +36,6 @@
 .popular-playlist-description {
   font-size: 11px;
   font-weight: 400;
-  line-height: 10px;
   font-style: normal;
   color: #aaa;
 }
@@ -38,17 +43,21 @@
 @media (min-width: 768px) {
   .popular-playlist-container {
     width: 100%;
-    max-width: 300px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .popular-playlist-name {
+    font-size: 15px;
+  }
+
+  .popular-playlist-description {
+    font-size: 13px;
   }
 
   .popular-playlist-image {
-    max-width: 254px;
-    margin: 10px;
-  }
-
-  .popular-playlist-image img {
-    max-width: 100%; 
-    height: auto; 
-    object-fit: cover;
+    max-width: 100%;
+    width: 100%;
+    height: auto;
   }
 }

@@ -56,6 +56,14 @@ main {
   justify-content: space-between;
 }
 
+.main-section {
+  width: 100%;
+  padding: 30px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
 @media only screen and (min-width: 768px) {
   .home-template {
     display: grid;
@@ -65,10 +73,15 @@ main {
       "sidebar header"
       "sidebar main";
   }
+
   .auth-template {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+  }
+
+  .main-section {
+    padding: 0 25px;
   }
 }
 

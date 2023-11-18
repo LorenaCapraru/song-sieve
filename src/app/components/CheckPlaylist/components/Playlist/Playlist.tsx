@@ -5,6 +5,7 @@ import { useRecoilValue } from "recoil";
 import { PlaylistData } from "@/app/recoil/atoms";
 import { useEffect, useState } from "react";
 
+
 const Playlist = () => {
   const playlistData = useRecoilValue<PlaylistData | undefined>(
     playlistDataState

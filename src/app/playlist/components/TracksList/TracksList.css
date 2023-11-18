@@ -1,36 +1,45 @@
 .tracks-list-main {
-  max-height: 300px;
+  max-height: 330px;
   overflow-y: auto;
-  padding: 0px 30px;
-}
-
-.tracks-list-image {
-  border-radius: 5px;
-  margin: 5px;
+  padding: 0px 30px 30px 30px;
 }
 
 .tracks-table {
   width: 100%;
   border-collapse: collapse;
-  border-spacing: 0 10px;
-}
-
-.tracks-table-header td {
-  border-bottom: 3px solid white;
-}
-
-.tracks-table {
+  border-spacing: 15px 10px;
   font-size: 12px;
   max-height: 300px;
   overflow-y: auto;
+  height: 310px;
 }
 
-.tracks-table-header {
-  font-size: 12px;
-  font-weight: bold;
+.tracks-table-header tr {
+  font-weight: 200;
+  font-size: 14px;
+  border-bottom: 1px solid white;
 }
 
 td {
   min-width: 30px;
-  margin: 10px;
+  cursor: pointer;
+}
+
+thead td {
+  padding: 0 5px 5px 5px;
+  vertical-align: bottom;
+}
+
+tbody td {
+  padding: 10px 5px;
+}
+
+td:first-child {
+  padding-left: 20px;
+  border-radius: 10px 0 0 10px;
+}
+
+td:last-child {
+  padding-right: 20px;
+  border-radius: 0 10px 10px 0;
 }

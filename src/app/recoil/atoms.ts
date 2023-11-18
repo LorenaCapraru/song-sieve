@@ -1,4 +1,6 @@
 import { atom } from "recoil";
+import { TrackObject } from "../playlist/components/Track/Track";
+
 export const isUserLoggedInState = atom<boolean>({
   key: "isUserLoggedInState",
   default: false,
@@ -13,18 +15,18 @@ export const isSideBarOpenState = atom<boolean>({
 // Input.tsx state for entering the spotify id
 export const inputSpotifyIdState = atom<string>({
   key: "inputSpotifyIdState",
-  default: "",
+  default: "37i9dQZF1E4oCVQRGUtgSv",
 });
 
 export const inputSpotifyLinkState = atom<string>({
   key: "inputSpotifyLinkState",
-  default: "",
+  default: "https://open.spotify.com/playlist/37i9dQZF1E4oCVQRGUtgSv",
 });
 
 //Playlist.tsx states for rendering data about a Playlist
 export const playlistIdState = atom<string>({
   key: "playlistIdState",
-  default: "",
+  default: "37i9dQZF1E4oCVQRGUtgSv",
 });
 
 export interface PlaylistData {
@@ -36,6 +38,7 @@ export interface PlaylistData {
   }>;
   tracks: {
     total: number;
+    items: Array<{ track: TrackObject }>;
   };
 }
 

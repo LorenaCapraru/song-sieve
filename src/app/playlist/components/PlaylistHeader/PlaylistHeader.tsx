@@ -3,6 +3,7 @@ import { useRecoilValue } from "recoil";
 import "./PlaylistHeader.css";
 import { playlistDataState, PlaylistData } from "@/app/recoil/atoms";
 import Image from "next/image";
+
 const PlaylistHeader = () => {
   const playlistData = useRecoilValue<PlaylistData | undefined>(
     playlistDataState

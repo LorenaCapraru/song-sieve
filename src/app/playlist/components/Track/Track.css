@@ -1,0 +1,99 @@
+.track-row {
+  padding: 5px;
+  vertical-align: middle;
+}
+
+.track-row:hover {
+  background-color: var(--purple);
+  transition: all ease-in-out 200ms;
+  border-radius: 20px;
+}
+
+/* image + track name + artist name */
+.track-image-artist-name {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.track-list-image-container {
+  width: 55px;
+  height: 38px;
+}
+
+.track-list-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.track-artist-name {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.track-name {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.artist-name {
+  font-size: 12px;
+  font-weight: normal;
+}
+
+/* like icon + ellipsis icons */
+.track-row .playlist-table-heart-icon {
+  opacity: 0;
+}
+
+.track-row:hover .playlist-table-heart-icon {
+  opacity: 1;
+  transition: all ease-in-out 200ms;
+  filter: invert(100%) sepia(3%) saturate(13%) hue-rotate(70deg)
+    brightness(106%) contrast(101%);
+  cursor: pointer;
+}
+
+.track-row .playlist-table-ellipsis-icon {
+  opacity: 0;
+}
+
+.track-row:hover .playlist-table-ellipsis-icon {
+  opacity: 1;
+  filter: invert(100%) sepia(3%) saturate(13%) hue-rotate(70deg)
+    brightness(106%) contrast(101%);
+  cursor: pointer;
+  transition: all ease-in-out 200ms;
+}
+
+.track-row:hover .playlist-table-ellipsis-icon {
+  opacity: 1;
+  filter: invert(100%) sepia(3%) saturate(13%) hue-rotate(70deg)
+    brightness(106%) contrast(101%);
+  cursor: pointer;
+  transition: all ease-in-out 200ms;
+}
+
+.track-row .playlist-table-heart-icon:hover,
+.track-row .playlist-table-ellipsis-icon:hover {
+  /* orange */
+  filter: invert(48%) sepia(89%) saturate(1779%) hue-rotate(13deg)
+    brightness(98%) contrast(95%);
+}
+
+.col-hide-on-mobile {
+  display: none;
+}
+
+.tracks-date {
+  white-space: nowrap;
+}
+
+@media only screen and (min-width: 768px) {
+  .col-hide-on-mobile {
+    display: table-cell;
+  }
+}

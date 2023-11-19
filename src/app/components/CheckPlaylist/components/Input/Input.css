@@ -4,7 +4,7 @@
   border: 1px solid white;
   border-radius: 10px;
   padding: 5px;
-  margin: 2% 0px;
+  margin: 20px 0px;
 }
 
 .input-field {
@@ -12,7 +12,7 @@
   border: none;
   outline: none;
   background-color: transparent;
-  padding: 0 5%;
+  padding: 0 10px;
   color: var(--white);
 }
 
@@ -22,11 +22,15 @@
     brightness(106%) contrast(101%);
 }
 
+.input-section .input-field {
+  font-size: 16px;
+}
+
 .submit-button {
   border: 1px solid white;
   border-radius: 10px;
   background-color: transparent;
-  padding: 1% 3%;
+  padding: 7px 20px;
   color: white;
   font-weight: bold;
   font-size: 18px;
@@ -41,5 +45,11 @@
 
 .submit-button-section {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+}
+
+@media only screen and (min-width: 420px) {
+  .submit-button-section {
+    justify-content: flex-end;
+  }
 }

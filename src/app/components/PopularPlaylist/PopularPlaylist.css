@@ -10,4 +10,5 @@
   gap: 10px;
   overflow-x: auto;
   justify-content: space-between;
+  padding-bottom: 10px;
 }

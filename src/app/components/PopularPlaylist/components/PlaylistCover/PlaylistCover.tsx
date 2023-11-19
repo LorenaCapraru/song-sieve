@@ -12,8 +12,8 @@ const PlaylistCover = ({ playlistImage }: PlaylistProps) => {
         <Image
           src={playlistImage}
           alt="Playlist Cover"
-          width={127}
-          height={108}
+          width={300}
+          height={300}
         />
       </div>
       <div className="popular-playlist-brief">

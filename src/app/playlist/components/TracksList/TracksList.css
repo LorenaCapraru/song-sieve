@@ -1,5 +1,5 @@
 .tracks-list-main {
-  max-height: 330px;
+  max-height: 35vh;
   overflow-y: auto;
   padding: 0px 30px 30px 30px;
 }

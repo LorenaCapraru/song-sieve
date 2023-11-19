@@ -44,13 +44,16 @@ const Playlist = () => {
             smallIdSection ? "playlist-small-section" : "playlist-section"
           }
         >
-          <Image
-            src="/icons/heart-icon.svg"
-            alt="heart icon to save"
-            width={25}
-            height={25}
-            className="heart-save"
-          />
+          <div className="heart-icon-container">
+            <Image
+              src="/icons/heart-icon.svg"
+              alt="heart icon to save"
+              width={25}
+              height={25}
+              className="heart-save"
+            />
+          </div>
+
           <Image
             src={
               playlistData?.images[0]?.url

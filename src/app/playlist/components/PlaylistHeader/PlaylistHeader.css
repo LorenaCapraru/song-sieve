@@ -43,16 +43,37 @@
 
 .playlist-header-heart-icon,
 .playlist-header-ellipsis-icon {
-  filter: invert(100%) sepia(3%) saturate(13%) hue-rotate(70deg)
-    brightness(106%) contrast(101%);
+  filter: var(--white-icon);
   cursor: pointer;
-  transition: all ease-in-out 200ms;
+  transition: all ease-in-out 100ms;
+}
+
+.playlist-header-heart-icon:hover,
+.playlist-header-heart-icon:focus,
+.playlist-header-ellipsis-icon:hover,
+.playlist-header-ellipsis-icon:focus {
+  filter: var(--pink-icon);
 }
 
 .playlist-header-play-button-div {
   background-color: white;
+  border: 1px solid white;
   border-radius: 40px;
   padding: 18px 15px 15px 18px;
   cursor: pointer;
-  transition: all ease-in-out 200ms;
+  transition: all ease-in-out 100ms;
+}
+
+.playlist-header-play-button-div .playlist-header-play-icon {
+  transition: all ease-in-out 100ms;
+}
+
+.playlist-header-play-button-div:hover,
+.playlist-header-play-button-div:focus {
+  background-color: var(--pink);
+}
+
+.playlist-header-play-button-div:hover > .playlist-header-play-icon,
+.playlist-header-play-button-div:focus > .playlist-header-play-icon {
+  filter: var(--white-icon);
 }

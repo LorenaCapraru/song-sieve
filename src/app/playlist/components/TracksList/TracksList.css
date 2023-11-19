@@ -43,3 +43,8 @@ td:last-child {
   padding-right: 20px;
   border-radius: 0 10px 10px 0;
 }
+
+.tracklist-loader {
+  display: flex;
+  justify-content: center;
+}

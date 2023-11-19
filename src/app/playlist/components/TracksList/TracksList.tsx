@@ -5,6 +5,7 @@ import { playlistDataState, PlaylistData } from "@/app/recoil/atoms";
 import { useRecoilValue } from "recoil";
 import Track from "../Track/Track";
 import { TrackObject } from "../Track/Track";
+import { Bars } from "react-loader-spinner";
 
 const TracksList: React.FC = () => {
   const playlistData = useRecoilValue<PlaylistData | undefined>(
@@ -41,7 +42,14 @@ const TracksList: React.FC = () => {
       </table>
     </div>
   ) : (
-    <p>Sorry, there are no tracks found for this playlist.</p>
+    <div className="tracklist-loader">
+      <Bars
+        height="70"
+        width="70"
+        color="var(--trans-white)"
+        ariaLabel="loading"
+      />
+    </div>
   );
 };
 

@@ -21,7 +21,7 @@ const PlaylistCover = ({ popularPlaylist }: PlaylistProps) => {
         />
       </div>
       <div className="popular-playlist-brief">
-        <p className="popular-playlist-name">{shortenString(name, 20)}</p>
+        <p className="popular-playlist-name">{shortenString(name, 12)}</p>
         <p className="popular-playlist-description">
           {shortenString(description, 27)}
         </p>

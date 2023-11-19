@@ -6,12 +6,12 @@ import MainPlaylist from "../components/MainPlaylist/MainPlaylist";
 import MobileMenu from "../../components/MobileMenu/MobileMenu";
 import { useEffect } from "react";
 import { checkTokenTime } from "@/utils/utils";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { playlistDataState } from "@/app/recoil/atoms";
 
 const PlaylistPage = ({ params }: { params: { id: string } }) => {
   console.log("id", params.id);
-  const [playlistData, setPlaylistData] = useRecoilState(playlistDataState);
+  const setPlaylistData = useSetRecoilState(playlistDataState);
 
   //update background image on first load and fetch the playlist data if it's needed
   useEffect(() => {
@@ -42,9 +42,7 @@ const PlaylistPage = ({ params }: { params: { id: string } }) => {
       }
     };
 
-    if (!playlistData) {
-      fetchPlaylist();
-    }
+    fetchPlaylist();
   }, []);
 
   return (

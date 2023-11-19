@@ -34,6 +34,7 @@ body {
   background-image: url("/background_images/background_2.jpg");
   background-size: cover;
   background-repeat: no-repeat;
+  background-position: center;
 }
 
 main {

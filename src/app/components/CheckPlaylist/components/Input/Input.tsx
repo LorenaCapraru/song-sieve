@@ -28,7 +28,9 @@ const Input = () => {
     setInputSpotifyId(id);
   };
 
-  const fetchPlaylist = async () => {
+  const fetchPlaylist = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     await checkTokenTime();
     const accessToken = localStorage.getItem("access_token");
 
@@ -54,30 +56,29 @@ const Input = () => {
 
   return (
     <>
-      <div className="input-section">
-        <Image
-          src="/icons/spotify-icon.svg"
-          alt="spotify brand"
-          width={16}
-          height={16}
-          className="icon"
-        />
-        <input
-          type="text"
-          value={inputSpotifyLink}
-          onChange={handleChange}
-          placeholder="Spotify playlist link"
-          className="input-field"
-        />
-      </div>
-      <div className="submit-button-section">
-        <input
-          className="submit-button"
-          type="submit"
-          value="GET THE PLAYLIST"
-          onClick={fetchPlaylist}
-        />
-      </div>
+      <form onSubmit={fetchPlaylist}>
+        <div className="input-section">
+          <Image
+            src="/icons/spotify-icon.svg"
+            alt="spotify brand"
+            width={16}
+            height={16}
+            className="icon"
+          />
+          <input
+            type="text"
+            value={inputSpotifyLink}
+            onChange={handleChange}
+            placeholder="Spotify playlist link"
+            className="input-field"
+          />
+        </div>
+        <div className="submit-button-section">
+          <button className="submit-button" type="submit">
+            GET THE PLAYLIST
+          </button>
+        </div>
+      </form>
     </>
   );
 };

@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useRecoilValue } from "recoil";
 import { PlaylistData } from "@/app/recoil/atoms";
 import { useEffect, useState } from "react";
-
+import Link from "next/link";
 
 const Playlist = () => {
   const playlistData = useRecoilValue<PlaylistData | undefined>(
@@ -38,36 +38,38 @@ const Playlist = () => {
 
   return (
     playlistData && (
-      <div
-        className={
-          smallIdSection ? "playlist-small-section" : "playlist-section"
-        }
-      >
-        <Image
-          src="/icons/heart-icon.svg"
-          alt="heart icon to save"
-          width={25}
-          height={25}
-          className="heart-save"
-        />
-        <Image
-          src={
-            playlistData?.images[0]?.url
-              ? playlistData.images[0].url
-              : "/background_images/background_2.jpg"
+      <Link href={`/playlist/${playlistData.id}`}>
+        <div
+          className={
+            smallIdSection ? "playlist-small-section" : "playlist-section"
           }
-          alt="album cover"
-          width={87}
-          height={80}
-          className="album-cover"
-        />
-        <div className="playlist-brief">
-          <p className="playlist-name">{playlistData.name}</p>
-          <p className="detail">{playlistData.description}</p>
-          <p className="detail">id: {playlistData.id}</p>
-          <p className="detail">tracks: {playlistData.tracks.total}</p>
+        >
+          <Image
+            src="/icons/heart-icon.svg"
+            alt="heart icon to save"
+            width={25}
+            height={25}
+            className="heart-save"
+          />
+          <Image
+            src={
+              playlistData?.images[0]?.url
+                ? playlistData.images[0].url
+                : "/background_images/background_2.jpg"
+            }
+            alt="album cover"
+            width={87}
+            height={80}
+            className="album-cover"
+          />
+          <div className="playlist-brief">
+            <p className="playlist-name">{playlistData.name}</p>
+            <p className="detail">{playlistData.description}</p>
+            <p className="detail">id: {playlistData.id}</p>
+            <p className="detail">tracks: {playlistData.tracks.total}</p>
+          </div>
         </div>
-      </div>
+      </Link>
     )
   );
 };

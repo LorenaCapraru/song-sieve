@@ -102,3 +102,9 @@ export const userTypeState = atom<string>({
   key: "userTypeState",
   default: "volunteer",
 });
+
+// Home page - popular playlists sections
+export const popularPlaylistsState = atom<PlaylistData[] | undefined>({
+  key: "popularPlaylistsState",
+  default: undefined,
+});

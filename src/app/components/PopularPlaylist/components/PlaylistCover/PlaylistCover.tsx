@@ -1,26 +1,27 @@
+import { PlaylistData } from "@/app/recoil/atoms";
 import "./PlaylistCover.css";
 import Image from "next/image";
 
 interface PlaylistProps {
-  playlistImage: string;
+  popularPlaylist: PlaylistData;
 }
 
-const PlaylistCover = ({ playlistImage }: PlaylistProps) => {
+const PlaylistCover = ({ popularPlaylist }: PlaylistProps) => {
+  const { name, description, images } = popularPlaylist;
+
   return (
     <div className="popular-playlist-container">
       <div className="popular-playlist-image">
         <Image
-          src={playlistImage}
+          src={images[0].url}
           alt="Playlist Cover"
           width={300}
           height={300}
         />
       </div>
       <div className="popular-playlist-brief">
-        <p className="popular-playlist-name">Today’s top hits</p>
-        <p className="popular-playlist-description">
-          Jung Kook is on top of the hottest
-        </p>
+        <p className="popular-playlist-name">{name}</p>
+        <p className="popular-playlist-description">{description}</p>
       </div>
     </div>
   );

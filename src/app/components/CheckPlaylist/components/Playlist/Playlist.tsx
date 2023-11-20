@@ -58,8 +58,8 @@ const Playlist = () => {
                 : "/background_images/background_2.jpg"
             }
             alt="album cover"
-            width={87}
-            height={80}
+            width={300}
+            height={300}
             className="album-cover"
           />
           <div className="playlist-brief">

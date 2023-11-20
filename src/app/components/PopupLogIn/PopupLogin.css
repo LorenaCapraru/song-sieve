@@ -1,0 +1,27 @@
+.popup-login {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--purple);
+  padding: 25px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 15px;
+  min-width: 300px;
+  box-shadow: 0px 0px 5px 1px rgba(255, 255, 255, 0.5);
+  border: 1px solid white;
+  box-shadow: 0 0 0 9999px #00000087;
+}
+
+.popup-login h4 {
+  font-size: 19px;
+}
+
+.popup-login-buttons {
+  align-self: flex-end;
+  display: flex;
+  gap: 10px;
+}

@@ -1,12 +1,40 @@
 "use client";
-import { isSideBarOpenState } from "@/app/recoil/atoms";
+import {
+  isPopupLoginOpenState,
+  isSideBarOpenState,
+  isUserLoggedInState,
+  popupLoginTextState,
+} from "@/app/recoil/atoms";
 import "./SideBar.css";
 import Image from "next/image";
 import Link from "next/link";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRouter } from "next/navigation";
 
 const SideBar = () => {
   const [isSideBarOpen, setIsSideBarOpen] = useRecoilState(isSideBarOpenState);
+  const isUserLoggedIn = useRecoilValue(isUserLoggedInState);
+  const router = useRouter();
+  const setIsPopupLoginOpen = useSetRecoilState(isPopupLoginOpenState);
+  const setPopupLoginText = useSetRecoilState(popupLoginTextState);
+
+  const handleLinkToFavouriteTracks = () => {
+    if (!isUserLoggedIn) {
+      setIsPopupLoginOpen(true);
+      setPopupLoginText("add songs to favourite tracks");
+    } else {
+      router.push("/favourite_tracks");
+    }
+  };
+
+  const handleLinkToMyLibrary = () => {
+    if (!isUserLoggedIn) {
+      setIsPopupLoginOpen(true);
+      setPopupLoginText("add to my library");
+    } else {
+      router.push("/my_library");
+    }
+  };
 
   const toggleSidebar = () => {
     setIsSideBarOpen(!isSideBarOpen);
@@ -56,27 +84,23 @@ const SideBar = () => {
                   <p>Home</p>
                 </Link>
               </li>
-              <li>
-                <Link href="/favourite-tracks">
-                  <Image
-                    src="/icons/heart-icon.svg"
-                    alt="Favourite tracks"
-                    width={25}
-                    height={25}
-                  />
-                  <p>Favourite tracks</p>
-                </Link>
+              <li onClick={handleLinkToFavouriteTracks}>
+                <Image
+                  src="/icons/heart-icon.svg"
+                  alt="Favourite tracks"
+                  width={25}
+                  height={25}
+                />
+                <p>Favourite tracks</p>
               </li>
-              <li>
-                <Link href="/my-library">
-                  <Image
-                    src="/icons/bookmark-icon.svg"
-                    alt="My library"
-                    width={25}
-                    height={25}
-                  />
-                  <p>My library</p>
-                </Link>
+              <li onClick={handleLinkToMyLibrary}>
+                <Image
+                  src="/icons/bookmark-icon.svg"
+                  alt="My library"
+                  width={25}
+                  height={25}
+                />
+                <p>My library</p>
               </li>
             </ul>
           </nav>

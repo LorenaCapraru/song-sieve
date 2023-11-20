@@ -1,24 +1,25 @@
 "use client";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import "./PopupLogin.css";
-import { isPopupLoginOpenState } from "@/app/recoil/atoms";
+import { isPopupLoginOpenState, popupLoginTextState } from "@/app/recoil/atoms";
+import { capitalizeFirstLetter } from "@/utils/utils";
+import Link from "next/link";
 
-interface PopupLoginProps {
-  text: string;
-}
-
-const PopupLogin: React.FC<PopupLoginProps> = ({ text }) => {
+const PopupLogin = () => {
   const [isPopupLoginOpen, setIsPopupLoginOpen] = useRecoilState(
     isPopupLoginOpenState
   );
+  const popupLoginText = useRecoilValue(popupLoginTextState);
 
   return (
     <div className="popup-login">
-      <h2>{text}</h2>
-      <p>Log in {text}.</p>
+      <h4>{capitalizeFirstLetter(popupLoginText)}</h4>
+      <p>Log in to {popupLoginText}.</p>
       <div className="popup-login-buttons">
-        <button>Not now</button>
-        <button>Log in</button>
+        <button className="not-now-button">Not now</button>
+        <Link href="/singin">
+          <button className="login-button">Log in</button>
+        </Link>
       </div>
     </div>
   );

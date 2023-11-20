@@ -108,3 +108,8 @@ export const isPopupLoginOpenState = atom<boolean>({
   key: "isPopupLoginOpenState",
   default: true,
 });
+
+export const popupLoginTextState = atom<string>({
+  key: "popupLoginTextState",
+  default: "",
+});

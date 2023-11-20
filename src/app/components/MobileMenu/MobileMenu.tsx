@@ -10,8 +10,8 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { useRouter } from "next/navigation";
 
 const MobileMenu = () => {
-  const isUserLoggedIn = useRecoilValue(isUserLoggedInState);
   const router = useRouter();
+  const isUserLoggedIn = useRecoilValue(isUserLoggedInState);
   const setIsPopupLoginOpen = useSetRecoilState(isPopupLoginOpenState);
   const setPopupLoginText = useSetRecoilState(popupLoginTextState);
 

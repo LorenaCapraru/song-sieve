@@ -21,7 +21,7 @@ const SideBar = () => {
   const handleLinkToFavouriteTracks = () => {
     if (!isUserLoggedIn) {
       setIsPopupLoginOpen(true);
-      setPopupLoginText("add songs to favourite tracks");
+      setPopupLoginText("open your favourite songs");
     } else {
       router.push("/favourite_tracks");
     }
@@ -30,7 +30,7 @@ const SideBar = () => {
   const handleLinkToMyLibrary = () => {
     if (!isUserLoggedIn) {
       setIsPopupLoginOpen(true);
-      setPopupLoginText("add to my library");
+      setPopupLoginText("open your library");
     } else {
       router.push("/my_library");
     }

@@ -102,3 +102,9 @@ export const userTypeState = atom<string>({
   key: "userTypeState",
   default: "volunteer",
 });
+
+//PopupLogin.tsx
+export const isPopupLoginOpenState = atom<boolean>({
+  key: "isPopupLoginOpenState",
+  default: true,
+});

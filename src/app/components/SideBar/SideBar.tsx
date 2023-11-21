@@ -9,11 +9,15 @@ import "./SideBar.css";
 import Image from "next/image";
 import Link from "next/link";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
+import FilterOptions from "./components/FilterOptions/FilterOptions";
+import { useEffect, useState } from "react";
 
 const SideBar = () => {
   const [isSideBarOpen, setIsSideBarOpen] = useRecoilState(isSideBarOpenState);
   const isUserLoggedIn = useRecoilValue(isUserLoggedInState);
+  const [isPlaylistPage, setIsPlaylistPage] = useState<boolean>(false);
+  const pathname = usePathname();
   const router = useRouter();
   const setIsPopupLoginOpen = useSetRecoilState(isPopupLoginOpenState);
   const setPopupLoginText = useSetRecoilState(popupLoginTextState);
@@ -39,6 +43,13 @@ const SideBar = () => {
   const toggleSidebar = () => {
     setIsSideBarOpen(!isSideBarOpen);
   };
+
+  //Check which page is now - for displaying filter menu
+  useEffect(() => {
+    pathname.includes("playlist")
+      ? setIsPlaylistPage(true)
+      : setIsPlaylistPage(false);
+  }, [pathname]);
 
   return (
     <div
@@ -104,6 +115,7 @@ const SideBar = () => {
               </li>
             </ul>
           </nav>
+          {isPlaylistPage && <FilterOptions />}
         </>
       )}
     </div>

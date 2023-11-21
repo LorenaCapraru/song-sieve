@@ -1,6 +1,7 @@
 .track-row {
   padding: 5px;
   vertical-align: middle;
+  cursor: pointer;
 }
 
 .track-row:hover {
@@ -54,23 +55,13 @@
 .track-row:hover .playlist-table-heart-icon {
   opacity: 1;
   transition: all ease-in-out 200ms;
-  filter: invert(100%) sepia(3%) saturate(13%) hue-rotate(70deg)
-    brightness(106%) contrast(101%);
+  filter: var(--white-icon);
   cursor: pointer;
 }
 
 .track-row:hover .playlist-table-ellipsis-icon {
   opacity: 1;
-  filter: invert(100%) sepia(3%) saturate(13%) hue-rotate(70deg)
-    brightness(106%) contrast(101%);
-  cursor: pointer;
-  transition: all ease-in-out 200ms;
-}
-
-.track-row:hover .playlist-table-ellipsis-icon {
-  opacity: 1;
-  filter: invert(100%) sepia(3%) saturate(13%) hue-rotate(70deg)
-    brightness(106%) contrast(101%);
+  filter: var(--white-icon);
   cursor: pointer;
   transition: all ease-in-out 200ms;
 }
@@ -78,8 +69,9 @@
 .track-row .playlist-table-heart-icon:hover,
 .track-row .playlist-table-ellipsis-icon:hover {
   /* orange */
-  filter: invert(48%) sepia(89%) saturate(1779%) hue-rotate(13deg)
-    brightness(98%) contrast(95%);
+  /* filter: invert(48%) sepia(89%) saturate(1779%) hue-rotate(13deg)
+    brightness(98%) contrast(95%); */
+  filter: var(--pink-icon);
 }
 
 .col-hide-on-mobile {

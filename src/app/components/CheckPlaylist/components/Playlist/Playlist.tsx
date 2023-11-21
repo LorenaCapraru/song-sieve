@@ -38,7 +38,9 @@ const Playlist = () => {
 
   return (
     playlistData && (
-      <Link href={`/playlist/${playlistData.id}`}>
+
+      <Link href={`playlist/${playlistData.id}`}>
+
         <div
           className={
             smallIdSection ? "playlist-small-section" : "playlist-section"

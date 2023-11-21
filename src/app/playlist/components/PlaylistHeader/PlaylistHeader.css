@@ -16,12 +16,25 @@
   justify-content: flex-end;
 }
 
+.header-filter-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px;
+}
+
 .playlist-header-buttons {
-  padding: 15px 30px;
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 15px;
+}
+
+.filter-button {
+  color: white;
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
 }
 
 .playlist-word {
@@ -76,4 +89,13 @@
 .playlist-header-play-button-div:hover > .playlist-header-play-icon,
 .playlist-header-play-button-div:focus > .playlist-header-play-icon {
   filter: var(--white-icon);
+}
+@media only screen and (min-width: 768px) {
+  .filter-button {
+    display: none;
+  }
+
+  .playlist-header-name {
+    font-size: 50px;
+  }
 }

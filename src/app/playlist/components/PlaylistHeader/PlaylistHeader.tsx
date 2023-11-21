@@ -82,14 +82,6 @@ const PlaylistHeader = () => {
               />
             </div>
             <Image
-              src="/icons/heart-icon.svg"
-              alt="heart icon used to save"
-              width={22}
-              height={22}
-              className="playlist-header-heart-icon"
-              onClick={handleAddPlaylistToMyLibrary}
-            />
-            <Image
               src="/icons/ellipsis-icon.svg"
               alt="ellipsis icon used for more options"
               width={22}

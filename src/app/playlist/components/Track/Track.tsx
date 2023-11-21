@@ -91,6 +91,13 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
     //add this song to playlist - send request to db
   };
 
+  const handleRemovePlaylistClick = (name: string) => {
+    //check if user is logged in
+    //then check if there is a playlist in current user's library
+    //then remove the song
+    //display a PopupConfirm component => displaying the info
+  };
+
   const formattedDate =
     track?.album.release_date &&
     new Date(track.album.release_date).toLocaleDateString("en-GB", {
@@ -198,26 +205,26 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
                 height={18}
               />
             </div>
-
-            <div
+            {/* to check if playlist is in user's library => then display */}
+            {/* <div
               className="create-playlist-container"
-              onClick={handleCreatePlaylistClick}
+              onClick={() => handleRemovePlaylistClick(track.name)}
             >
               <p>Remove song from the playlist</p>
               <Image
-                src="/icons/plus-icon.svg"
-                alt="arrow"
-                width={18}
-                height={18}
+                src="/icons/trash-icon.svg"
+                alt="remove song"
+                width={16}
+                height={16}
               />
-            </div>
+            </div> */}
             <div
               className="create-playlist-container"
               onClick={handleCreatePlaylistClick}
             >
               <p>Create a new playlist</p>
               <Image
-                src="/icons/plus-icon.svg"
+                src="/icons/plus_icon.svg"
                 alt="arrow"
                 width={18}
                 height={18}

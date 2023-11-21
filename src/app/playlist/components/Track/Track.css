@@ -124,6 +124,10 @@
   cursor: pointer;
 }
 
+.playlist-options .create-playlist-container > img {
+  filter: var(--white-icon);
+}
+
 .playlist-options .create-playlist-container:hover > img,
 .playlist-options .create-playlist-container:focus > img {
   filter: var(--pink-icon);

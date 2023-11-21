@@ -5,6 +5,7 @@ import {
   playlistDataState,
   PlaylistData,
   filterOptionsState,
+  tracksArrState,
 } from "@/app/recoil/atoms";
 import { useRecoilValue, useRecoilState } from "recoil";
 import Track from "../Track/Track";
@@ -15,8 +16,7 @@ const TracksList: React.FC = () => {
     PlaylistData | undefined
   >(playlistDataState);
   const [filterOptions, setFilterOptions] = useRecoilState(filterOptionsState);
-  const [tracksArr, setTracksArr] = useState<TrackObject[]>([]);
-  const [explicit, setExplicit] = useState<boolean | null>(null);
+  const [tracksArr, setTracksArr] = useRecoilState(tracksArrState);
 
   useEffect(() => {
     const updatedTracksArr =

@@ -48,6 +48,13 @@ export const playlistDataState = atom<PlaylistData | undefined>({
   default: undefined,
 });
 
+//  const [tracksArr, setTracksArr] = useState<TrackObject[]>([]);
+
+export const tracksArrState = atom<TrackObject[] | undefined>({
+  key: "tracksArrState",
+  default: undefined,
+});
+
 // ------------------> AuthState
 export interface SingInState {
   email: string;

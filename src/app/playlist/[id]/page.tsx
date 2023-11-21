@@ -3,15 +3,20 @@ import Header from "@/app/components/Header/Header";
 import "./page.css";
 import SideBar from "@/app/components/SideBar/SideBar";
 import MainPlaylist from "../components/MainPlaylist/MainPlaylist";
-import MobileMenu from "../../components/MobileMenu/MobileMenu";
 import { useEffect } from "react";
 import { checkTokenTime } from "@/utils/utils";
 import { useSetRecoilState } from "recoil";
 import { playlistDataState } from "@/app/recoil/atoms";
+import { useRecoilValue } from "recoil";
+import { isMobileFilterOptionsOpenState } from "@/app/recoil/atoms";
+import FilterOptions from "@/app/components/SideBar/components/FilterOptions/FilterOptions";
 
 const PlaylistPage = ({ params }: { params: { id: string } }) => {
   console.log("id", params.id);
   const setPlaylistData = useSetRecoilState(playlistDataState);
+  const isMobileFilterOptionsOpen = useRecoilValue(
+    isMobileFilterOptionsOpenState
+  );
 
   //update background image on first load and fetch the playlist data if it's needed
   useEffect(() => {
@@ -51,6 +56,7 @@ const PlaylistPage = ({ params }: { params: { id: string } }) => {
       <SideBar />
       <MainPlaylist />
       <MobileMenu />
+      {isMobileFilterOptionsOpen && <FilterOptions />}
     </div>
   );
 };

@@ -1,20 +1,63 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./TracksList.css";
-import { playlistDataState, PlaylistData } from "@/app/recoil/atoms";
-import { useRecoilValue } from "recoil";
+import {
+  playlistDataState,
+  PlaylistData,
+  filterOptionsState,
+  tracksArrState,
+} from "@/app/recoil/atoms";
+import { useRecoilValue, useRecoilState } from "recoil";
 import Track from "../Track/Track";
 import { TrackObject } from "../Track/Track";
 import { Bars } from "react-loader-spinner";
 
 const TracksList: React.FC = () => {
-  const playlistData = useRecoilValue<PlaylistData | undefined>(
-    playlistDataState
-  );
+  const [playlistData, setPlaylistData] = useRecoilState<
+    PlaylistData | undefined
+  >(playlistDataState);
+  const [filterOptions, setFilterOptions] = useRecoilState(filterOptionsState);
+  const [tracksArr, setTracksArr] = useRecoilState(tracksArrState);
 
-  const tracksArr: TrackObject[] =
-    playlistData?.tracks?.items?.map((el) => el.track) || [];
-  console.log(tracksArr);
+  useEffect(() => {
+    const updatedTracksArr =
+      playlistData?.tracks?.items?.map((el) => el.track) || [];
+    let filteredTracks = [...updatedTracksArr];
+
+    if (filterOptions.explicit && filterOptions.explicit === "Yes") {
+      filteredTracks = filteredTracks.filter((el) => el.explicit === true);
+    } else if (filterOptions.explicit && filterOptions.explicit === "No") {
+      filteredTracks = filteredTracks.filter((el) => el.explicit === false);
+    }
+
+    if (filterOptions.selectedDuration) {
+      switch (filterOptions.selectedDuration) {
+        case "less than 2 minutes":
+          filteredTracks = filteredTracks.filter(
+            (el) => el.duration_ms <= 120000
+          );
+          break;
+        case "2-5 minutes":
+          filteredTracks = filteredTracks.filter(
+            (el) => el.duration_ms > 120000 && el.duration_ms <= 300000
+          );
+          break;
+        case "5-10 minutes":
+          filteredTracks = filteredTracks.filter(
+            (el) => el.duration_ms > 300000 && el.duration_ms <= 600000
+          );
+          break;
+        case "more than 10 minutes":
+          filteredTracks = filteredTracks.filter(
+            (el) => el.duration_ms > 600000
+          );
+          break;
+        default:
+          break;
+      }
+    }
+    setTracksArr(filteredTracks);
+  }, [playlistData, filterOptions.explicit, filterOptions.selectedDuration]);
 
   return playlistData ? (
     <div className="tracks-list-main">

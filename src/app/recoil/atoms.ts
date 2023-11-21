@@ -3,7 +3,7 @@ import { TrackObject } from "../playlist/components/Track/Track";
 
 export const isUserLoggedInState = atom<boolean>({
   key: "isUserLoggedInState",
-  default: true,
+  default: false,
 });
 
 //sidebar page and header page

@@ -35,7 +35,8 @@ const PlaylistHeader = () => {
     } else {
       //play song
     }
-      
+  };
+
   const [isMobileFilterOptionsOpen, setIsMobileFilterOptionsOpen] =
     useRecoilState(isMobileFilterOptionsOpenState);
 

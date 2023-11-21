@@ -41,19 +41,21 @@
     list-style: none;
   }
 
-  .sidebar-menu ul a {
+  .sidebar-menu ul a,
+  .sidebar-menu ul li {
     display: flex;
     gap: 10px;
     font-size: 18px;
+    cursor: pointer;
   }
 
-  .sidebar-menu ul a p {
+  .sidebar-menu ul li p {
     transition: all ease-in-out 200ms;
   }
 
-  .sidebar-menu ul a:hover > p,
-  .sidebar-menu ul a:focus > p {
-    color: black;
+  .sidebar-menu ul li:hover > p,
+  .sidebar-menu ul li:focus > p {
+    color: var(--pink);
   }
 
   .sidebar-menu img {

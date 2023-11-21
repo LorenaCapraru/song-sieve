@@ -1,8 +1,38 @@
+import {
+  isPopupLoginOpenState,
+  isUserLoggedInState,
+  popupLoginTextState,
+} from "@/app/recoil/atoms";
 import "./MobileMenu.css";
 import Image from "next/image";
 import Link from "next/link";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRouter } from "next/navigation";
 
 const MobileMenu = () => {
+  const router = useRouter();
+  const isUserLoggedIn = useRecoilValue(isUserLoggedInState);
+  const setIsPopupLoginOpen = useSetRecoilState(isPopupLoginOpenState);
+  const setPopupLoginText = useSetRecoilState(popupLoginTextState);
+
+  const handleLinkToFavouriteTracks = () => {
+    if (!isUserLoggedIn) {
+      setIsPopupLoginOpen(true);
+      setPopupLoginText("open your favourite songs");
+    } else {
+      router.push("/favourite_tracks");
+    }
+  };
+
+  const handleLinkToMyLibrary = () => {
+    if (!isUserLoggedIn) {
+      setIsPopupLoginOpen(true);
+      setPopupLoginText("open your library");
+    } else {
+      router.push("/my_library");
+    }
+  };
+
   return (
     <nav className="mobile-menu">
       <ul>
@@ -17,30 +47,26 @@ const MobileMenu = () => {
             <p>Home</p>
           </Link>
         </li>
-        <li>
-          <Link href="/favourite-tracks">
-            <Image
-              src="/icons/heart-icon.svg"
-              alt="Favourite tracks"
-              width={25}
-              height={25}
-            />
-            <p>
-              Favourite <br />
-              tracks
-            </p>
-          </Link>
+        <li onClick={handleLinkToFavouriteTracks}>
+          <Image
+            src="/icons/heart-icon.svg"
+            alt="Favourite tracks"
+            width={25}
+            height={25}
+          />
+          <p>
+            Favourite <br />
+            tracks
+          </p>
         </li>
-        <li>
-          <Link href="/my-library">
-            <Image
-              src="/icons/bookmark-icon.svg"
-              alt="My library"
-              width={25}
-              height={25}
-            />
-            <p>My library</p>
-          </Link>
+        <li onClick={handleLinkToMyLibrary}>
+          <Image
+            src="/icons/bookmark-icon.svg"
+            alt="My library"
+            width={25}
+            height={25}
+          />
+          <p>My library</p>
         </li>
       </ul>
     </nav>

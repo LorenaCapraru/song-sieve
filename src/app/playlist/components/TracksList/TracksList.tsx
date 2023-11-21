@@ -10,6 +10,7 @@ import {
 import { useRecoilValue, useRecoilState } from "recoil";
 import Track from "../Track/Track";
 import { TrackObject } from "../Track/Track";
+import { Bars } from "react-loader-spinner";
 
 const TracksList: React.FC = () => {
   const [playlistData, setPlaylistData] = useRecoilState<
@@ -63,15 +64,15 @@ const TracksList: React.FC = () => {
       <table className="tracks-table">
         <thead className="tracks-table-header">
           <tr>
-            <td className="col-hide-on-mobile">#</td>
-            <td>Title</td>
-            <td></td>
-            <td className="col-hide-on-mobile">Album</td>
-            <td className="col-hide-on-mobile">Date added</td>
-            <td>Duration</td>
-            <td></td>
-            <td>Explicit</td>
-            <td></td>
+            <th className="col-hide-on-mobile">#</th>
+            <th>Title</th>
+            <th></th>
+            <th className="col-hide-on-mobile">Album</th>
+            <th className="col-hide-on-mobile">Date added</th>
+            <th>Duration</th>
+            <th></th>
+            <th>Explicit</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -84,7 +85,14 @@ const TracksList: React.FC = () => {
       </table>
     </div>
   ) : (
-    <p>Sorry, there are no tracks found for this playlist.</p>
+    <div className="tracklist-loader">
+      <Bars
+        height="70"
+        width="70"
+        color="var(--trans-white)"
+        ariaLabel="loading"
+      />
+    </div>
   );
 };
 

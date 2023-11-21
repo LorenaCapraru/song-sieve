@@ -1,6 +1,12 @@
 import { FC } from "react";
 import Image from "next/image";
 import "./Track.css";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  isPopupLoginOpenState,
+  isUserLoggedInState,
+  popupLoginTextState,
+} from "@/app/recoil/atoms";
 
 interface ExternalUrls {
   spotify: string;
@@ -46,10 +52,23 @@ interface TrackProps {
 }
 
 const Track: FC<TrackProps> = ({ track, rowNumber }) => {
-  function millisecondsToMinutes(milliseconds: number) {
+  const isUserLoggedIn = useRecoilValue(isUserLoggedInState);
+  const setIsPopupLoginOpen = useSetRecoilState(isPopupLoginOpenState);
+  const setPopupLoginText = useSetRecoilState(popupLoginTextState);
+
+  const handleAddSongToFavouriteTracks = () => {
+    if (!isUserLoggedIn) {
+      setIsPopupLoginOpen(true);
+      setPopupLoginText("add song to favourite tracks");
+    } else {
+      //add playlist to library - make a request to db
+    }
+  };
+
+  const millisecondsToMinutes = (milliseconds: number) => {
     const minutes = milliseconds / (1000 * 60);
     return parseFloat(minutes.toFixed(2));
-  }
+  };
 
   const formattedDate =
     track?.album.release_date &&
@@ -92,6 +111,7 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
             width={18}
             height={18}
             className="playlist-table-heart-icon"
+            onClick={handleAddSongToFavouriteTracks}
           />
         </td>
         <td>{track.explicit === true ? "Yes" : "No"}</td>

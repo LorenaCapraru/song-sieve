@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { checkTokenTime } from "@/utils/utils";
 import { useSetRecoilState } from "recoil";
 import { playlistDataState } from "@/app/recoil/atoms";
+import PopupLogin from "@/app/components/PopupLogIn/PopupLogin";
 import { useRecoilValue } from "recoil";
 import { isMobileFilterOptionsOpenState } from "@/app/recoil/atoms";
 import FilterOptions from "@/app/components/SideBar/components/FilterOptions/FilterOptions";
@@ -57,6 +58,7 @@ const PlaylistPage = ({ params }: { params: { id: string } }) => {
       <SideBar />
       <MainPlaylist />
       <MobileMenu />
+      <PopupLogin />
       {isMobileFilterOptionsOpen && <FilterOptions />}
     </div>
   );

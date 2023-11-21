@@ -46,8 +46,10 @@
 }
 
 /* like icon + ellipsis icons */
-.track-row .playlist-table-heart-icon {
-  opacity: 0;
+.track-row .playlist-table-heart-icon,
+.track-row .playlist-table-ellipsis-icon {
+  /* this color variable will be in another pr */
+  filter: var(--white-icon);
 }
 
 .track-row:hover .playlist-table-heart-icon {
@@ -55,10 +57,6 @@
   transition: all ease-in-out 200ms;
   filter: var(--white-icon);
   cursor: pointer;
-}
-
-.track-row .playlist-table-ellipsis-icon {
-  opacity: 0;
 }
 
 .track-row:hover .playlist-table-ellipsis-icon {
@@ -85,6 +83,11 @@
 }
 
 @media only screen and (min-width: 768px) {
+  .track-row .playlist-table-heart-icon,
+  .track-row .playlist-table-ellipsis-icon {
+    opacity: 0;
+  }
+
   .col-hide-on-mobile {
     display: table-cell;
   }

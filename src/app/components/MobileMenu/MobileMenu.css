@@ -9,7 +9,8 @@
   padding: 15px 0;
 }
 
-.mobile-menu ul a {
+.mobile-menu ul a,
+.mobile-menu ul li {
   color: white;
   text-decoration: none;
   display: flex;

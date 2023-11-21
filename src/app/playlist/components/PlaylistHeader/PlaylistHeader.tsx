@@ -4,6 +4,9 @@ import "./PlaylistHeader.css";
 import {
   playlistDataState,
   PlaylistData,
+  isUserLoggedInState,
+  isPopupLoginOpenState,
+  popupLoginTextState,
   isMobileFilterOptionsOpenState,
 } from "@/app/recoil/atoms";
 import Image from "next/image";
@@ -12,6 +15,27 @@ const PlaylistHeader = () => {
   const playlistData = useRecoilValue<PlaylistData | undefined>(
     playlistDataState
   );
+  const isUserLoggedIn = useRecoilValue(isUserLoggedInState);
+  const setIsPopupLoginOpen = useSetRecoilState(isPopupLoginOpenState);
+  const setPopupLoginText = useSetRecoilState(popupLoginTextState);
+
+  const handleAddPlaylistToMyLibrary = () => {
+    if (!isUserLoggedIn) {
+      setIsPopupLoginOpen(true);
+      setPopupLoginText("add playlist to your library");
+    } else {
+      //add playlist to library - make a request to db
+    }
+  };
+
+  const handlePlaySong = () => {
+    if (!isUserLoggedIn) {
+      setIsPopupLoginOpen(true);
+      setPopupLoginText("play music");
+    } else {
+      //play song
+    }
+      
   const [isMobileFilterOptionsOpen, setIsMobileFilterOptionsOpen] =
     useRecoilState(isMobileFilterOptionsOpenState);
 
@@ -45,6 +69,7 @@ const PlaylistHeader = () => {
                 width={22}
                 height={22}
                 className="playlist-header-play-icon"
+                onClick={handlePlaySong}
               />
             </div>
             <Image
@@ -53,6 +78,7 @@ const PlaylistHeader = () => {
               width={22}
               height={22}
               className="playlist-header-heart-icon"
+              onClick={handleAddPlaylistToMyLibrary}
             />
             <Image
               src="/icons/ellipsis-icon.svg"

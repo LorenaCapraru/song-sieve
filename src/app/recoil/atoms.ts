@@ -104,6 +104,16 @@ export const userTypeState = atom<string>({
   default: "volunteer",
 });
 
+//PopupLogin.tsx
+export const isPopupLoginOpenState = atom<boolean>({
+  key: "isPopupLoginOpenState",
+  default: false,
+});
+
+export const popupLoginTextState = atom<string>({
+  key: "popupLoginTextState",
+  default: "",
+
 // Home page - popular playlists sections
 export const popularPlaylistsState = atom<PlaylistData[] | undefined>({
   key: "popularPlaylistsState",

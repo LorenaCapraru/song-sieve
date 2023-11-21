@@ -1,10 +1,13 @@
+.playlist-section-wrapper {
+  position: relative;
+}
+
 .playlist-section {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 10px;
-  position: relative;
   padding: 15px;
   margin: 20px auto;
   background-color: var(--trans-white);

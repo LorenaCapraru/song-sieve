@@ -7,6 +7,8 @@ import {
   isUserLoggedInState,
   isPopupLoginOpenState,
   popupLoginTextState,
+  isPopupConfirmOpenState,
+  popupConfirmTextState,
 } from "@/app/recoil/atoms";
 import Image from "next/image";
 
@@ -17,12 +19,18 @@ const PlaylistHeader = () => {
   const isUserLoggedIn = useRecoilValue(isUserLoggedInState);
   const setIsPopupLoginOpen = useSetRecoilState(isPopupLoginOpenState);
   const setPopupLoginText = useSetRecoilState(popupLoginTextState);
+  const setIsPopupConfirmOpen = useSetRecoilState<boolean>(
+    isPopupConfirmOpenState
+  );
+  const setPopupConfirmText = useSetRecoilState<string>(popupConfirmTextState);
 
-  const handleAddPlaylistToMyLibrary = () => {
+  const handleAddPlaylistToMyLibrary = (id: string, name: string) => {
     if (!isUserLoggedIn) {
       setIsPopupLoginOpen(true);
       setPopupLoginText("add playlist to your library");
     } else {
+      setIsPopupConfirmOpen(true);
+      setPopupConfirmText(`The playlist ${name} was added to your library.`);
       //add playlist to library - make a request to db
     }
   };
@@ -70,7 +78,9 @@ const PlaylistHeader = () => {
             width={22}
             height={22}
             className="playlist-header-heart-icon"
-            onClick={handleAddPlaylistToMyLibrary}
+            onClick={() =>
+              handleAddPlaylistToMyLibrary(playlistData.id, playlistData.name)
+            }
           />
         </div>
       </div>

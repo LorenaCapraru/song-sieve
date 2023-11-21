@@ -3,7 +3,7 @@ import { TrackObject } from "../playlist/components/Track/Track";
 
 export const isUserLoggedInState = atom<boolean>({
   key: "isUserLoggedInState",
-  default: false,
+  default: true,
 });
 
 //sidebar page and header page
@@ -40,6 +40,12 @@ export interface PlaylistData {
     total: number;
     items: Array<{ track: TrackObject }>;
   };
+}
+
+export interface DBPlaylistData {
+  id: string;
+  spotifyId: string;
+  name: string;
 }
 
 export const playlistDataState = atom<PlaylistData | undefined>({
@@ -111,5 +117,21 @@ export const isPopupLoginOpenState = atom<boolean>({
 
 export const popupLoginTextState = atom<string>({
   key: "popupLoginTextState",
+  default: "",
+});
+
+export const myLibraryPlaylistsState = atom<DBPlaylistData[] | undefined>({
+  key: "myLibraryPlaylistsState",
+  default: undefined,
+});
+
+//TrackList.tsx and Track.tsx
+export const isPopupConfirmOpenState = atom<boolean>({
+  key: "isPopupConfirmOpenState",
+  default: false,
+});
+
+export const popupConfirmTextState = atom<string>({
+  key: "popupConfirmTextState",
   default: "",
 });

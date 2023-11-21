@@ -1,49 +1,24 @@
-import { FC } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import "./Track.css";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
+  DBPlaylistData,
+  isPopupConfirmOpenState,
   isPopupLoginOpenState,
   isUserLoggedInState,
+  myLibraryPlaylistsState,
+  popupConfirmTextState,
   popupLoginTextState,
 } from "@/app/recoil/atoms";
-
-interface ExternalUrls {
-  spotify: string;
-}
-
-interface Artist {
-  external_urls: ExternalUrls;
-  href: string;
-  id: string;
-  name: string;
-  type: string;
-  uri: string;
-}
-
-interface Image {
-  height: number;
-  url: string;
-  width: number;
-}
-
-interface Album {
-  album_type: string;
-  artists: Artist[];
-  available_markets: string[];
-  external_urls: ExternalUrls;
-  href: string;
-  images: Image[];
-  name: string;
-  release_date: string;
-}
+import { millisecondsToMinutes } from "@/utils/utils";
 
 export interface TrackObject {
-  album: Album;
+  album: Record<string, any>;
   name: string;
   duration_ms: number;
   explicit: boolean;
-  artists: Artist[];
+  artists: Record<string, any>;
 }
 
 interface TrackProps {
@@ -55,6 +30,19 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
   const isUserLoggedIn = useRecoilValue(isUserLoggedInState);
   const setIsPopupLoginOpen = useSetRecoilState(isPopupLoginOpenState);
   const setPopupLoginText = useSetRecoilState(popupLoginTextState);
+  const [myLibraryPlaylists, setMyLibraryPlaylists] = useRecoilState<
+    DBPlaylistData[] | undefined
+  >(myLibraryPlaylistsState);
+  const [arePlaylistOptionOpen, setArePlaylistOptionsOpen] =
+    useState<boolean>(false);
+  const playlistOptionsRef = useRef<HTMLDivElement>(null);
+  const [isCreatingPlaylist, setIsCreatingPlaylist] = useState<boolean>(false);
+  const [newPlaylistName, setNewPlaylistName] = useState<string>("");
+  const [errMsg, setErrMSg] = useState<string>("");
+  const setIsPopupConfirmOpen = useSetRecoilState<boolean>(
+    isPopupConfirmOpenState
+  );
+  const setPopupConfirmText = useSetRecoilState<string>(popupConfirmTextState);
 
   const handleAddSongToFavouriteTracks = () => {
     if (!isUserLoggedIn) {
@@ -65,13 +53,42 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
     }
   };
 
-  const millisecondsToMinutes = (milliseconds: number): string => {
-    const totalSeconds = Math.floor(milliseconds / 1000);
-    const minutes = Math.floor(totalSeconds / 60);
-    const seconds = totalSeconds % 60;
+  const handleCreatePlaylistClick = () => {
+    if (!isUserLoggedIn) {
+      setIsPopupLoginOpen(true);
+      setPopupLoginText("create a playlist");
+    } else {
+      setIsCreatingPlaylist(true);
+    }
+  };
 
-    const formattedSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
-    return `${minutes}:${formattedSeconds}`;
+  const handleCancelClick = () => {
+    setIsCreatingPlaylist(false);
+    setNewPlaylistName("");
+  };
+
+  const handleCreateClick = () => {
+    setErrMSg("");
+    if (newPlaylistName.trim() === "") {
+      setErrMSg("Please provide a valid playlist name");
+      return;
+    }
+    console.log("Creating playlist:", newPlaylistName);
+    setIsPopupConfirmOpen(true);
+    setPopupConfirmText(
+      `Playlist ${newPlaylistName} was created. Now you can add a song to the playlist.`
+    );
+    setArePlaylistOptionsOpen(false);
+    setIsCreatingPlaylist(false);
+    setNewPlaylistName("");
+    // send the new playlist to db
+  };
+
+  const handleMyLibraryPlaylistClick = (spotifyId: string, name: string) => {
+    setIsPopupConfirmOpen(true);
+    setPopupConfirmText(`The song was added to playlist ${name}.`);
+    setArePlaylistOptionsOpen(false);
+    //add this song to playlist - send request to db
   };
 
   const formattedDate =
@@ -81,6 +98,47 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
       month: "short",
       year: "numeric",
     });
+
+  useEffect(() => {
+    //fetch all playlists from library of user
+
+    // temporarily create an object
+    const libraryPlaylists: DBPlaylistData[] = [
+      {
+        id: "db_id1",
+        spotifyId: "37i9dQZF1E38So9B6KJSly",
+        name: "Mix of the day 3",
+      },
+      {
+        id: "db_id2",
+        spotifyId: "0vvXsWCC9xrXsKd4FyS8kM",
+        name: "Lofi girl - beats to relax/study to",
+      },
+      {
+        id: "db_id3",
+        spotifyId: "5aE6bhMLYXJWBvEIWm6ZaO",
+        name: "Music for Stretching",
+      },
+    ];
+    setMyLibraryPlaylists(libraryPlaylists);
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        playlistOptionsRef.current &&
+        !playlistOptionsRef.current.contains(event.target as Node)
+      ) {
+        setArePlaylistOptionsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     track && (
@@ -126,8 +184,77 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
             width={18}
             height={18}
             className="playlist-table-ellipsis-icon"
+            onClick={() => setArePlaylistOptionsOpen(true)}
           />
         </td>
+        {arePlaylistOptionOpen && (
+          <div ref={playlistOptionsRef} className="playlist-options">
+            <div>
+              <p>Add song to the playlist</p>
+              <Image
+                src="/icons/arrow-icon_2.svg"
+                alt="arrow"
+                width={18}
+                height={18}
+              />
+            </div>
+
+            <div
+              className="create-playlist-container"
+              onClick={handleCreatePlaylistClick}
+            >
+              <p>Remove song from the playlist</p>
+              <Image
+                src="/icons/plus-icon.svg"
+                alt="arrow"
+                width={18}
+                height={18}
+              />
+            </div>
+            <div
+              className="create-playlist-container"
+              onClick={handleCreatePlaylistClick}
+            >
+              <p>Create a new playlist</p>
+              <Image
+                src="/icons/plus-icon.svg"
+                alt="arrow"
+                width={18}
+                height={18}
+              />
+            </div>
+            {isCreatingPlaylist && (
+              <div className="create-playlist-input">
+                <input
+                  type="text"
+                  value={newPlaylistName}
+                  onChange={(e) => setNewPlaylistName(e.target.value)}
+                />
+                {errMsg && <p className="err-msg">{errMsg}</p>}
+                <div className="create-playlist-input-buttons">
+                  <button onClick={handleCancelClick}>Cancel</button>
+                  <button onClick={handleCreateClick}>Create</button>
+                </div>
+              </div>
+            )}
+            {isUserLoggedIn &&
+              myLibraryPlaylists &&
+              myLibraryPlaylists.map((playlist) => (
+                <p
+                  key={playlist.id}
+                  className="my-library-playlist-option"
+                  onClick={() =>
+                    handleMyLibraryPlaylistClick(
+                      playlist.spotifyId,
+                      playlist.name
+                    )
+                  }
+                >
+                  {playlist.name}
+                </p>
+              ))}
+          </div>
+        )}
       </tr>
     )
   );

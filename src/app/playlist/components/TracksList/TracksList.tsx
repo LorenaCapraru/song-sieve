@@ -6,6 +6,7 @@ import { useRecoilValue } from "recoil";
 import Track from "../Track/Track";
 import { TrackObject } from "../Track/Track";
 import { Bars } from "react-loader-spinner";
+import PopupConfirm from "../Track/components/PopupConfirm/PopupConfirm";
 
 const TracksList: React.FC = () => {
   const playlistData = useRecoilValue<PlaylistData | undefined>(
@@ -40,6 +41,7 @@ const TracksList: React.FC = () => {
             ))}
         </tbody>
       </table>
+      <PopupConfirm />
     </div>
   ) : (
     <div className="tracklist-loader">

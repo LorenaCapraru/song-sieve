@@ -10,6 +10,7 @@ import { playlistDataState } from "@/app/recoil/atoms";
 import { useRecoilValue } from "recoil";
 import { isMobileFilterOptionsOpenState } from "@/app/recoil/atoms";
 import FilterOptions from "@/app/components/SideBar/components/FilterOptions/FilterOptions";
+import MobileMenu from "@/app/components/MobileMenu/MobileMenu";
 
 const PlaylistPage = ({ params }: { params: { id: string } }) => {
   console.log("id", params.id);

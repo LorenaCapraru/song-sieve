@@ -1,19 +1,35 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./TracksList.css";
-import { playlistDataState, PlaylistData } from "@/app/recoil/atoms";
-import { useRecoilValue } from "recoil";
+import {
+  playlistDataState,
+  PlaylistData,
+  filterOptionsState,
+} from "@/app/recoil/atoms";
+import { useRecoilValue, useRecoilState } from "recoil";
 import Track from "../Track/Track";
 import { TrackObject } from "../Track/Track";
 
 const TracksList: React.FC = () => {
-  const playlistData = useRecoilValue<PlaylistData | undefined>(
-    playlistDataState
-  );
+  const [playlistData, setPlaylistData] = useRecoilState<
+    PlaylistData | undefined
+  >(playlistDataState);
+  const [filterOptions, setFilterOptions] = useRecoilState(filterOptionsState);
+  const [tracksArr, setTracksArr] = useState<TrackObject[]>([]);
+  const [explicit, setExplicit] = useState<boolean | null>(null);
 
-  const tracksArr: TrackObject[] =
-    playlistData?.tracks?.items?.map((el) => el.track) || [];
-  console.log(tracksArr);
+  useEffect(() => {
+    const updatedTracksArr =
+      playlistData?.tracks?.items?.map((el) => el.track) || [];
+    setTracksArr(updatedTracksArr);
+
+    if (filterOptions.explicit && filterOptions.explicit === "Yes") {
+      setTracksArr([...updatedTracksArr].filter((el) => el.explicit === true));
+    
+    } else if (filterOptions.explicit && filterOptions.explicit === "No")
+      setTracksArr([...updatedTracksArr].filter((el) => el.explicit === false));
+    else setTracksArr([...updatedTracksArr]);
+  }, [playlistData, filterOptions, tracksArr]);
 
   return playlistData ? (
     <div className="tracks-list-main">

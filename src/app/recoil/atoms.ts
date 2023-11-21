@@ -104,6 +104,11 @@ export const userTypeState = atom<string>({
   default: "volunteer",
 });
 
+// Home page - popular playlists sections
+export const popularPlaylistsState = atom<PlaylistData[] | undefined>({
+  key: "popularPlaylistsState",
+  default: undefined,
+  
 //FilterOptions.tsx
 export const filterOptionsState = atom<FilterOptions>({
   key: "filterOptionsState",

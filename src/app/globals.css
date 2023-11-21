@@ -57,6 +57,7 @@ main {
   justify-items: center;
   flex-direction: column;
   justify-content: space-between;
+  position: relative;
 }
 
 .main-section {

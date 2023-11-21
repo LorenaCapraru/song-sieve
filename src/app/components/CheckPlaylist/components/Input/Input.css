@@ -48,6 +48,11 @@
   justify-content: center;
 }
 
+.error-msg {
+  color: var(--orange);
+  margin-bottom: 10px;
+}
+
 @media only screen and (min-width: 420px) {
   .submit-button-section {
     justify-content: flex-end;

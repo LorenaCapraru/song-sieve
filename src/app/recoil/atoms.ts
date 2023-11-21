@@ -113,3 +113,15 @@ export const popupLoginTextState = atom<string>({
   key: "popupLoginTextState",
   default: "",
 });
+
+// Home page - popular playlists sections
+export const popularPlaylistsState = atom<PlaylistData[] | undefined>({
+  key: "popularPlaylistsState",
+  default: undefined,
+});
+
+//PlaylistHeader.tsx and FilterOptions.tsx
+export const isMobileFilterOptionsOpenState = atom<boolean>({
+  key: "isMobileFilterOptionsOpenState",
+  default: false,
+});

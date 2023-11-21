@@ -46,3 +46,11 @@ export const checkTokenTime = async () => {
 export const capitalizeFirstLetter = (str: string): string => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
+
+export const shortenString = (input: string, maxLength: number): string => {
+  if (input.length > maxLength) {
+    return input.substring(0, maxLength) + "...";
+  }
+
+  return input;
+};

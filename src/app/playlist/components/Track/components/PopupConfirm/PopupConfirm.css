@@ -1,0 +1,14 @@
+.popup-confirm {
+  position: absolute;
+  top: 90%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--purple);
+  padding: 10px 20px;
+  border: 1px solid white;
+  border-radius: 25px;
+  min-width: 250px;
+  z-index: 2;
+  text-align: center;
+  font-size: 14px;
+}

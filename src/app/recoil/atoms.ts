@@ -43,6 +43,12 @@ export interface PlaylistData {
   };
 }
 
+export interface DBPlaylistData {
+  id: string;
+  spotifyId: string;
+  name: string;
+}
+
 export const playlistDataState = atom<PlaylistData | undefined>({
   key: "playlistDataState",
   default: undefined,
@@ -119,6 +125,22 @@ export const isPopupLoginOpenState = atom<boolean>({
 
 export const popupLoginTextState = atom<string>({
   key: "popupLoginTextState",
+  default: "",
+});
+
+export const myLibraryPlaylistsState = atom<DBPlaylistData[] | undefined>({
+  key: "myLibraryPlaylistsState",
+  default: undefined,
+});
+
+//TrackList.tsx and Track.tsx
+export const isPopupConfirmOpenState = atom<boolean>({
+  key: "isPopupConfirmOpenState",
+  default: false,
+});
+
+export const popupConfirmTextState = atom<string>({
+  key: "popupConfirmTextState",
   default: "",
 });
 

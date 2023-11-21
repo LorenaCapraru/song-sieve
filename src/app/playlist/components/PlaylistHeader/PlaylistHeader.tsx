@@ -7,6 +7,8 @@ import {
   isUserLoggedInState,
   isPopupLoginOpenState,
   popupLoginTextState,
+  isPopupConfirmOpenState,
+  popupConfirmTextState,
   isMobileFilterOptionsOpenState,
 } from "@/app/recoil/atoms";
 import Image from "next/image";
@@ -18,12 +20,18 @@ const PlaylistHeader = () => {
   const isUserLoggedIn = useRecoilValue(isUserLoggedInState);
   const setIsPopupLoginOpen = useSetRecoilState(isPopupLoginOpenState);
   const setPopupLoginText = useSetRecoilState(popupLoginTextState);
+  const setIsPopupConfirmOpen = useSetRecoilState<boolean>(
+    isPopupConfirmOpenState
+  );
+  const setPopupConfirmText = useSetRecoilState<string>(popupConfirmTextState);
 
-  const handleAddPlaylistToMyLibrary = () => {
+  const handleAddPlaylistToMyLibrary = (id: string, name: string) => {
     if (!isUserLoggedIn) {
       setIsPopupLoginOpen(true);
       setPopupLoginText("add playlist to your library");
     } else {
+      setIsPopupConfirmOpen(true);
+      setPopupConfirmText(`The playlist ${name} was added to your library.`);
       //add playlist to library - make a request to db
     }
   };
@@ -74,14 +82,6 @@ const PlaylistHeader = () => {
               />
             </div>
             <Image
-              src="/icons/heart-icon.svg"
-              alt="heart icon used to save"
-              width={22}
-              height={22}
-              className="playlist-header-heart-icon"
-              onClick={handleAddPlaylistToMyLibrary}
-            />
-            <Image
               src="/icons/ellipsis-icon.svg"
               alt="ellipsis icon used for more options"
               width={22}
@@ -89,6 +89,16 @@ const PlaylistHeader = () => {
               className="playlist-header-ellipsis-icon"
             />
           </div>
+          <Image
+            src="/icons/heart-icon.svg"
+            alt="heart icon used to save"
+            width={22}
+            height={22}
+            className="playlist-header-heart-icon"
+            onClick={() =>
+              handleAddPlaylistToMyLibrary(playlistData.id, playlistData.name)
+            }
+          />
           <button className="filter-button" onClick={handleFilterButtonClick}>
             Filter
           </button>

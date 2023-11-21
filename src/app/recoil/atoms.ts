@@ -1,4 +1,5 @@
 import { atom } from "recoil";
+import { FilterOptions } from "../components/SideBar/components/FilterOptions/FilterOptions";
 import { TrackObject } from "../playlist/components/Track/Track";
 
 export const isUserLoggedInState = atom<boolean>({
@@ -101,4 +102,16 @@ export const signUpState = atom<SignUpState>({
 export const userTypeState = atom<string>({
   key: "userTypeState",
   default: "volunteer",
+});
+
+//FilterOptions.tsx
+export const filterOptionsState = atom<FilterOptions>({
+  key: "filterOptionsState",
+  default: { selectedDuration: null, explicit: null },
+});
+
+//PlaylistHeader.tsx and FilterOptions.tsx
+export const isMobileFilterOptionsOpenState = atom<boolean>({
+  key: "isMobileFilterOptionsOpenState",
+  default: false,
 });

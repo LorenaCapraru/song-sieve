@@ -10,6 +10,11 @@
   border-radius: 10px;
 }
 
+.id-provide-section a {
+  text-decoration: none;
+  color: white;
+}
+
 .check-playlist-section-title {
   font-size: 20px;
 }

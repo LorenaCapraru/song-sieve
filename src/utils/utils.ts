@@ -54,3 +54,9 @@ export const millisecondsToMinutes = (milliseconds: number): string => {
   const formattedSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
   return `${minutes}:${formattedSeconds}`;
 };
+export const shortenString = (input: string, maxLength: number): string => {
+  if (input.length > maxLength) {
+    return input.substring(0, maxLength) + "...";
+  }
+  return input;
+};

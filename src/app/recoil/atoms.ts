@@ -142,6 +142,7 @@ export const isPopupConfirmOpenState = atom<boolean>({
 export const popupConfirmTextState = atom<string>({
   key: "popupConfirmTextState",
   default: "",
+});
 
 // Home page - popular playlists sections
 export const popularPlaylistsState = atom<PlaylistData[] | undefined>({
@@ -159,5 +160,4 @@ export const filterOptionsState = atom<FilterOptions>({
 export const isMobileFilterOptionsOpenState = atom<boolean>({
   key: "isMobileFilterOptionsOpenState",
   default: false,
-
 });

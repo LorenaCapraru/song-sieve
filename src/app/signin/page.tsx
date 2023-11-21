@@ -60,6 +60,11 @@ export default function SignIn() {
     };
   }, [setAuth]);
 
+  //update background image on first load
+  useEffect(() => {
+    document.body.style.backgroundImage = "url(/background_images/back_3.webp)";
+  }, []);
+
   return (
     <main className="bg-template auth-template">
       <section className="login-wrapper">

@@ -123,7 +123,7 @@ const FilterOptions = () => {
           Clear all filters
         </button>
       )}
-
+      <button className="create-playlist-button">Create Playlist</button>
       <p className="filter-result">Found 5 tracks</p>
     </div>
   );

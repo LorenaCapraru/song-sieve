@@ -21,15 +21,42 @@ const TracksList: React.FC = () => {
   useEffect(() => {
     const updatedTracksArr =
       playlistData?.tracks?.items?.map((el) => el.track) || [];
-    setTracksArr(updatedTracksArr);
+    let filteredTracks = [...updatedTracksArr];
 
     if (filterOptions.explicit && filterOptions.explicit === "Yes") {
-      setTracksArr([...updatedTracksArr].filter((el) => el.explicit === true));
-    
-    } else if (filterOptions.explicit && filterOptions.explicit === "No")
-      setTracksArr([...updatedTracksArr].filter((el) => el.explicit === false));
-    else setTracksArr([...updatedTracksArr]);
-  }, [playlistData, filterOptions, tracksArr]);
+      filteredTracks = filteredTracks.filter((el) => el.explicit === true);
+    } else if (filterOptions.explicit && filterOptions.explicit === "No") {
+      filteredTracks = filteredTracks.filter((el) => el.explicit === false);
+    }
+
+    if (filterOptions.selectedDuration) {
+      switch (filterOptions.selectedDuration) {
+        case "less than 2 minutes":
+          filteredTracks = filteredTracks.filter(
+            (el) => el.duration_ms <= 120000
+          );
+          break;
+        case "2-5 minutes":
+          filteredTracks = filteredTracks.filter(
+            (el) => el.duration_ms > 120000 && el.duration_ms <= 300000
+          );
+          break;
+        case "5-10 minutes":
+          filteredTracks = filteredTracks.filter(
+            (el) => el.duration_ms > 300000 && el.duration_ms <= 600000
+          );
+          break;
+        case "more than 10 minutes":
+          filteredTracks = filteredTracks.filter(
+            (el) => el.duration_ms > 600000
+          );
+          break;
+        default:
+          break;
+      }
+    }
+    setTracksArr(filteredTracks);
+  }, [playlistData, filterOptions.explicit, filterOptions.selectedDuration]);
 
   return playlistData ? (
     <div className="tracks-list-main">

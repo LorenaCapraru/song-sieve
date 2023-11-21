@@ -1,4 +1,5 @@
 import { atom } from "recoil";
+import { FilterOptions } from "../components/SideBar/components/FilterOptions/FilterOptions";
 import { TrackObject } from "../playlist/components/Track/Track";
 
 export const isUserLoggedInState = atom<boolean>({
@@ -50,6 +51,13 @@ export interface DBPlaylistData {
 
 export const playlistDataState = atom<PlaylistData | undefined>({
   key: "playlistDataState",
+  default: undefined,
+});
+
+//  const [tracksArr, setTracksArr] = useState<TrackObject[]>([]);
+
+export const tracksArrState = atom<TrackObject[] | undefined>({
+  key: "tracksArrState",
   default: undefined,
 });
 
@@ -134,4 +142,22 @@ export const isPopupConfirmOpenState = atom<boolean>({
 export const popupConfirmTextState = atom<string>({
   key: "popupConfirmTextState",
   default: "",
+
+// Home page - popular playlists sections
+export const popularPlaylistsState = atom<PlaylistData[] | undefined>({
+  key: "popularPlaylistsState",
+  default: undefined,
+});
+
+//FilterOptions.tsx
+export const filterOptionsState = atom<FilterOptions>({
+  key: "filterOptionsState",
+  default: { selectedDuration: null, explicit: null },
+});
+
+//PlaylistHeader.tsx and FilterOptions.tsx
+export const isMobileFilterOptionsOpenState = atom<boolean>({
+  key: "isMobileFilterOptionsOpenState",
+  default: false,
+
 });

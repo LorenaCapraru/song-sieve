@@ -26,7 +26,8 @@
     justify-content: flex-start;
   }
 
-  .sidebar-section a {
+  .sidebar-section a,
+  .sidebar-section li {
     color: white;
     text-decoration: none;
     font-size: 25px;
@@ -54,7 +55,9 @@
   }
 
   .sidebar-menu ul li:hover > p,
-  .sidebar-menu ul li:focus > p {
+  .sidebar-menu ul li:focus > p,
+  .sidebar-menu ul li:hover > a,
+  .sidebar-menu ul li:focus > a {
     color: var(--pink);
   }
 

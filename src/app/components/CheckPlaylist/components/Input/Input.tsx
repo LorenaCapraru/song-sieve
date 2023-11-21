@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useState } from "react";
 import "./Input.css";
 import {
   inputSpotifyIdState,
@@ -16,21 +16,37 @@ const Input = () => {
   );
   const [inputSpotifyId, setInputSpotifyId] =
     useRecoilState(inputSpotifyIdState);
+  const [inputErrMsg, setInputErrMsg] = useState<string>("");
+  const [fetchErrMsg, setFetchErrMsg] = useState<string>("");
   const [playlistData, setPlaylistData] = useRecoilState<
     PlaylistData | undefined
   >(playlistDataState);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setPlaylistData(undefined);
+    setInputErrMsg("");
     const link = e.target.value;
+
+    if (link.trim() === "") {
+      setInputErrMsg("The link is empty.");
+    } else if (!link.trim().startsWith("https://open.spotify.com/playlist/")) {
+      setInputErrMsg(
+        "The link should start with 'https://open.spotify.com/playlist/'."
+      );
+    }
+
     setInputSpotifyLink(link);
 
     const id = link.replace("https://open.spotify.com/playlist/", "");
     setInputSpotifyId(id);
   };
 
-  const fetchPlaylist = async () => {
+  const fetchPlaylist = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     await checkTokenTime();
     const accessToken = localStorage.getItem("access_token");
+    setFetchErrMsg("");
 
     try {
       const response = await fetch(
@@ -41,9 +57,20 @@ const Input = () => {
           },
         }
       );
+
       if (!response.ok) {
+        if (response.status === 404) {
+          setFetchErrMsg("Playlist not found. Please check the ID.");
+        } else if (response.status === 401) {
+          setFetchErrMsg("Unauthorized. Please check your access.");
+        } else {
+          setFetchErrMsg(
+            `Error fetching playlist: ${response.status}. Please try again.`
+          );
+        }
         throw new Error(`Error fetching playlist: ${response.status}`);
       }
+
       const data = await response.json();
       setPlaylistData(data);
       console.log("Playlist Data:", data);
@@ -54,30 +81,31 @@ const Input = () => {
 
   return (
     <>
-      <div className="input-section">
-        <Image
-          src="/icons/spotify-icon.svg"
-          alt="spotify brand"
-          width={16}
-          height={16}
-          className="icon"
-        />
-        <input
-          type="text"
-          value={inputSpotifyLink}
-          onChange={handleChange}
-          placeholder="Spotify playlist link"
-          className="input-field"
-        />
-      </div>
-      <div className="submit-button-section">
-        <input
-          className="submit-button"
-          type="submit"
-          value="GET THE PLAYLIST"
-          onClick={fetchPlaylist}
-        />
-      </div>
+      <form onSubmit={fetchPlaylist}>
+        <div className="input-section">
+          <Image
+            src="/icons/spotify-icon.svg"
+            alt="spotify brand"
+            width={16}
+            height={16}
+            className="icon"
+          />
+          <input
+            type="text"
+            value={inputSpotifyLink}
+            onChange={handleChange}
+            placeholder="Spotify playlist link"
+            className="input-field"
+          />
+          {inputErrMsg.length > 0 && <p className="error-msg">{inputErrMsg}</p>}
+        </div>
+        <div className="submit-button-section">
+          <button className="submit-button" type="submit">
+            GET THE PLAYLIST
+          </button>
+        </div>
+      </form>
+        {fetchErrMsg.length > 0 && <p className="error-msg">{fetchErrMsg}</p>}
     </>
   );
 };

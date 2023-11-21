@@ -57,14 +57,17 @@ const Playlist = () => {
   return (
     playlistData && (
       <div className="playlist-section-wrapper">
-        <Image
-          src="/icons/heart-icon.svg"
-          alt="heart icon to save"
-          width={25}
-          height={25}
-          className="heart-save"
-          onClick={handleAddPlaylistToMyLibrary}
-        />
+        <div className="heart-icon-container">
+          <Image
+            src="/icons/heart-icon.svg"
+            alt="heart icon to save"
+            width={25}
+            height={25}
+            className="heart-save"
+            onClick={handleAddPlaylistToMyLibrary}
+          />
+        </div>
+
         <Link href={`/playlist/${playlistData.id}`}>
           <div
             className={

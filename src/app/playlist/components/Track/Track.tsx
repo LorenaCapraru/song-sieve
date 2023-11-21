@@ -65,9 +65,13 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
     }
   };
 
-  const millisecondsToMinutes = (milliseconds: number) => {
-    const minutes = milliseconds / (1000 * 60);
-    return parseFloat(minutes.toFixed(2));
+  const millisecondsToMinutes = (milliseconds: number): string => {
+    const totalSeconds = Math.floor(milliseconds / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+
+    const formattedSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
+    return `${minutes}:${formattedSeconds}`;
   };
 
   const formattedDate =

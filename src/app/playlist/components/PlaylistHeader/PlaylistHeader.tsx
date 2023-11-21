@@ -8,6 +8,8 @@ import {
   isPopupLoginOpenState,
   popupLoginTextState,
   isMobileFilterOptionsOpenState,
+  isFavouriteTracksPageState,
+  favouriteTracksState,
 } from "@/app/recoil/atoms";
 import Image from "next/image";
 
@@ -18,6 +20,8 @@ const PlaylistHeader = () => {
   const isUserLoggedIn = useRecoilValue(isUserLoggedInState);
   const setIsPopupLoginOpen = useSetRecoilState(isPopupLoginOpenState);
   const setPopupLoginText = useSetRecoilState(popupLoginTextState);
+  const isFavouriteTracksPage = useRecoilValue(isFavouriteTracksPageState);
+  const favouriteTracks = useRecoilValue(favouriteTracksState);
 
   const handleAddPlaylistToMyLibrary = () => {
     if (!isUserLoggedIn) {
@@ -52,13 +56,20 @@ const PlaylistHeader = () => {
           style={{
             backgroundImage: `radial-gradient(
             rgba(51, 51, 51, 0.5), 
-            rgba(51, 51, 51, 0.5)), url(${playlistData.images[0]?.url})`,
+            rgba(51, 51, 51, 0.5)), url(${
+              isFavouriteTracksPage
+                ? "/background_images/favourite_tracks.jpeg"
+                : playlistData.images[0]?.url
+            })`,
           }}
         >
           <p className="playlist-word">Playlist</p>
-          <p className="playlist-header-name">{playlistData?.name}</p>
+          <p className="playlist-header-name">
+            {isFavouriteTracksPage ? "Favourite tracks" : playlistData?.name}
+          </p>
           <p className="playlist-header-song-id">
-            <span>{playlistData?.tracks.total} songs •</span> {playlistData?.id}
+            <span>{playlistData?.tracks.total} songs </span>
+            {!isFavouriteTracksPage && `• ${playlistData?.id}`}
           </p>
         </div>
         <div className="header-filter-buttons">

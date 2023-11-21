@@ -1,6 +1,7 @@
 import { atom } from "recoil";
 import { FilterOptions } from "../components/SideBar/components/FilterOptions/FilterOptions";
 import { TrackObject } from "../playlist/components/Track/Track";
+import FavouriteTracksPage from "../favourite_tracks/page";
 
 export const isUserLoggedInState = atom<boolean>({
   key: "isUserLoggedInState",
@@ -130,5 +131,22 @@ export const filterOptionsState = atom<FilterOptions>({
 //PlaylistHeader.tsx and FilterOptions.tsx
 export const isMobileFilterOptionsOpenState = atom<boolean>({
   key: "isMobileFilterOptionsOpenState",
+  default: false,
+});
+
+interface DBFavouriteTrack {
+  id: string;
+  spotify_id: string;
+}
+
+// FavouriteTracksPage.tsx
+export const favouriteTracksState = atom<DBFavouriteTrack[] | undefined>({
+  key: "favouriteTracksState",
+  default: undefined,
+});
+
+// FavouriteTracksPage
+export const isFavouriteTracksPageState = atom<boolean>({
+  key: "isFavouriteTracksPageState",
   default: false,
 });

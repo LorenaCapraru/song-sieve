@@ -2,19 +2,28 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRecoilState } from "recoil";
-import { singInState, SingInState } from "../recoil/atoms";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import {
+  isPopupConfirmOpenState,
+  popupConfirmTextState,
+  singInState,
+  SingInState,
+} from "../recoil/atoms";
 import "./page.css";
 import { useEffect } from "react";
-
 import { signInUser } from "@/firebase/auth";
 import { useRouter } from "next/navigation";
 import GoogleGithub from "./components/GoogleGithub";
+import PopupConfirm from "../playlist/components/Track/components/PopupConfirm/PopupConfirm";
 
 export default function SignIn() {
   const router = useRouter();
 
   const [auth, setAuth] = useRecoilState<SingInState>(singInState);
+  const setIsPopupConfirmOpen = useSetRecoilState<boolean>(
+    isPopupConfirmOpenState
+  );
+  const setPopupConfirmText = useSetRecoilState<string>(popupConfirmTextState);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -65,6 +74,8 @@ export default function SignIn() {
 
         // redirect user to dashboard or new page)
         router.push("/");
+        setPopupConfirmText("You have been successfully logged in!");
+        setIsPopupConfirmOpen(true);
       } catch (error: any) {
         console.error("Error signing in:", error.message);
         setAuth((prevAuth) => ({
@@ -167,6 +178,7 @@ export default function SignIn() {
           </p>
         </div>
       </section>
+      <PopupConfirm />
     </main>
   );
 }

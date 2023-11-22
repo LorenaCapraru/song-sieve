@@ -2,14 +2,16 @@ import { useEffect, useState } from "react";
 import "./MainLibrary.css";
 import { getPlaylistsFromLibraryForUser } from "@/utils/utils";
 import LibraryPlaylist from "../Playlist/LibraryPlaylist";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   CurrentUser,
   PlaylistData,
   currentUserState,
+  isFavouriteTracksPageState,
   libraryPlaylistsState,
 } from "@/app/recoil/atoms";
 import { Bars } from "react-loader-spinner";
+import { usePathname } from "next/navigation";
 
 const MainLibrary = () => {
   const currentUser = useRecoilValue<CurrentUser | undefined>(currentUserState);
@@ -21,6 +23,10 @@ const MainLibrary = () => {
     document.body.style.backgroundImage = "url(/background_images/back_2.webp)";
   }, []);
   const [isPlaylistRemoved, setIsPlaylistRemoved] = useState<boolean>(false);
+  const setIsFavouriteTracksPage = useSetRecoilState<boolean>(
+    isFavouriteTracksPageState
+  );
+  const pathname = usePathname();
 
   // Fetches library playlists for a user
   useEffect(() => {
@@ -33,6 +39,10 @@ const MainLibrary = () => {
           console.error("Error fetching playlists from library: ", error);
         });
     }
+
+    pathname.includes("favourite_tracks")
+      ? setIsFavouriteTracksPage(true)
+      : setIsFavouriteTracksPage(false);
   }, []);
 
   //fetch library playlists when user is removed

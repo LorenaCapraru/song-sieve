@@ -14,9 +14,7 @@ import Track from "../Track/Track";
 import { TrackObject } from "../Track/Track";
 import { Bars } from "react-loader-spinner";
 import { DBFavouriteTrack } from "@/app/recoil/atoms";
-import { db } from "@/firebase/firebase";
-import { collection, getDocs } from "firebase/firestore";
-import { checkTokenTime } from "@/utils/utils";
+import { getFavouriteTracksForUser } from "@/utils/utils";
 
 const TracksList: React.FC = () => {
   const [playlistData, setPlaylistData] = useRecoilState<
@@ -33,62 +31,11 @@ const TracksList: React.FC = () => {
     undefined
   );
 
+  // Fetches favourite tracks for a user
   useEffect(() => {
-    const fetchTrack = async (id: string) => {
-      await checkTokenTime();
-      const accessToken = localStorage.getItem("access_token");
-      let track: TrackObject | undefined = undefined;
-
-      try {
-        const response = await fetch(
-          `https://api.spotify.com/v1/tracks/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
-        if (!response.ok) {
-          throw new Error(`Error fetching playlist: ${response.status}`);
-        }
-        const data = await response.json();
-        track = data;
-      } catch (error) {
-        console.error("Error fetching track" + error);
-      }
-
-      return track;
-    };
-
+    console.log("isFavouriteTracksPage", isFavouriteTracksPage);
     if (isFavouriteTracksPage && currentUser) {
-      const getFavoriteTracksForUser = async (userId: string) => {
-        const favoriteTracksRef = collection(
-          db,
-          "users",
-          userId,
-          "favourite_tracks"
-        );
-        const querySnapshot = await getDocs(favoriteTracksRef);
-        const arrayWithFavouriteTracks: DBFavouriteTrack[] = [];
-
-        querySnapshot.forEach((doc) => {
-          arrayWithFavouriteTracks.push(doc.data() as DBFavouriteTrack);
-        });
-
-        const tracksList: Array<{ track: TrackObject }> = [];
-        if (arrayWithFavouriteTracks.length > 0) {
-          for (const track of arrayWithFavouriteTracks) {
-            const trackObject = await fetchTrack(track.spotify_id); // Await here
-            if (trackObject) {
-              tracksList.push({ track: trackObject });
-            }
-          }
-        }
-
-        return tracksList;
-      };
-
-      getFavoriteTracksForUser(currentUser.id)
+      getFavouriteTracksForUser(currentUser.id)
         .then((tracksList) => {
           const favouritePlaylistData: PlaylistData = {
             name: "Favourite tracks",
@@ -111,6 +58,7 @@ const TracksList: React.FC = () => {
     }
   }, [isFavouriteTracksPage]);
 
+  // Get tracks for all pages except Favourite_tracks
   useEffect(() => {
     if (!isFavouriteTracksPage) {
       const arr: TrackObject[] =

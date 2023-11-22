@@ -1,3 +1,8 @@
+import { TrackObject } from "@/app/playlist/components/Track/Track";
+import { db } from "@/firebase/firebase";
+import { collection, getDocs } from "firebase/firestore";
+import { DBFavouriteTrack } from "@/app/recoil/atoms";
+
 const getAccessToken = async () => {
   const refresh_token = process.env.NEXT_PUBLIC_SPOTIFY_REFRESH_TOKEN;
 
@@ -53,4 +58,51 @@ export const shortenString = (input: string, maxLength: number): string => {
   }
 
   return input;
+};
+
+// Fetches a single track from Spotify API
+export const fetchTrack = async (id: string) => {
+  await checkTokenTime();
+  const accessToken = localStorage.getItem("access_token");
+  let track: TrackObject | undefined = undefined;
+
+  try {
+    const response = await fetch(`https://api.spotify.com/v1/tracks/${id}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    if (!response.ok) {
+      throw new Error(`Error fetching playlist: ${response.status}`);
+    }
+    const data = await response.json();
+    track = data;
+  } catch (error) {
+    console.error("Error fetching track" + error);
+  }
+
+  return track;
+};
+
+//fetching a list of favourite tracks from db
+export const getFavouriteTracksForUser = async (userId: string) => {
+  const favoriteTracksRef = collection(db, "users", userId, "favourite_tracks");
+  const querySnapshot = await getDocs(favoriteTracksRef);
+  const arrayWithFavouriteTracks: DBFavouriteTrack[] = [];
+
+  querySnapshot.forEach((doc) => {
+    arrayWithFavouriteTracks.push(doc.data() as DBFavouriteTrack);
+  });
+
+  const tracksList: Array<{ track: TrackObject }> = [];
+  if (arrayWithFavouriteTracks.length > 0) {
+    for (const track of arrayWithFavouriteTracks) {
+      const trackObject = await fetchTrack(track.spotify_id); // Await here
+      if (trackObject) {
+        tracksList.push({ track: trackObject });
+      }
+    }
+  }
+
+  return tracksList;
 };

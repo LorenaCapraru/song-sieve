@@ -102,6 +102,11 @@ export const playlistDataState = atom<PlaylistData | undefined>({
   default: undefined,
 });
 
+export const isGetPlaylistButtonClickedState = atom<boolean>({
+  key: "isGetPlaylistButtonClickedState",
+  default: false,
+});
+
 export const singInState = atom<SingInState>({
   key: "singInState",
   default: {

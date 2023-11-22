@@ -4,9 +4,10 @@ import "./Input.css";
 import {
   inputSpotifyIdState,
   inputSpotifyLinkState,
+  isGetPlaylistButtonClickedState,
   playlistDataState,
 } from "@/app/recoil/atoms";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { PlaylistData } from "@/app/recoil/atoms";
 import { checkTokenTime } from "@/utils/utils";
 
@@ -21,6 +22,9 @@ const Input = () => {
   const [playlistData, setPlaylistData] = useRecoilState<
     PlaylistData | undefined
   >(playlistDataState);
+  const setIsGetPlaylistButtonClicked = useSetRecoilState(
+    isGetPlaylistButtonClickedState
+  );
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPlaylistData(undefined);
@@ -73,6 +77,7 @@ const Input = () => {
 
       const data = await response.json();
       setPlaylistData(data);
+      setIsGetPlaylistButtonClicked(true);
       console.log("Playlist Data:", data);
     } catch (error) {
       console.error("Error fetching playlist" + error);
@@ -105,7 +110,7 @@ const Input = () => {
           </button>
         </div>
       </form>
-        {fetchErrMsg.length > 0 && <p className="error-msg">{fetchErrMsg}</p>}
+      {fetchErrMsg.length > 0 && <p className="error-msg">{fetchErrMsg}</p>}
     </>
   );
 };

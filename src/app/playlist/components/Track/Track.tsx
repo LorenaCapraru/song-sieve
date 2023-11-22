@@ -98,14 +98,6 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
     //display a PopupConfirm component => displaying the info
   };
 
-  const formattedDate =
-    track?.album.release_date &&
-    new Date(track.album.release_date).toLocaleDateString("en-GB", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    });
-
   useEffect(() => {
     //fetch all playlists from library of user
 
@@ -169,7 +161,6 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
           </div>
         </td>
         <td className="col-hide-on-mobile">{track.album.name}</td>
-        <td className="col-hide-on-mobile tracks-date">{formattedDate}</td>
 
         <td>{millisecondsToMinutes(track.duration_ms)}</td>
 

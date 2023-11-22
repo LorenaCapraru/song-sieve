@@ -106,6 +106,18 @@ export default function SignIn() {
     }
   };
 
+  const handleGithubSignUp = async () => {
+    try {
+      const result = await signUpWithGitHub();
+
+      console.log("GitHub Sign Up successful:", result.user?.email);
+      // Additional logic
+    } catch (error: any) {
+      console.error("Error signing up with GitHub:", error.message);
+      // Handle GitHub sign-up error
+    }
+  };
+
   useEffect(() => {
     return () => {
       setAuth({
@@ -284,6 +296,7 @@ export default function SignIn() {
               width={40}
               height={40}
               className="icon"
+              onClick={handleGithubSignUp}
               style={{
                 border: "1px solid black",
                 borderRadius: "50%",

@@ -61,7 +61,8 @@ export default function SignIn() {
       }));
     } else {
       try {
-        const userCredential = await signUpUser(auth);
+        const fullName = `${auth.name} ${auth.surname}`;
+        const userCredential = await signUpUser(auth, fullName);
 
         console.log("Sign Up successful:", userCredential.user?.email);
 

@@ -8,7 +8,7 @@ import "../signin/page.css";
 import "./page.css";
 import { useEffect } from "react";
 
-import { signUpUser } from "@/firebase/auth";
+import { signUpUser, signUpWithGoogle } from "@/firebase/auth";
 import { useRouter } from "next/navigation";
 
 export default function SignIn() {
@@ -87,6 +87,18 @@ export default function SignIn() {
           errors: { ...prevAuth.errors, email: error.message },
         }));
       }
+    }
+  };
+
+  const handleGoogleSignUp = async () => {
+    try {
+      const result = await signUpWithGoogle();
+
+      console.log("Google Sign Up successful:", result.user?.email);
+      // Additional logic
+    } catch (error: any) {
+      console.error("Error signing up with Google:", error.message);
+      // Handle Google
     }
   };
 
@@ -240,7 +252,7 @@ export default function SignIn() {
         <div className="connect-container">
           <p>Be connect with</p>
 
-          <div className="icon-connect">
+          <div className="icon-connect" onClick={handleGoogleSignUp}>
             <Image
               src="/icons/google-icon.svg"
               alt="Google icon"

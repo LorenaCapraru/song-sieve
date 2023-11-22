@@ -4,20 +4,20 @@ import {
   isPopupLoginOpenState,
   isSideBarOpenState,
   isUserLoggedInState,
-  playlistDataState,
   popupLoginTextState,
 } from "@/app/recoil/atoms";
-import "./Playlist.css";
+import "./LibraryPlaylist.css";
 import Image from "next/image";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { PlaylistData } from "@/app/recoil/atoms";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-const Playlist = () => {
-  const playlistData = useRecoilValue<PlaylistData | undefined>(
-    playlistDataState
-  );
+interface LibraryPlaylistProps {
+  playlist: PlaylistData;
+}
+
+const LibraryPlaylist: React.FC<LibraryPlaylistProps> = ({ playlist }) => {
   const [smallIdSection, setSmallIdSection] = useState(false);
   const isSideBarOpen = useRecoilValue(isSideBarOpenState);
   const isUserLoggedIn = useRecoilValue(isUserLoggedInState);
@@ -49,8 +49,6 @@ const Playlist = () => {
   //clear all values for input after clicking on playlist
   const handlePlaylistClick = (id: string) => {
     router.push(`/playlist/${id}`);
-    setIsGetPlaylistButtonClicked(false);
-    setInputSpotifyLink("");
   };
 
   //handling resize of playlist-section every time sidebar opens and closes
@@ -68,8 +66,7 @@ const Playlist = () => {
   }, []);
 
   return (
-    playlistData &&
-    isGetPlaylistButtonClicked && (
+    playlist && (
       <div
         className={
           smallIdSection
@@ -77,13 +74,13 @@ const Playlist = () => {
             : "playlist-section-wrapper"
         }
       >
-        <div className="heart-icon-container">
+        <div className="trash-icon-container">
           <Image
-            src="/icons/heart-icon.svg"
-            alt="heart icon to save"
+            src="/icons/trash-icon.svg"
+            alt="trash icon to remove playlist"
             width={25}
             height={25}
-            className="heart-save"
+            className="trash-icon"
             onClick={handleAddPlaylistToMyLibrary}
           />
         </div>
@@ -92,13 +89,13 @@ const Playlist = () => {
           className={
             smallIdSection ? "playlist-small-section" : "playlist-section"
           }
-          onClick={() => handlePlaylistClick(playlistData.id)}
+          onClick={() => handlePlaylistClick(playlist.id)}
         >
           <Image
             src={
-              playlistData?.images[0]?.url
-                ? playlistData.images[0].url
-                : "/background_images/background_2.jpg"
+              playlist?.images[0]?.url
+                ? playlist.images[0].url
+                : "/background_images/logo_back.jpg"
             }
             alt="album cover"
             width={300}
@@ -106,14 +103,13 @@ const Playlist = () => {
             className="album-cover"
           />
           <div className="playlist-brief">
-            <p className="playlist-name">{playlistData.name}</p>
-            <p className="detail">{playlistData.description}</p>
-            <p className="detail">id: {playlistData.id}</p>
-            <p className="detail">tracks: {playlistData.tracks.total}</p>
+            <p className="playlist-name">{playlist.name}</p>
+            <p className="detail">{playlist.description}</p>
+            <p className="detail">tracks: {playlist.tracks.total}</p>
           </div>
         </div>
       </div>
     )
   );
 };
-export default Playlist;
+export default LibraryPlaylist;

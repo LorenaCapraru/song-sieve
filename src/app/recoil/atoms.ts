@@ -2,6 +2,7 @@ import { atom } from "recoil";
 import { FilterOptions } from "../components/SideBar/components/FilterOptions/FilterOptions";
 import { TrackObject } from "../playlist/components/Track/Track";
 
+// INTERFACES
 export interface CurrentUser {
   id: string;
   image: string;
@@ -24,7 +25,6 @@ export interface PlaylistData {
   };
 }
 
-// ------------------> AuthState
 export interface SingInState {
   email: string;
   password: string;
@@ -47,6 +47,17 @@ export interface SignUpState {
   };
 }
 
+export interface DBFavouriteTrack {
+  spotify_id: string;
+}
+
+export interface DBLibraryPlaylist {
+  name: string;
+  spotify_id: string;
+  tracks: string[];
+}
+
+// STATES
 export const signUpState = atom<SignUpState>({
   key: "signUpState",
   default: {
@@ -119,10 +130,6 @@ export const singInState = atom<SingInState>({
   },
 });
 
-export interface DBFavouriteTrack {
-  spotify_id: string;
-}
-
 export const userTypeState = atom<string>({
   key: "userTypeState",
   default: "volunteer",
@@ -167,4 +174,10 @@ export const favouriteTracksState = atom<DBFavouriteTrack[] | undefined>({
 export const isFavouriteTracksPageState = atom<boolean>({
   key: "isFavouriteTracksPageState",
   default: false,
+});
+
+// My library page
+export const libraryPlaylistsState = atom<PlaylistData[] | undefined>({
+  key: "libraryPlaylistsState",
+  default: undefined,
 });

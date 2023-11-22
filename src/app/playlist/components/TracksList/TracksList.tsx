@@ -1,10 +1,9 @@
 "use client";
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./TracksList.css";
 import {
   playlistDataState,
   PlaylistData,
-  favouriteTracksState,
   isFavouriteTracksPageState,
   currentUserState,
   CurrentUser,
@@ -13,16 +12,12 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import Track from "../Track/Track";
 import { TrackObject } from "../Track/Track";
 import { Bars } from "react-loader-spinner";
-import { DBFavouriteTrack } from "@/app/recoil/atoms";
 import { getFavouriteTracksForUser } from "@/utils/utils";
 
 const TracksList: React.FC = () => {
   const [playlistData, setPlaylistData] = useRecoilState<
     PlaylistData | undefined
   >(playlistDataState);
-  const [favouriteTracks, setFavouriteTracks] = useRecoilState<
-    DBFavouriteTrack[] | undefined
-  >(favouriteTracksState);
   const isFavouriteTracksPage = useRecoilValue<boolean>(
     isFavouriteTracksPageState
   );

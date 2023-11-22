@@ -9,8 +9,11 @@ import "./page.css";
 import { useEffect } from "react";
 
 import { signUpUser } from "@/firebase/auth";
+import { useRouter } from "next/navigation";
 
 export default function SignIn() {
+  const router = useRouter();
+
   const [auth, setAuth] = useRecoilState<SignUpState>(signUpState);
   const [selectedOption, setSelectedOption] =
     useRecoilState<string>(userTypeState);
@@ -62,6 +65,7 @@ export default function SignIn() {
 
         console.log("Sign Up successful:", userCredential.user?.email);
 
+        // Clear form fields and errors after successful signup
         setAuth({
           name: "",
           surname: "",
@@ -74,13 +78,8 @@ export default function SignIn() {
             password: "",
           },
         });
-        setAuth((prevAuth) => ({
-          ...prevAuth,
-          errors: { name: "", surname: "", email: "", password: "" },
-        }));
-        console.log("Sign Up successful:", email);
-
-        // Perform any additional actions (e.g., redirect user to a new page)
+        // redirect user to a sign-in page or new page)
+        router.push("/signin");
       } catch (error: any) {
         console.error("Error signing up:", error.message);
         setAuth((prevAuth) => ({

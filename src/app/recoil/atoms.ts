@@ -1,7 +1,6 @@
 import { atom } from "recoil";
 import { FilterOptions } from "../components/SideBar/components/FilterOptions/FilterOptions";
 import { TrackObject } from "../playlist/components/Track/Track";
-import FavouriteTracksPage from "../favourite_tracks/page";
 
 export interface CurrentUser {
   id: string;
@@ -90,18 +89,12 @@ export const isSideBarOpenState = atom<boolean>({
 // Input.tsx state for entering the spotify id
 export const inputSpotifyIdState = atom<string>({
   key: "inputSpotifyIdState",
-  default: "37i9dQZF1E4oCVQRGUtgSv",
+  default: "",
 });
 
 export const inputSpotifyLinkState = atom<string>({
   key: "inputSpotifyLinkState",
-  default: "https://open.spotify.com/playlist/37i9dQZF1E4oCVQRGUtgSv",
-});
-
-//Playlist.tsx states for rendering data about a Playlist
-export const playlistIdState = atom<string>({
-  key: "playlistIdState",
-  default: "37i9dQZF1E4oCVQRGUtgSv",
+  default: "",
 });
 
 export const playlistDataState = atom<PlaylistData | undefined>({

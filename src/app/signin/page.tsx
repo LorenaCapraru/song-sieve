@@ -7,7 +7,12 @@ import { singInState, SingInState } from "../recoil/atoms";
 import "./page.css";
 import { useEffect } from "react";
 
+import { signInUser } from "@/firebase/auth";
+import { useRouter } from "next/navigation";
+
 export default function SignIn() {
+  const router = useRouter();
+
   const [auth, setAuth] = useRecoilState<SingInState>(singInState);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,7 +24,7 @@ export default function SignIn() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const { email, password } = auth;
     let formIsValid = true;
@@ -42,8 +47,30 @@ export default function SignIn() {
         errors: newErrors,
       }));
     } else {
-      // Handle successful login
-      console.log("Logged in:", email);
+      try {
+        const userCredential = await signInUser(auth);
+
+        console.log("Logged in:", userCredential.user?.email);
+
+        // Clear form fields and errors
+        setAuth({
+          email: "",
+          password: "",
+          errors: {
+            email: "",
+            password: "",
+          },
+        });
+
+        // redirect user to dashboard or new page)
+        router.push("/");
+      } catch (error: any) {
+        console.error("Error signing in:", error.message);
+        setAuth((prevAuth) => ({
+          ...prevAuth,
+          errors: { ...prevAuth.errors, email: error.message },
+        }));
+      }
     }
   };
 

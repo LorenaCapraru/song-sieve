@@ -5,7 +5,7 @@ import {
   UserCredential,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { SignUpState } from "../app/recoil/atoms";
+import { SignUpState, SingInState } from "../app/recoil/atoms";
 import { auth } from "./firebase";
 
 const authInstance: Auth = auth;
@@ -31,7 +31,7 @@ export async function signUpUser(
 
 // Sign In
 export async function signInUser(
-  authData: SignInState
+  authData: SingInState
 ): Promise<UserCredential> {
   const { email, password } = authData;
 

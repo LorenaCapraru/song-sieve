@@ -8,6 +8,8 @@ import "../signin/page.css";
 import "./page.css";
 import { useEffect } from "react";
 
+import { signUpUser } from "@/firebase/auth";
+
 export default function SignIn() {
   const [auth, setAuth] = useRecoilState<SignUpState>(signUpState);
   const [selectedOption, setSelectedOption] =
@@ -22,7 +24,7 @@ export default function SignIn() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const { name, surname, email, password } = auth;
     let formIsValid = true;
@@ -55,13 +57,37 @@ export default function SignIn() {
         errors: newErrors,
       }));
     } else {
-      // Reset errors on successful form submission
-      setAuth((prevAuth) => ({
-        ...prevAuth,
-        errors: { name: "", surname: "", email: "", password: "" },
-      }));
-      // Handle successful login
-      console.log("Sign Up successful:", email);
+      try {
+        const userCredential = await signUpUser(auth);
+
+        console.log("Sign Up successful:", userCredential.user?.email);
+
+        setAuth({
+          name: "",
+          surname: "",
+          email: "",
+          password: "",
+          errors: {
+            name: "",
+            surname: "",
+            email: "",
+            password: "",
+          },
+        });
+        setAuth((prevAuth) => ({
+          ...prevAuth,
+          errors: { name: "", surname: "", email: "", password: "" },
+        }));
+        console.log("Sign Up successful:", email);
+
+        // Perform any additional actions (e.g., redirect user to a new page)
+      } catch (error: any) {
+        console.error("Error signing up:", error.message);
+        setAuth((prevAuth) => ({
+          ...prevAuth,
+          errors: { ...prevAuth.errors, email: error.message },
+        }));
+      }
     }
   };
 

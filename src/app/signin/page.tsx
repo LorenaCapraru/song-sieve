@@ -89,7 +89,8 @@ export default function SignIn() {
 
   //update background image on first load
   useEffect(() => {
-    document.body.style.backgroundImage = "url(/background_images/back_3.webp)";
+    document.body.style.backgroundImage =
+      "url(/background_images/background_3.jpg)";
   }, []);
 
   return (

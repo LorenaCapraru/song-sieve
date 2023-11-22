@@ -260,11 +260,17 @@ export default function SignIn() {
               height={40}
               className="icon"
               style={{
-                filter: "invert(100%)",
                 border: "1px solid black",
                 borderRadius: "50%",
                 padding: "5px",
                 background: "white",
+                filter: "invert(100%)",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.filter = "none";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.filter = "invert(100%)";
               }}
             />
             <Image
@@ -274,11 +280,17 @@ export default function SignIn() {
               height={40}
               className="icon"
               style={{
-                filter: "invert(100%)",
                 border: "1px solid black",
                 borderRadius: "50%",
                 padding: "5px",
                 background: "white",
+                filter: "invert(100%)",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.filter = "none";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.filter = "invert(100%)";
               }}
             />
           </div>

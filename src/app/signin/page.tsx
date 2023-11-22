@@ -70,6 +70,7 @@ export default function SignIn() {
           ...prevAuth,
           errors: { ...prevAuth.errors, email: error.message },
         }));
+      }
     }
   };
 

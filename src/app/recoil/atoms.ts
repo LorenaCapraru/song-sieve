@@ -161,3 +161,17 @@ export const isMobileFilterOptionsOpenState = atom<boolean>({
   key: "isMobileFilterOptionsOpenState",
   default: false,
 });
+
+export interface CurrentUser {
+  id: string;
+  image: string;
+  name: string;
+  surname: string;
+  email: string;
+  type: string;
+}
+
+export const currentUserState = atom<CurrentUser | undefined>({
+  key: "currentUserState",
+  default: undefined,
+});

@@ -12,7 +12,12 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import Track from "../Track/Track";
 import { TrackObject } from "../Track/Track";
 import { Bars } from "react-loader-spinner";
-import { getFavouriteTracksForUser } from "@/utils/utils";
+import {
+  getFavouriteTracksForUser,
+  getIdFromLibraryPlaylistUrl,
+} from "@/utils/utils";
+import { usePathname } from "next/navigation";
+import { getOnePlaylistFromLibraryForUser } from "@/utils/utils";
 
 const TracksList: React.FC = () => {
   const [playlistData, setPlaylistData] = useRecoilState<
@@ -25,6 +30,7 @@ const TracksList: React.FC = () => {
   const [tracksArr, setTracksArr] = useState<TrackObject[] | undefined>(
     undefined
   );
+  const pathname = usePathname();
 
   // Fetches favourite tracks for a user
   useEffect(() => {
@@ -52,6 +58,27 @@ const TracksList: React.FC = () => {
         });
     }
   }, [isFavouriteTracksPage]);
+
+  //check if the url includes "custom_playlists"
+  useEffect(() => {
+    if (pathname.includes("custom_playlist") && currentUser) {
+      const id = getIdFromLibraryPlaylistUrl(pathname);
+      console.log("id");
+      if (id !== null) {
+        getOnePlaylistFromLibraryForUser(currentUser?.id, id)
+          .then((playlist) => {
+            console.log("playlist", playlist);
+            setPlaylistData(playlist);
+          })
+          .catch((error) => {
+            console.log(
+              "There was a problem with fetchin a playlist from library, ",
+              error
+            );
+          });
+      }
+    }
+  }, []);
 
   // Get tracks for all pages except Favourite_tracks
   useEffect(() => {

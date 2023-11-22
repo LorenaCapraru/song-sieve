@@ -8,8 +8,11 @@ import "./page.css";
 import { useEffect } from "react";
 
 import { signInUser } from "@/firebase/auth";
+import { useRouter } from "next/navigation";
 
 export default function SignIn() {
+  const router = useRouter();
+
   const [auth, setAuth] = useRecoilState<SingInState>(singInState);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,7 +62,8 @@ export default function SignIn() {
           },
         });
 
-        // redirect user to sign-in page or new page)
+        // redirect user to dashboard or new page)
+        router.push("/");
       } catch (error) {}
     }
   };

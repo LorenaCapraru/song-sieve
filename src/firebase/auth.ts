@@ -5,8 +5,9 @@ import {
   UserCredential,
 } from "firebase/auth";
 import { SignUpState } from "../app/recoil/atoms";
+import { auth } from "./firebase";
 
-const authInstance: Auth = getAuth(); // Initialize Firebase auth instance
+const authInstance: Auth = auth; // Initialize Firebase auth instance
 
 // Sign Up
 export async function signUpUser(

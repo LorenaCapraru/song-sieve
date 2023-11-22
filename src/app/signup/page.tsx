@@ -8,7 +8,11 @@ import "../signin/page.css";
 import "./page.css";
 import { useEffect } from "react";
 
-import { signUpUser, signUpWithGoogle } from "@/firebase/auth";
+import {
+  signUpUser,
+  signUpWithGitHub,
+  signUpWithGoogle,
+} from "@/firebase/auth";
 import { useRouter } from "next/navigation";
 
 export default function SignIn() {
@@ -98,7 +102,7 @@ export default function SignIn() {
       // Additional logic
     } catch (error: any) {
       console.error("Error signing up with Google:", error.message);
-      // Handle Google
+      // Handle Google sign-up error
     }
   };
 
@@ -252,12 +256,13 @@ export default function SignIn() {
         <div className="connect-container">
           <p>Be connect with</p>
 
-          <div className="icon-connect" onClick={handleGoogleSignUp}>
+          <div className="icon-connect">
             <Image
               src="/icons/google-icon.svg"
               alt="Google icon"
               width={40}
               height={40}
+              onClick={handleGoogleSignUp}
               className="icon"
               style={{
                 border: "1px solid black",

@@ -6,6 +6,7 @@ import {
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
+  GithubAuthProvider,
 } from "firebase/auth";
 import { SignUpState, SingInState } from "../app/recoil/atoms";
 import { auth } from "./firebase";
@@ -58,6 +59,18 @@ export async function signUpWithGoogle(): Promise<UserCredential> {
     return result;
   } catch (error: any) {
     console.error("Error signing up with Google:", error.message);
+    throw error;
+  }
+}
+
+// Sign Up/In with GitHub
+export async function signUpWithGitHub(): Promise<UserCredential> {
+  const provider = new GithubAuthProvider();
+  try {
+    const result = await signInWithPopup(authInstance, provider);
+    return result;
+  } catch (error: any) {
+    console.error("Error signing up with GitHub:", error.message);
     throw error;
   }
 }

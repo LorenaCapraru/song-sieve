@@ -99,14 +99,13 @@ fieldset input[type="checkbox"]:checked::after {
 }
 
 .create-playlist-button {
-  margin: 0 35px;
-  padding: 5px 25px;
+  padding: 5px;
   background-color: white;
   border: 1px solid white;
   border-radius: 10px;
   color: black;
   font-family: var(--font);
-  font-size: 16px;
+  font-size: 12px;
   cursor: pointer;
   transition: all ease-in-out 200ms;
 }
@@ -120,4 +119,11 @@ fieldset input[type="checkbox"]:checked::after {
 .filter-result {
   margin-left: 35px;
   margin-top: 30px;
+}
+
+@media (min-width: 768px) {
+  .create-playlist-button {
+    padding: 5px 15px;
+    font-size: 14px;
+  }
 }

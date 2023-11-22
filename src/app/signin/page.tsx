@@ -4,15 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRecoilState } from "recoil";
 import { singInState, SingInState } from "../recoil/atoms";
-import { signInWithEmailAndPassword } from "@/firebase/auth"; // Assuming this is correctly configured
-import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
 import "./page.css";
+import { useEffect } from "react";
 
 export default function SignIn() {
   const [auth, setAuth] = useRecoilState<SingInState>(singInState);
-  const [error, setError] = useState<string>("");
-  const router = useRouter();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -23,7 +19,7 @@ export default function SignIn() {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const { email, password } = auth;
     let formIsValid = true;
@@ -46,29 +42,8 @@ export default function SignIn() {
         errors: newErrors,
       }));
     } else {
-      try {
-        const user = await signInWithEmailAndPassword(email, password);
-        console.log("Sign In successful:", user.email);
-        router.push("/"); // Redirect to home page after successful login
-
-        setAuth({
-          email: "",
-          password: "",
-          errors: {
-            email: "",
-            password: "",
-          },
-        });
-      } catch (error: any) {
-        if (error.code === "auth/email-already-in-use") {
-          setError(
-            "Email is already registered. Try signing in or reset the password."
-          );
-          // Handle this error scenario by displaying a message to the user
-        } else {
-          setError("An error occurred during sign-up");
-        }
-      }
+      // Handle successful login
+      console.log("Logged in:", email);
     }
   };
 
@@ -84,6 +59,11 @@ export default function SignIn() {
       });
     };
   }, [setAuth]);
+
+  //update background image on first load
+  useEffect(() => {
+    document.body.style.backgroundImage = "url(/background_images/back_3.webp)";
+  }, []);
 
   return (
     <main className="bg-template auth-template">

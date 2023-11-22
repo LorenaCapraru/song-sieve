@@ -53,7 +53,7 @@ export interface DBFavouriteTrack {
 
 export interface DBLibraryPlaylist {
   name: string;
-  spotify_id: string;
+  custom_id: string;
   tracks: string[];
 }
 

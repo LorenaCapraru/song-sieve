@@ -3,3 +3,8 @@
   border-radius: 20px;
   padding: 20px;
 }
+
+.library-loader {
+  display: flex;
+  justify-content: center;
+}

@@ -98,7 +98,7 @@ const Playlist = () => {
             src={
               playlistData?.images[0]?.url
                 ? playlistData.images[0].url
-                : "/background_images/background_2.jpg"
+                : "/background_images/logo_back.jpg"
             }
             alt="album cover"
             width={300}

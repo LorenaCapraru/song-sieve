@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./MainLibrary.css";
 import { getPlaylistsFromLibraryForUser } from "@/utils/utils";
 import LibraryPlaylist from "../Playlist/LibraryPlaylist";
@@ -9,6 +9,7 @@ import {
   currentUserState,
   libraryPlaylistsState,
 } from "@/app/recoil/atoms";
+import { Bars } from "react-loader-spinner";
 
 const MainLibrary = () => {
   const currentUser = useRecoilValue<CurrentUser | undefined>(currentUserState);
@@ -19,8 +20,9 @@ const MainLibrary = () => {
   useEffect(() => {
     document.body.style.backgroundImage = "url(/background_images/back_2.webp)";
   }, []);
+  const [isPlaylistRemoved, setIsPlaylistRemoved] = useState<boolean>(false);
 
-  // Fetches favourite tracks for a user
+  // Fetches library playlists for a user
   useEffect(() => {
     if (currentUser) {
       getPlaylistsFromLibraryForUser(currentUser.id)
@@ -33,15 +35,44 @@ const MainLibrary = () => {
     }
   }, []);
 
+  //fetch library playlists when user is removed
+  useEffect(() => {
+    console.log("isplaylist removes", isPlaylistRemoved);
+    if (currentUser) {
+      setIsPlaylistRemoved(false);
+      getPlaylistsFromLibraryForUser(currentUser.id)
+        .then((playlistItems) => {
+          setLibraryPlaylists(playlistItems);
+        })
+        .catch((error) => {
+          console.error("Error fetching playlists from library: ", error);
+        });
+    }
+  }, [isPlaylistRemoved]);
+
   return (
     <div className="main-section">
       <div className="library-container">
         <h2>My library</h2>
         <div className="library-playlists-container">
-          {libraryPlaylists &&
+          {libraryPlaylists ? (
             libraryPlaylists.map((playlist, index) => (
-              <LibraryPlaylist key={index} playlist={playlist} />
-            ))}
+              <LibraryPlaylist
+                key={index}
+                playlist={playlist}
+                setIsPlaylistRemoved={setIsPlaylistRemoved}
+              />
+            ))
+          ) : (
+            <div className="library-loader">
+              <Bars
+                height="70"
+                width="70"
+                color="var(--trans-white)"
+                ariaLabel="loading"
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>

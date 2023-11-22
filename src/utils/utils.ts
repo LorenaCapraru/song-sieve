@@ -1,6 +1,13 @@
 import { TrackObject } from "@/app/playlist/components/Track/Track";
 import { db } from "@/firebase/firebase";
-import { collection, getDocs } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  doc,
+  deleteDoc,
+  query,
+  where,
+} from "firebase/firestore";
 import {
   DBFavouriteTrack,
   DBLibraryPlaylist,
@@ -62,6 +69,15 @@ export const shortenString = (input: string, maxLength: number): string => {
   }
 
   return input;
+};
+
+export const getIdFromLibraryPlaylistUrl = (inputString: string) => {
+  const parts = inputString.split("/");
+  return parts[parts.length - 1];
+};
+
+export const convertToSnakeCase = (input: string): string => {
+  return input.toLowerCase().replace(/\s/g, "_");
 };
 
 // Fetches and return a single track from Spotify API
@@ -135,7 +151,7 @@ export const getFavouriteTracksForUser = async (userId: string) => {
   return tracksList;
 };
 
-//fetching a list of favourite tracks from db
+//fetching a list of playlists from library
 export const getPlaylistsFromLibraryForUser = async (userId: string) => {
   const playlistsFromLibraryRef = collection(db, "users", userId, "library");
   const querySnapshot = await getDocs(playlistsFromLibraryRef);
@@ -144,8 +160,6 @@ export const getPlaylistsFromLibraryForUser = async (userId: string) => {
   querySnapshot.forEach((doc) => {
     arrayWithPlaylistsFromLibrary.push(doc.data() as DBLibraryPlaylist);
   });
-
-  console.log("arrayWithPlaylistsFromLibrary", arrayWithPlaylistsFromLibrary);
 
   const libraryPlaylists: PlaylistData[] = [];
 
@@ -162,18 +176,17 @@ export const getPlaylistsFromLibraryForUser = async (userId: string) => {
         }
       }
 
-      console.log("pid", playlist.spotify_id);
       //fetch info about all playlists
       let playlistSpotifyObject: PlaylistData | undefined = undefined;
 
-      if (playlist.spotify_id !== "custom_playlist") {
-        playlistSpotifyObject = await fetchPlaylist(playlist.spotify_id);
+      if (!playlist.custom_id.includes("custom_playlist")) {
+        playlistSpotifyObject = await fetchPlaylist(playlist.custom_id);
       }
 
       const libraryPlaylistData: PlaylistData = {
         name: playlist.name,
         description: "Custom playlist",
-        id: playlist.spotify_id,
+        id: playlist.custom_id,
         images: playlistSpotifyObject ? playlistSpotifyObject.images : [],
         tracks: {
           total: tracksList.length,
@@ -185,7 +198,75 @@ export const getPlaylistsFromLibraryForUser = async (userId: string) => {
     }
   }
 
-  console.log("libraryPlaylists", libraryPlaylists);
-
   return libraryPlaylists;
+};
+
+//fetching one playlist from library
+export const getOnePlaylistFromLibraryForUser = async (
+  userId: string,
+  playlistId: string
+) => {
+  const playlistsFromLibraryRef = collection(db, "users", userId, "library");
+  const querySnapshot = await getDocs(playlistsFromLibraryRef);
+  const arrayWithPlaylistsFromLibrary: DBLibraryPlaylist[] = [];
+
+  querySnapshot.forEach((doc) => {
+    arrayWithPlaylistsFromLibrary.push(doc.data() as DBLibraryPlaylist);
+  });
+
+  const findPlaylistByCustomId = (
+    customId: string
+  ): DBLibraryPlaylist | undefined => {
+    return arrayWithPlaylistsFromLibrary.find(
+      (playlist) => playlist.custom_id === customId
+    );
+  };
+
+  const foundPlaylist = findPlaylistByCustomId(playlistId);
+  let playlist: PlaylistData | undefined = undefined;
+
+  if (foundPlaylist) {
+    const tracksList: Array<{ track: TrackObject }> = [];
+    if (foundPlaylist.tracks.length > 0) {
+      for (const track of foundPlaylist.tracks) {
+        const trackObject = await fetchTrack(track);
+        if (trackObject) {
+          tracksList.push({ track: trackObject });
+        }
+      }
+    }
+
+    playlist = {
+      name: foundPlaylist.name,
+      description: "Custom playlist",
+      id: foundPlaylist.custom_id,
+      images: [],
+      tracks: {
+        total: tracksList.length,
+        items: tracksList,
+      },
+    };
+  }
+
+  return playlist;
+};
+
+export const removePlaylistFromLibrary = async (
+  userId: string,
+  playlistId: string
+) => {
+  const libraryRef = collection(db, "users", userId, "library");
+
+  const q = query(libraryRef, where("custom_id", "==", playlistId));
+  try {
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach(async (doc) => {
+      await deleteDoc(doc.ref);
+      console.log("Document successfully deleted!");
+    });
+    return true;
+  } catch (error) {
+    console.error("Error removing playlist:", error);
+    return false;
+  }
 };

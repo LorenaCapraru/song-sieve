@@ -1,5 +1,7 @@
 .playlist-section-wrapper {
   position: relative;
+  width: 250px;
+  margin: 20px auto;
 }
 
 .playlist-small-section-wrapper {
@@ -44,7 +46,7 @@
 
 .album-cover {
   border-radius: 10%;
-  width: 50%;
+  width: 100%;
   height: auto;
 }
 
@@ -112,6 +114,6 @@
   }
 
   .playlist-section .album-cover {
-    width: 100px;
+    width: 60px;
   }
 }

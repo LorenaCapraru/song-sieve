@@ -1,39 +1,35 @@
-import {
-  inputSpotifyLinkState,
-  isGetPlaylistButtonClickedState,
-  isPopupLoginOpenState,
-  isSideBarOpenState,
-  isUserLoggedInState,
-  popupLoginTextState,
-} from "@/app/recoil/atoms";
+import { currentUserState, isSideBarOpenState } from "@/app/recoil/atoms";
 import "./LibraryPlaylist.css";
 import Image from "next/image";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { PlaylistData } from "@/app/recoil/atoms";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { removePlaylistFromLibrary } from "@/utils/utils";
 
 interface LibraryPlaylistProps {
   playlist: PlaylistData;
+  setIsPlaylistRemoved: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const LibraryPlaylist: React.FC<LibraryPlaylistProps> = ({ playlist }) => {
+const LibraryPlaylist: React.FC<LibraryPlaylistProps> = ({
+  playlist,
+  setIsPlaylistRemoved,
+}) => {
   const [smallIdSection, setSmallIdSection] = useState(false);
   const isSideBarOpen = useRecoilValue(isSideBarOpenState);
-  const isUserLoggedIn = useRecoilValue(isUserLoggedInState);
-  const setIsPopupLoginOpen = useSetRecoilState(isPopupLoginOpenState);
-  const setPopupLoginText = useSetRecoilState(popupLoginTextState);
-  const [isGetPlaylistButtonClicked, setIsGetPlaylistButtonClicked] =
-    useRecoilState(isGetPlaylistButtonClickedState);
-  const setInputSpotifyLink = useSetRecoilState(inputSpotifyLinkState);
+  const currentUser = useRecoilValue(currentUserState);
   const router = useRouter();
 
-  const handleAddPlaylistToMyLibrary = () => {
-    if (!isUserLoggedIn) {
-      setIsPopupLoginOpen(true);
-      setPopupLoginText("add playlist to your library");
-    } else {
-      //add playlist to library - make a request to db
+  const handleRemovePlaylistFromMyLibrary = () => {
+    if (currentUser) {
+      removePlaylistFromLibrary(currentUser?.id, playlist.id)
+        .then((isPlaylistRemoved) => {
+          setIsPlaylistRemoved(isPlaylistRemoved);
+        })
+        .catch((error) => {
+          console.log("There was a problem with removing the playlist", error);
+        });
     }
   };
 
@@ -46,7 +42,6 @@ const LibraryPlaylist: React.FC<LibraryPlaylistProps> = ({ playlist }) => {
     }
   };
 
-  //clear all values for input after clicking on playlist
   const handlePlaylistClick = (id: string) => {
     router.push(`/playlist/${id}`);
   };
@@ -81,7 +76,7 @@ const LibraryPlaylist: React.FC<LibraryPlaylistProps> = ({ playlist }) => {
             width={25}
             height={25}
             className="trash-icon"
-            onClick={handleAddPlaylistToMyLibrary}
+            onClick={handleRemovePlaylistFromMyLibrary}
           />
         </div>
 

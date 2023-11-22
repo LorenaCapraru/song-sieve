@@ -64,7 +64,12 @@ export default function SignIn() {
 
         // redirect user to dashboard or new page)
         router.push("/");
-      } catch (error) {}
+      } catch (error: any) {
+        console.error("Error signing in:", error.message);
+        setAuth((prevAuth) => ({
+          ...prevAuth,
+          errors: { ...prevAuth.errors, email: error.message },
+        }));
     }
   };
 

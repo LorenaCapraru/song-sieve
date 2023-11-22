@@ -1,4 +1,6 @@
 import { atom } from "recoil";
+import { FilterOptions } from "../components/SideBar/components/FilterOptions/FilterOptions";
+import { TrackObject } from "../playlist/components/Track/Track";
 
 export const isUserLoggedInState = atom<boolean>({
   key: "isUserLoggedInState",
@@ -14,18 +16,18 @@ export const isSideBarOpenState = atom<boolean>({
 // Input.tsx state for entering the spotify id
 export const inputSpotifyIdState = atom<string>({
   key: "inputSpotifyIdState",
-  default: "",
+  default: "37i9dQZF1E4oCVQRGUtgSv",
 });
 
 export const inputSpotifyLinkState = atom<string>({
   key: "inputSpotifyLinkState",
-  default: "",
+  default: "https://open.spotify.com/playlist/37i9dQZF1E4oCVQRGUtgSv",
 });
 
 //Playlist.tsx states for rendering data about a Playlist
 export const playlistIdState = atom<string>({
   key: "playlistIdState",
-  default: "",
+  default: "37i9dQZF1E4oCVQRGUtgSv",
 });
 
 export interface PlaylistData {
@@ -37,11 +39,25 @@ export interface PlaylistData {
   }>;
   tracks: {
     total: number;
+    items: Array<{ track: TrackObject }>;
   };
+}
+
+export interface DBPlaylistData {
+  id: string;
+  spotifyId: string;
+  name: string;
 }
 
 export const playlistDataState = atom<PlaylistData | undefined>({
   key: "playlistDataState",
+  default: undefined,
+});
+
+//  const [tracksArr, setTracksArr] = useState<TrackObject[]>([]);
+
+export const tracksArrState = atom<TrackObject[] | undefined>({
+  key: "tracksArrState",
   default: undefined,
 });
 
@@ -99,4 +115,49 @@ export const signUpState = atom<SignUpState>({
 export const userTypeState = atom<string>({
   key: "userTypeState",
   default: "volunteer",
+});
+
+//PopupLogin.tsx
+export const isPopupLoginOpenState = atom<boolean>({
+  key: "isPopupLoginOpenState",
+  default: false,
+});
+
+export const popupLoginTextState = atom<string>({
+  key: "popupLoginTextState",
+  default: "",
+});
+
+export const myLibraryPlaylistsState = atom<DBPlaylistData[] | undefined>({
+  key: "myLibraryPlaylistsState",
+  default: undefined,
+});
+
+//TrackList.tsx and Track.tsx
+export const isPopupConfirmOpenState = atom<boolean>({
+  key: "isPopupConfirmOpenState",
+  default: false,
+});
+
+export const popupConfirmTextState = atom<string>({
+  key: "popupConfirmTextState",
+  default: "",
+});
+
+// Home page - popular playlists sections
+export const popularPlaylistsState = atom<PlaylistData[] | undefined>({
+  key: "popularPlaylistsState",
+  default: undefined,
+});
+
+//FilterOptions.tsx
+export const filterOptionsState = atom<FilterOptions>({
+  key: "filterOptionsState",
+  default: { selectedDuration: null, explicit: null },
+});
+
+//PlaylistHeader.tsx and FilterOptions.tsx
+export const isMobileFilterOptionsOpenState = atom<boolean>({
+  key: "isMobileFilterOptionsOpenState",
+  default: false,
 });

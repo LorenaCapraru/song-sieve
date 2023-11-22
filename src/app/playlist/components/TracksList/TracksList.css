@@ -1,0 +1,50 @@
+.tracks-list-main {
+  max-height: 35vh;
+  overflow-y: auto;
+  padding: 0px 30px 30px 30px;
+}
+
+.tracks-table {
+  width: 100%;
+  height: 100%;
+  border-collapse: collapse;
+  border-spacing: 15px 10px;
+  font-size: 12px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.tracks-table-header tr {
+  font-weight: 200;
+  font-size: 14px;
+  border-bottom: 1px solid white;
+}
+
+td {
+  min-width: 30px;
+  cursor: pointer;
+}
+
+thead td {
+  padding: 0 5px 5px 5px;
+  vertical-align: bottom;
+}
+
+tbody td {
+  padding: 10px 5px;
+}
+
+td:first-child {
+  padding-left: 20px;
+  border-radius: 10px 0 0 10px;
+}
+
+td:last-child {
+  padding-right: 20px;
+  border-radius: 0 10px 10px 0;
+}
+
+.tracklist-loader {
+  display: flex;
+  justify-content: center;
+}

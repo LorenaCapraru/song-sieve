@@ -8,12 +8,9 @@ import "../signin/page.css";
 import "./page.css";
 import { useEffect } from "react";
 
-import {
-  signUpUser,
-  signUpWithGitHub,
-  signUpWithGoogle,
-} from "@/firebase/auth";
+import { signUpUser } from "@/firebase/auth";
 import { useRouter } from "next/navigation";
+import GoogleGithub from "../signin/components/GoogleGithub";
 
 export default function SignIn() {
   const router = useRouter();
@@ -91,30 +88,6 @@ export default function SignIn() {
           errors: { ...prevAuth.errors, email: error.message },
         }));
       }
-    }
-  };
-
-  const handleGoogleSignUp = async () => {
-    try {
-      const result = await signUpWithGoogle();
-
-      console.log("Google Sign Up successful:", result.user?.email);
-      // Additional logic
-    } catch (error: any) {
-      console.error("Error signing up with Google:", error.message);
-      // Handle Google sign-up error
-    }
-  };
-
-  const handleGithubSignUp = async () => {
-    try {
-      const result = await signUpWithGitHub();
-
-      console.log("GitHub Sign Up successful:", result.user?.email);
-      // Additional logic
-    } catch (error: any) {
-      console.error("Error signing up with GitHub:", error.message);
-      // Handle GitHub sign-up error
     }
   };
 
@@ -265,62 +238,15 @@ export default function SignIn() {
           </form>
         </div>
 
+        <GoogleGithub />
+
         <div className="connect-container">
-          <p>Be connect with</p>
-
-          <div className="icon-connect">
-            <Image
-              src="/icons/google-icon.svg"
-              alt="Google icon"
-              width={40}
-              height={40}
-              onClick={handleGoogleSignUp}
-              className="icon"
-              style={{
-                border: "1px solid black",
-                borderRadius: "50%",
-                padding: "5px",
-                background: "white",
-                filter: "invert(100%)",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.filter = "none";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.filter = "invert(100%)";
-              }}
-            />
-            <Image
-              src="/icons/github-icon.svg"
-              alt="GitHub icon"
-              width={40}
-              height={40}
-              className="icon"
-              onClick={handleGithubSignUp}
-              style={{
-                border: "1px solid black",
-                borderRadius: "50%",
-                padding: "5px",
-                background: "white",
-                filter: "invert(100%)",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.filter = "none";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.filter = "invert(100%)";
-              }}
-            />
-          </div>
-
-          <div className="connect-container">
-            <p>
-              Already have an account!{" "}
-              <Link href="/signin" className="sign-link">
-                Sign in
-              </Link>
-            </p>
-          </div>
+          <p>
+            Already have an account!{" "}
+            <Link href="/signin" className="sign-link">
+              Sign in
+            </Link>
+          </p>
         </div>
       </section>
     </main>

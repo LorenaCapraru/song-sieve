@@ -1,8 +1,10 @@
 import {
+  CurrentUser,
   isPopupConfirmOpenState,
   popupConfirmTextState,
 } from "@/app/recoil/atoms";
 import { signUpWithGitHub, signUpWithGoogle } from "@/firebase/auth";
+import { addUserToDatabase } from "@/utils/utils";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useSetRecoilState } from "recoil";
@@ -16,9 +18,30 @@ export default function GoogleGithub() {
 
   const handleGoogleSignUp = async () => {
     try {
-      const result = await signUpWithGoogle();
+      const userCredential = await signUpWithGoogle();
+      const user = userCredential.user;
+      if (user && user.email) {
+        let userName = "";
+        let userSurname = "";
+        if (user.displayName !== null) {
+          const nameParts = user.displayName.split(" ");
+          userName = nameParts[0];
+          userSurname = nameParts[1];
+        }
 
-      console.log("Google Sign Up successful:", result.user?.email);
+        const userInput: CurrentUser = {
+          id: user.uid,
+          image: "",
+          name: userName,
+          surname: userSurname,
+          email: user.email,
+          type: "",
+        };
+
+        addUserToDatabase(userInput);
+      }
+
+      console.log("Google Sign Up successful:", userCredential.user?.email);
       router.push("/");
       setPopupConfirmText("You have been successfully logged in!");
       setIsPopupConfirmOpen(true);
@@ -30,9 +53,31 @@ export default function GoogleGithub() {
 
   const handleGithubSignUp = async () => {
     try {
-      const result = await signUpWithGitHub();
+      const userCredential = await signUpWithGitHub();
 
-      console.log("GitHub Sign Up successful:", result.user?.email);
+      const user = userCredential.user;
+      if (user && user.email) {
+        let userName = "";
+        let userSurname = "";
+        if (user.displayName !== null) {
+          const nameParts = user.displayName.split(" ");
+          userName = nameParts[0];
+          userSurname = nameParts[1];
+        }
+
+        const userInput: CurrentUser = {
+          id: user.uid,
+          image: "",
+          name: userName,
+          surname: userSurname,
+          email: user.email,
+          type: "",
+        };
+
+        addUserToDatabase(userInput);
+      }
+
+      console.log("GitHub Sign Up successful:", userCredential.user?.email);
       router.push("/");
       setPopupConfirmText("You have been successfully logged in!");
       setIsPopupConfirmOpen(true);

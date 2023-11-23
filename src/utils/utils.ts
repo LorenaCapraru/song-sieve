@@ -3,12 +3,15 @@ import { db } from "@/firebase/firebase";
 import {
   collection,
   getDocs,
-  doc,
   deleteDoc,
   query,
   where,
+  setDoc,
+  doc,
+  getDoc,
 } from "firebase/firestore";
 import {
+  CurrentUser,
   DBFavouriteTrack,
   DBLibraryPlaylist,
   PlaylistData,
@@ -274,5 +277,62 @@ export const removePlaylistFromLibrary = async (
   } catch (error) {
     console.error("Error removing playlist:", error);
     return false;
+  }
+};
+
+//Add user data to db
+export const addUserToDatabase = async (user: CurrentUser) => {
+  const usersCollection = collection(db, "users");
+
+  try {
+    const userDocRef = doc(usersCollection, user.id); // Use user's ID as the document ID
+    const userSnapshot = await getDoc(userDocRef);
+
+    if (userSnapshot.exists()) {
+      console.log("User already exists in database. Not adding again.");
+    } else {
+      // User doesn't exist, add the user to database
+      await setDoc(userDocRef, {
+        image: user.image,
+        name: user.name,
+        surname: user.surname,
+        email: user.email,
+        type: user.type,
+      });
+
+      // Create empty collections for the user
+      const favouriteTracksRef = collection(userDocRef, "favourite_tracks");
+      const libraryRef = collection(userDocRef, "library");
+
+      //Create fake objects
+      const fakeFavouriteTrack: DBFavouriteTrack = {
+        spotify_id: "11111111",
+      };
+
+      const fakeLibraryPlaylist: DBLibraryPlaylist = {
+        name: "",
+        custom_id: "11111111",
+        tracks: [],
+      };
+
+      // Add empty documents to the collections with custom IDs
+      await setDoc(
+        doc(favouriteTracksRef, fakeFavouriteTrack.spotify_id),
+        fakeFavouriteTrack
+      );
+      await setDoc(
+        doc(libraryRef, fakeLibraryPlaylist.custom_id),
+        fakeLibraryPlaylist
+      );
+
+      console.log(
+        "User data and empty collections added to database successfully!"
+      );
+    }
+  } catch (error) {
+    console.error(
+      "Error checking/adding user data and collections in database:",
+      error
+    );
   }
 };

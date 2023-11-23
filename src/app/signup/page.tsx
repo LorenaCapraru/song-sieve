@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
+  CurrentUser,
   isPopupConfirmOpenState,
   popupConfirmTextState,
   signUpState,
@@ -17,6 +18,7 @@ import { useEffect } from "react";
 import { signUpUser } from "@/firebase/auth";
 import { useRouter } from "next/navigation";
 import GoogleGithub from "../signin/components/GoogleGithub";
+import { addUserToDatabase } from "@/utils/utils";
 
 export default function SignIn() {
   const router = useRouter();
@@ -74,6 +76,28 @@ export default function SignIn() {
       try {
         const fullName = `${auth.name} ${auth.surname}`;
         const userCredential = await signUpUser(auth, fullName);
+
+        const user = userCredential.user;
+        if (user && user.email) {
+          let userName = "";
+          let userSurname = "";
+          if (user.displayName !== null) {
+            const nameParts = user.displayName.split(" ");
+            userName = nameParts[0];
+            userSurname = nameParts[1];
+          }
+
+          const userInput: CurrentUser = {
+            id: user.uid,
+            image: "",
+            name: userName,
+            surname: userSurname,
+            email: user.email,
+            type: selectedOption,
+          };
+
+          addUserToDatabase(userInput);
+        }
 
         console.log("Sign Up successful:", userCredential.user?.email);
 

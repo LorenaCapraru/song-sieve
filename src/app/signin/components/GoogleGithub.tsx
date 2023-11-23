@@ -1,9 +1,18 @@
+import {
+  isPopupConfirmOpenState,
+  popupConfirmTextState,
+} from "@/app/recoil/atoms";
 import { signUpWithGitHub, signUpWithGoogle } from "@/firebase/auth";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useSetRecoilState } from "recoil";
 
 export default function GoogleGithub() {
   const router = useRouter();
+  const setIsPopupConfirmOpen = useSetRecoilState<boolean>(
+    isPopupConfirmOpenState
+  );
+  const setPopupConfirmText = useSetRecoilState<string>(popupConfirmTextState);
 
   const handleGoogleSignUp = async () => {
     try {
@@ -11,6 +20,8 @@ export default function GoogleGithub() {
 
       console.log("Google Sign Up successful:", result.user?.email);
       router.push("/");
+      setPopupConfirmText("You have been successfully logged in!");
+      setIsPopupConfirmOpen(true);
     } catch (error: any) {
       console.error("Error signing up with Google:", error.message);
       // Handle Google sign-up error
@@ -23,6 +34,8 @@ export default function GoogleGithub() {
 
       console.log("GitHub Sign Up successful:", result.user?.email);
       router.push("/");
+      setPopupConfirmText("You have been successfully logged in!");
+      setIsPopupConfirmOpen(true);
     } catch (error: any) {
       console.error("Error signing up with GitHub:", error.message);
       // Handle GitHub sign-up error

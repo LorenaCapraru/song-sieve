@@ -1,5 +1,6 @@
 "use client";
 import {
+  isFavouriteTracksPageState,
   isPopupLoginOpenState,
   isSideBarOpenState,
   isUserLoggedInState,
@@ -17,6 +18,9 @@ const SideBar = () => {
   const [isSideBarOpen, setIsSideBarOpen] = useRecoilState(isSideBarOpenState);
   const isUserLoggedIn = useRecoilValue(isUserLoggedInState);
   const [isPlaylistPage, setIsPlaylistPage] = useState<boolean>(false);
+  const isFavouriteTracksPage = useRecoilValue<boolean>(
+    isFavouriteTracksPageState
+  );
   const pathname = usePathname();
   const router = useRouter();
   const setIsPopupLoginOpen = useSetRecoilState(isPopupLoginOpenState);
@@ -116,6 +120,7 @@ const SideBar = () => {
             </ul>
           </nav>
           {isPlaylistPage && <FilterOptions />}
+          {isFavouriteTracksPage && <FilterOptions />}
         </>
       )}
     </div>

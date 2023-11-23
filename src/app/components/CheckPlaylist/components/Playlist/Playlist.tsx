@@ -1,4 +1,6 @@
 import {
+  inputSpotifyLinkState,
+  isGetPlaylistButtonClickedState,
   isPopupLoginOpenState,
   isSideBarOpenState,
   isUserLoggedInState,
@@ -7,10 +9,10 @@ import {
 } from "@/app/recoil/atoms";
 import "./Playlist.css";
 import Image from "next/image";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { PlaylistData } from "@/app/recoil/atoms";
 import { useEffect, useState } from "react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const Playlist = () => {
   const playlistData = useRecoilValue<PlaylistData | undefined>(
@@ -21,6 +23,10 @@ const Playlist = () => {
   const isUserLoggedIn = useRecoilValue(isUserLoggedInState);
   const setIsPopupLoginOpen = useSetRecoilState(isPopupLoginOpenState);
   const setPopupLoginText = useSetRecoilState(popupLoginTextState);
+  const [isGetPlaylistButtonClicked, setIsGetPlaylistButtonClicked] =
+    useRecoilState(isGetPlaylistButtonClickedState);
+  const setInputSpotifyLink = useSetRecoilState(inputSpotifyLinkState);
+  const router = useRouter();
 
   const handleAddPlaylistToMyLibrary = () => {
     if (!isUserLoggedIn) {
@@ -40,6 +46,13 @@ const Playlist = () => {
     }
   };
 
+  //clear all values for input after clicking on playlist
+  const handlePlaylistClick = (id: string) => {
+    router.push(`/playlist/${id}`);
+    setIsGetPlaylistButtonClicked(false);
+    setInputSpotifyLink("");
+  };
+
   //handling resize of playlist-section every time sidebar opens and closes
   useEffect(() => {
     setTimeout(handleResize, 200);
@@ -55,7 +68,8 @@ const Playlist = () => {
   }, []);
 
   return (
-    playlistData && (
+    playlistData &&
+    isGetPlaylistButtonClicked && (
       <div className="playlist-section-wrapper">
         <div className="heart-icon-container">
           <Image
@@ -68,31 +82,31 @@ const Playlist = () => {
           />
         </div>
 
-        <Link href={`/playlist/${playlistData.id}`}>
-          <div
-            className={
-              smallIdSection ? "playlist-small-section" : "playlist-section"
+        {/* <Link href={`/playlist/${playlistData.id}`}> */}
+        <div
+          className={
+            smallIdSection ? "playlist-small-section" : "playlist-section"
+          }
+          onClick={() => handlePlaylistClick(playlistData.id)}
+        >
+          <Image
+            src={
+              playlistData?.images[0]?.url
+                ? playlistData.images[0].url
+                : "/background_images/background_2.jpg"
             }
-          >
-            <Image
-              src={
-                playlistData?.images[0]?.url
-                  ? playlistData.images[0].url
-                  : "/background_images/background_2.jpg"
-              }
-              alt="album cover"
-              width={300}
-              height={300}
-              className="album-cover"
-            />
-            <div className="playlist-brief">
-              <p className="playlist-name">{playlistData.name}</p>
-              <p className="detail">{playlistData.description}</p>
-              <p className="detail">id: {playlistData.id}</p>
-              <p className="detail">tracks: {playlistData.tracks.total}</p>
-            </div>
+            alt="album cover"
+            width={300}
+            height={300}
+            className="album-cover"
+          />
+          <div className="playlist-brief">
+            <p className="playlist-name">{playlistData.name}</p>
+            <p className="detail">{playlistData.description}</p>
+            <p className="detail">id: {playlistData.id}</p>
+            <p className="detail">tracks: {playlistData.tracks.total}</p>
           </div>
-        </Link>
+        </div>
       </div>
     )
   );

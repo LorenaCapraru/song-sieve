@@ -2,33 +2,14 @@ import { atom } from "recoil";
 import { FilterOptions } from "../components/SideBar/components/FilterOptions/FilterOptions";
 import { TrackObject } from "../playlist/components/Track/Track";
 
-export const isUserLoggedInState = atom<boolean>({
-  key: "isUserLoggedInState",
-  default: false,
-});
-
-//sidebar page and header page
-export const isSideBarOpenState = atom<boolean>({
-  key: "isSideBarOpenState",
-  default: true,
-});
-
-// Input.tsx state for entering the spotify id
-export const inputSpotifyIdState = atom<string>({
-  key: "inputSpotifyIdState",
-  default: "37i9dQZF1E4oCVQRGUtgSv",
-});
-
-export const inputSpotifyLinkState = atom<string>({
-  key: "inputSpotifyLinkState",
-  default: "https://open.spotify.com/playlist/37i9dQZF1E4oCVQRGUtgSv",
-});
-
-//Playlist.tsx states for rendering data about a Playlist
-export const playlistIdState = atom<string>({
-  key: "playlistIdState",
-  default: "37i9dQZF1E4oCVQRGUtgSv",
-});
+export interface CurrentUser {
+  id: string;
+  image: string;
+  name: string;
+  surname: string;
+  email: string;
+  type: string;
+}
 
 export interface PlaylistData {
   name: string;
@@ -49,13 +30,6 @@ export interface DBPlaylistData {
   name: string;
 }
 
-export const playlistDataState = atom<PlaylistData | undefined>({
-  key: "playlistDataState",
-  default: undefined,
-});
-
-//  const [tracksArr, setTracksArr] = useState<TrackObject[]>([]);
-
 export const tracksArrState = atom<TrackObject[] | undefined>({
   key: "tracksArrState",
   default: undefined,
@@ -70,18 +44,6 @@ export interface SingInState {
     password: string;
   };
 }
-
-export const singInState = atom<SingInState>({
-  key: "singInState",
-  default: {
-    email: "",
-    password: "",
-    errors: {
-      email: "",
-      password: "",
-    },
-  },
-});
 
 export interface SignUpState {
   email: string;
@@ -111,6 +73,54 @@ export const signUpState = atom<SignUpState>({
     },
   },
 });
+
+export const isUserLoggedInState = atom<boolean>({
+  key: "isUserLoggedInState",
+  default: true,
+});
+
+//sidebar page and header page
+export const isSideBarOpenState = atom<boolean>({
+  key: "isSideBarOpenState",
+  default: true,
+});
+
+// Input.tsx state for entering the spotify id
+export const inputSpotifyIdState = atom<string>({
+  key: "inputSpotifyIdState",
+  default: "",
+});
+
+export const inputSpotifyLinkState = atom<string>({
+  key: "inputSpotifyLinkState",
+  default: "",
+});
+
+export const playlistDataState = atom<PlaylistData | undefined>({
+  key: "playlistDataState",
+  default: undefined,
+});
+
+export const isGetPlaylistButtonClickedState = atom<boolean>({
+  key: "isGetPlaylistButtonClickedState",
+  default: false,
+});
+
+export const singInState = atom<SingInState>({
+  key: "singInState",
+  default: {
+    email: "",
+    password: "",
+    errors: {
+      email: "",
+      password: "",
+    },
+  },
+});
+
+export interface DBFavouriteTrack {
+  spotify_id: string;
+}
 
 export const userTypeState = atom<string>({
   key: "userTypeState",
@@ -162,14 +172,17 @@ export const isMobileFilterOptionsOpenState = atom<boolean>({
   default: false,
 });
 
-export interface CurrentUser {
-  id: string;
-  image: string;
-  name: string;
-  surname: string;
-  email: string;
-  type: string;
-}
+// FavouriteTracksPage.tsx
+export const favouriteTracksState = atom<DBFavouriteTrack[] | undefined>({
+  key: "favouriteTracksState",
+  default: undefined,
+});
+
+// FavouriteTracksPage
+export const isFavouriteTracksPageState = atom<boolean>({
+  key: "isFavouriteTracksPageState",
+  default: false,
+});
 
 export const currentUserState = atom<CurrentUser | undefined>({
   key: "currentUserState",

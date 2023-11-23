@@ -25,7 +25,6 @@ const PlaylistPage = ({ params }: { params: { id: string } }) => {
     document.body.style.backgroundImage = "url(/background_images/back_2.webp)";
 
     const fetchPlaylist = async () => {
-      console.log("getch data");
       await checkTokenTime();
       const accessToken = localStorage.getItem("access_token");
 

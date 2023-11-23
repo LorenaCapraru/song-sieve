@@ -14,6 +14,7 @@ import {
 import { millisecondsToMinutes } from "@/utils/utils";
 
 export interface TrackObject {
+  id: string;
   album: Record<string, any>;
   name: string;
   duration_ms: number;

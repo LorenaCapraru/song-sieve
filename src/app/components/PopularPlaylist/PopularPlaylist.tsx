@@ -6,6 +6,7 @@ import { PlaylistData, popularPlaylistsState } from "@/app/recoil/atoms";
 import { checkTokenTime } from "@/utils/utils";
 import { useEffect } from "react";
 import Link from "next/link";
+import { Bars } from "react-loader-spinner";
 
 const PopularPlaylist = () => {
   const [popularPlaylists, setPopularPlaylists] = useRecoilState<
@@ -57,7 +58,14 @@ const PopularPlaylist = () => {
           </div>
         </div>
       ) : (
-        <p>Need to add here loader from another PR</p>
+        <div className="tracklist-loader">
+          <Bars
+            height="70"
+            width="70"
+            color="var(--trans-white)"
+            ariaLabel="loading"
+          />
+        </div>
       )}
     </>
   );

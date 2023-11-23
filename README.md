@@ -47,6 +47,13 @@ npm run dev
 * <b>Recoil</b> for Efficient State Management Across Components
 * <b>Spotify API</b> to retrieve data from Spotify.
 
+## Usage
+* Sign in with your Github/Google/Email account.
+* Copy a Spotify playlist ID into the app.
+* Fetch and view the playlist tracks.
+* Apply filters based on track length or explicit content.
+* Create a new playlist with the filtered tracks.
+
 ## Features
 
 1. **Copy Playlist ID:**

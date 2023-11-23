@@ -20,7 +20,6 @@ import {
 import { usePathname } from "next/navigation";
 import { getOnePlaylistFromLibraryForUser } from "@/utils/utils";
 import { DBFavouriteTrack } from "@/app/recoil/atoms";
-import { getFavouriteTracksForUser } from "@/utils/utils";
 import PopupConfirm from "../Track/components/PopupConfirm/PopupConfirm";
 
 const TracksList: React.FC = () => {

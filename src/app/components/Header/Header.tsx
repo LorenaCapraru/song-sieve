@@ -88,7 +88,7 @@ const Header = () => {
 
       <div className="desktop-header">
         <div className={`header-arrows ${isSideBarOpen ? "" : "margin-left"}`}>
-          <div className="rotate-arrow">
+          <div className="rotate-arrow" onClick={() => window.history.back()}>
             <Image
               src="/icons/arrow-icon.svg"
               alt="logo"
@@ -97,7 +97,7 @@ const Header = () => {
             />
           </div>
 
-          <div>
+          <div onClick={() => window.history.forward()}>
             <Image
               src="/icons/arrow-icon.svg"
               alt="logo"

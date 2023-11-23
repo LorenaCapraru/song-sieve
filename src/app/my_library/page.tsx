@@ -11,7 +11,7 @@ const MyLibraryPage = () => {
     <div className="bg-template home-template">
       <Header />
       <SideBar />
-      <MainLibrary />
+      {/* <MainLibrary /> */}
       <MobileMenu />
       <PopupLogin />
     </div>

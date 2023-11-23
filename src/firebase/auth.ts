@@ -8,7 +8,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   GithubAuthProvider,
-
+  signOut,
 } from "firebase/auth";
 import { SignUpState, SingInState } from "../app/recoil/atoms";
 import { auth } from "./firebase";
@@ -61,7 +61,6 @@ export async function signInUser(
   }
 }
 
-
 // Sign Up/In with Google
 export async function signUpWithGoogle(): Promise<UserCredential> {
   const provider = new GoogleAuthProvider();
@@ -86,3 +85,13 @@ export async function signUpWithGitHub(): Promise<UserCredential> {
   }
 }
 
+//sign out
+export async function signOutUser(): Promise<void> {
+  const auth: Auth = getAuth();
+  try {
+    await signOut(auth);
+  } catch (error: any) {
+    console.error("Error signing out:", error.message);
+    throw error;
+  }
+}

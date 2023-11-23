@@ -12,6 +12,7 @@ import Link from "next/link";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useEffect } from "react";
 import { auth } from "@/firebase/firebase";
+import { signOutUser } from "@/firebase/auth";
 
 const Header = () => {
   const [isUserLoggedIn, setIsUserLoggedIn] =
@@ -20,6 +21,10 @@ const Header = () => {
     currentUserState
   );
   const isSideBarOpen = useRecoilValue(isSideBarOpenState);
+
+  const handleLogOutOnClick = async () => {
+    await signOutUser();
+  };
 
   //check if user is logged in
   useEffect(() => {
@@ -103,7 +108,7 @@ const Header = () => {
         </div>
         <div className="login-account-container">
           {isUserLoggedIn ? (
-            <button> Log out</button>
+            <button onClick={handleLogOutOnClick}> Log out</button>
           ) : (
             <Link href="/signin">
               <button> Log in</button>

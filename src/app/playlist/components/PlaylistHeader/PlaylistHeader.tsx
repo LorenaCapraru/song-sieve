@@ -81,24 +81,26 @@ const PlaylistHeader = () => {
                 onClick={handlePlaySong}
               />
             </div>
-            <Image
+            <button className="create-playlist-button">Create Playlist</button>
+            {/* <Image
+              src="/icons/heart-icon.svg"
+              alt="heart icon used to save"
+              width={22}
+              height={22}
+              className="playlist-header-heart-icon"
+              onClick={() =>
+                handleAddPlaylistToMyLibrary(playlistData.id, playlistData.name)
+              }
+            /> */}
+            {/* <Image
               src="/icons/ellipsis-icon.svg"
               alt="ellipsis icon used for more options"
               width={22}
               height={22}
               className="playlist-header-ellipsis-icon"
-            />
+            /> */}
           </div>
-          <Image
-            src="/icons/heart-icon.svg"
-            alt="heart icon used to save"
-            width={22}
-            height={22}
-            className="playlist-header-heart-icon"
-            onClick={() =>
-              handleAddPlaylistToMyLibrary(playlistData.id, playlistData.name)
-            }
-          />
+
           <button className="filter-button" onClick={handleFilterButtonClick}>
             Filter
           </button>

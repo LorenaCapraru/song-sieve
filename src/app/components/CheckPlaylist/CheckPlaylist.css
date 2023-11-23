@@ -4,12 +4,17 @@
 }
 
 .id-provide-section {
-  padding: 5%;
-  margin: 2% 0;
+  padding: 25px;
+  margin: 20px 0;
   background-color: var(--trans-black);
   border-radius: 10px;
 }
 
 .id-provide-section a {
   text-decoration: none;
+  color: white;
+}
+
+.check-playlist-section-title {
+  font-size: 20px;
 }

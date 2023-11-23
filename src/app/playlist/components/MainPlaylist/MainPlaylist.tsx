@@ -1,9 +1,14 @@
+import PlaylistHeader from "../PlaylistHeader/PlaylistHeader";
+import TracksList from "../TracksList/TracksList";
 import "./MainPlaylist.css";
 
 const MainPlaylist = () => {
   return (
     <div className="main-section">
-      here we put everything what should be from the right side in Main
+      <div className="main-playlist-container">
+        <PlaylistHeader />
+        <TracksList />
+      </div>
     </div>
   );
 };

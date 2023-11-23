@@ -10,4 +10,9 @@
   gap: 10px;
   overflow-x: auto;
   justify-content: space-between;
+  padding-bottom: 10px;
+}
+
+.popular-playlist-row a {
+  text-decoration: none;
 }

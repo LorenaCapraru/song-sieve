@@ -1,0 +1,101 @@
+.playlist-header-main {
+  border-radius: 20px;
+  position: relative;
+}
+
+.playlist-header-data {
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+  padding: 30px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.header-filter-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px;
+}
+
+.playlist-header-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+}
+
+.filter-button {
+  color: white;
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+}
+
+.playlist-word {
+  font-size: 20px;
+}
+
+.playlist-header-name {
+  font-size: 40px;
+  font-weight: bold;
+  overflow-wrap: anywhere;
+}
+
+.playlist-header-song-id {
+  font-size: 14px;
+}
+.playlist-header-song-id span {
+  font-weight: bold;
+}
+
+.playlist-header-heart-icon,
+.playlist-header-ellipsis-icon {
+  filter: var(--white-icon);
+  cursor: pointer;
+  transition: all ease-in-out 100ms;
+}
+
+.playlist-header-heart-icon:hover,
+.playlist-header-heart-icon:focus,
+.playlist-header-ellipsis-icon:hover,
+.playlist-header-ellipsis-icon:focus {
+  filter: var(--pink-icon);
+}
+
+.playlist-header-play-button-div {
+  background-color: white;
+  border: 1px solid white;
+  border-radius: 40px;
+  padding: 18px 15px 15px 18px;
+  cursor: pointer;
+  transition: all ease-in-out 100ms;
+}
+
+.playlist-header-play-button-div .playlist-header-play-icon {
+  transition: all ease-in-out 100ms;
+}
+
+.playlist-header-play-button-div:hover,
+.playlist-header-play-button-div:focus {
+  background-color: var(--pink);
+}
+
+.playlist-header-play-button-div:hover > .playlist-header-play-icon,
+.playlist-header-play-button-div:focus > .playlist-header-play-icon {
+  filter: var(--white-icon);
+}
+@media only screen and (min-width: 768px) {
+  .filter-button {
+    display: none;
+  }
+
+  .playlist-header-name {
+    font-size: 50px;
+  }
+}

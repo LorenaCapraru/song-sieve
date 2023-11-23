@@ -80,7 +80,15 @@ npm run dev
 5. **Create New Playlist:**
    - User can create new playlist based on the filtered tracks
    <img width="500" alt="Screenshot 2023-11-23 at 19 39 50" src="https://github.com/LorenaCapraru/song-sieve/assets/108892538/a0cb8a00-6177-421e-b99c-d8b22c5dfdce">
-  
+
+6. **Add a Song to the Playlist or Create new Playlist:**
+   - User can add a song to the playlist or create a new one
+   <img width="500" alt="Screenshot 2023-11-23 at 21 36 45" src="https://github.com/LorenaCapraru/song-sieve/assets/108892538/ad929537-d3fe-4e27-97f5-2bba769904f0">
+
+7. **Navigate through the pages accessed using Back/Forward buttons:**
+   - User can navigate through the pages accessed using Back/Forward buttons
+   <img width="500" alt="Screenshot 2023-11-23 at 21 36 45" src="https://github.com/LorenaCapraru/song-sieve/assets/108892538/41ba5ed7-41f3-4ad1-ac11-63d65af955cd">
+
 ## Contributing
 Contributions are welcome! Feel free to open issues or submit pull requests.
 

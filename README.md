@@ -69,12 +69,10 @@ npm run dev
    <img width="400" alt="Screenshot 2023-11-23 at 19 47 12" src="https://github.com/LorenaCapraru/song-sieve/assets/108892538/e5402006-cba3-4371-a8d7-b59e3cdd28c0">
    <img width="400" alt="Screenshot 2023-11-23 at 19 45 51" src="https://github.com/LorenaCapraru/song-sieve/assets/108892538/49209bd9-ac98-4365-ae4f-c89970fc0c2a">
 
-4. **Create New Playlist:**
+5. **Create New Playlist:**
    - User can create new playlist based on the filtered tracks
    <img width="500" alt="Screenshot 2023-11-23 at 19 39 50" src="https://github.com/LorenaCapraru/song-sieve/assets/108892538/a0cb8a00-6177-421e-b99c-d8b22c5dfdce">
   
-6. **State Management with Recoil:**
-   - Recoil is utilized for efficient state management across components.
 
 
 
@@ -91,12 +89,4 @@ npm run dev
 
 [pr-shield]:https://img.shields.io/github/issues-pr/lorenacapraru/song-sieve.svg?style=for-the-badge
 [pr-url]: https://github.com//lorenacapraru/song-sieve/pulls
-
-
-[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
-[Next-url]: https://nextjs.org/
-[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
-[React-url]: https://reactjs.org/
-[Firebase]: https://img.shields.io/badge/firebase-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
-[Firebase-url]: https://firebase.org/
 

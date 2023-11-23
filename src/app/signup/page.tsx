@@ -2,8 +2,14 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRecoilState } from "recoil";
-import { signUpState, SignUpState, userTypeState } from "../recoil/atoms";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import {
+  isPopupConfirmOpenState,
+  popupConfirmTextState,
+  signUpState,
+  SignUpState,
+  userTypeState,
+} from "../recoil/atoms";
 import "../signin/page.css";
 import "./page.css";
 import { useEffect } from "react";
@@ -18,6 +24,10 @@ export default function SignIn() {
   const [auth, setAuth] = useRecoilState<SignUpState>(signUpState);
   const [selectedOption, setSelectedOption] =
     useRecoilState<string>(userTypeState);
+  const setIsPopupConfirmOpen = useSetRecoilState<boolean>(
+    isPopupConfirmOpenState
+  );
+  const setPopupConfirmText = useSetRecoilState<string>(popupConfirmTextState);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -81,6 +91,10 @@ export default function SignIn() {
         });
         // redirect user to a sign-in page or new page)
         router.push("/signin");
+        setPopupConfirmText(
+          "You have been successfully registered! Please sign in now to access all the features of the Song Sieve."
+        );
+        setIsPopupConfirmOpen(true);
       } catch (error: any) {
         console.error("Error signing up:", error.message);
         setAuth((prevAuth) => ({

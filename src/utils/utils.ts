@@ -359,6 +359,30 @@ export const createPlaylist = async (
   }
 };
 
+export const checkIfPlaylistNameExists = async (
+  userId: string,
+  playlistName: string
+): Promise<boolean> => {
+  try {
+    const libraryCollectionRef = collection(db, "users", userId, "library");
+
+    // Query for playlists in the library with the same name
+    const querySnapshot = await getDocs(
+      query(libraryCollectionRef, where("name", "==", playlistName))
+    );
+
+    // Check if there are any playlists with the same name
+    if (!querySnapshot.empty) {
+      return true; // Playlist with the same name exists
+    } else {
+      return false; // Playlist with the same name does not exist
+    }
+  } catch (error) {
+    console.error("Error checking playlist existence:", error);
+    return false; // Return false on error
+  }
+};
+
 export const generateCustomPlaylistID = (): string => {
   const min = 10000000;
   const max = 99999999;
@@ -370,4 +394,8 @@ export const generateCustomPlaylistID = (): string => {
 // Function to extract only the spotify_id from an array of TrackObjects
 export const extractSpotifyIds = (trackObjects: TrackObject[]): string[] => {
   return trackObjects.map((trackObject) => trackObject.id);
+};
+
+export const getRandomNumber = (): number => {
+  return Math.floor(Math.random() * 100);
 };

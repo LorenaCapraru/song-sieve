@@ -41,7 +41,6 @@ const TracksList: React.FC = () => {
 
   // Fetches favourite tracks for a user
   useEffect(() => {
-    console.log("isFavouriteTracksPage", isFavouriteTracksPage);
     if (isFavouriteTracksPage && currentUser) {
       getFavouriteTracksForUser(currentUser.id)
         .then((tracksList) => {
@@ -64,7 +63,7 @@ const TracksList: React.FC = () => {
           console.error("Error fetching favorite tracks: ", error);
         });
     }
-  }, [isFavouriteTracksPage]);
+  }, [isFavouriteTracksPage, currentUser]);
 
   //check if the url includes "custom_playlists"
   useEffect(() => {

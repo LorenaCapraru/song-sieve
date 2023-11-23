@@ -74,7 +74,8 @@ npm run dev
    - User can create new playlist based on the filtered tracks
    <img width="500" alt="Screenshot 2023-11-23 at 19 39 50" src="https://github.com/LorenaCapraru/song-sieve/assets/108892538/a0cb8a00-6177-421e-b99c-d8b22c5dfdce">
   
-
+## Contributing
+Contributions are welcome! Feel free to open issues or submit pull requests.
 
 
   <!-- MARKDOWN LINKS & IMAGES -->

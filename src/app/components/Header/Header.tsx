@@ -20,6 +20,7 @@ const Header = () => {
     currentUserState
   );
   const isSideBarOpen = useRecoilValue(isSideBarOpenState);
+  console.log("hello");
 
   //check if user is logged in
   useEffect(() => {
@@ -109,7 +110,6 @@ const Header = () => {
               <button> Log in</button>
             </Link>
           )}
-
           {isUserLoggedIn && (
             <Link href="/">
               <div className="login-container">

@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
+  CurrentUser,
   isPopupConfirmOpenState,
   popupConfirmTextState,
   singInState,
@@ -15,6 +16,7 @@ import { signInUser } from "@/firebase/auth";
 import { useRouter } from "next/navigation";
 import GoogleGithub from "./components/GoogleGithub";
 import PopupConfirm from "../playlist/components/Track/components/PopupConfirm/PopupConfirm";
+import { addUserToDatabase } from "@/utils/utils";
 
 export default function SignIn() {
   const router = useRouter();
@@ -59,6 +61,28 @@ export default function SignIn() {
     } else {
       try {
         const userCredential = await signInUser(auth);
+        const user = userCredential.user;
+
+        if (user && user.email) {
+          let userName = "";
+          let userSurname = "";
+          if (user.displayName !== null) {
+            const nameParts = user.displayName.split(" ");
+            userName = nameParts[0];
+            userSurname = nameParts[1];
+          }
+
+          const userInput: CurrentUser = {
+            id: user.uid,
+            image: "",
+            name: userName,
+            surname: userSurname,
+            email: user.email,
+            type: "Volunteer",
+          };
+
+          addUserToDatabase(userInput);
+        }
 
         console.log("Logged in:", userCredential.user?.email);
 

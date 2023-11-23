@@ -49,3 +49,8 @@ td:last-child {
   display: flex;
   justify-content: center;
 }
+
+.no-tracks-msg {
+  margin-top: 20px;
+  font-size: 14px;
+}

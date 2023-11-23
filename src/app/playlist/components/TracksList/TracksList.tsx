@@ -152,11 +152,13 @@ const TracksList: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {tracksArr &&
-            tracksArr.length > 0 &&
+          {tracksArr && tracksArr.length > 0 ? (
             tracksArr.map((track, index) => (
               <Track key={index} track={track} rowNumber={index + 1} />
-            ))}
+            ))
+          ) : (
+            <p className="no-tracks-msg">There are no favourite tracks.</p>
+          )}
         </tbody>
       </table>
       <PopupConfirm />

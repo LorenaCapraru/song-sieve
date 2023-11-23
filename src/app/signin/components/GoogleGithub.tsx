@@ -35,7 +35,7 @@ export default function GoogleGithub() {
           name: userName,
           surname: userSurname,
           email: user.email,
-          type: "Volunteer",
+          type: "",
         };
 
         addUserToDatabase(userInput);
@@ -71,7 +71,7 @@ export default function GoogleGithub() {
           name: userName,
           surname: userSurname,
           email: user.email,
-          type: "Volunteer",
+          type: "",
         };
 
         addUserToDatabase(userInput);

@@ -78,7 +78,7 @@ export default function SignIn() {
             name: userName,
             surname: userSurname,
             email: user.email,
-            type: "Volunteer",
+            type: "",
           };
 
           addUserToDatabase(userInput);

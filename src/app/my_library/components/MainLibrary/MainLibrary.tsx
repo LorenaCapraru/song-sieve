@@ -43,7 +43,7 @@ const MainLibrary = () => {
     pathname.includes("favourite_tracks")
       ? setIsFavouriteTracksPage(true)
       : setIsFavouriteTracksPage(false);
-  }, []);
+  }, [currentUser]);
 
   //fetch library playlists when user is removed
   useEffect(() => {

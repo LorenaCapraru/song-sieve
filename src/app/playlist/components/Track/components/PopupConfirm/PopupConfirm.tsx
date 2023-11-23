@@ -26,7 +26,7 @@ const PopupConfirm = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsPopupConfirmOpen(false);
-    }, 5000);
+    }, 3000);
     return () => clearTimeout(timer);
   }, [isPopupConfirmOpen]);
 

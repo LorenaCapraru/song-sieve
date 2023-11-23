@@ -19,7 +19,6 @@ import {
 } from "@/utils/utils";
 import { usePathname } from "next/navigation";
 import { getOnePlaylistFromLibraryForUser } from "@/utils/utils";
-import { DBFavouriteTrack } from "@/app/recoil/atoms";
 import PopupConfirm from "../Track/components/PopupConfirm/PopupConfirm";
 
 const TracksList: React.FC = () => {
@@ -30,9 +29,6 @@ const TracksList: React.FC = () => {
     isFavouriteTracksPageState
   );
   const currentUser = useRecoilValue<CurrentUser | undefined>(currentUserState);
-  // const [tracksArr, setTracksArr] = useState<TrackObject[] | undefined>(
-  //   undefined
-  // );
   const [filterOptions, setFilterOptions] = useRecoilState(filterOptionsState);
   const [tracksArr, setTracksArr] = useRecoilState<TrackObject[] | undefined>(
     tracksArrState
@@ -67,9 +63,11 @@ const TracksList: React.FC = () => {
 
   //check if the url includes "custom_playlists"
   useEffect(() => {
+    console.log("pathname", pathname);
     if (pathname.includes("custom_playlist") && currentUser) {
+      console.log("yes");
       const id = getIdFromLibraryPlaylistUrl(pathname);
-      console.log("id");
+
       if (id !== null) {
         getOnePlaylistFromLibraryForUser(currentUser?.id, id)
           .then((playlist) => {
@@ -84,7 +82,7 @@ const TracksList: React.FC = () => {
           });
       }
     }
-  }, []);
+  }, [currentUser]);
 
   // Get tracks for all pages except Favourite_tracks
   useEffect(() => {
@@ -95,6 +93,7 @@ const TracksList: React.FC = () => {
     }
   }, [playlistData]);
 
+  //filter functionality
   useEffect(() => {
     const updatedTracksArr =
       playlistData?.tracks?.items?.map((el) => el.track) || [];
@@ -135,6 +134,11 @@ const TracksList: React.FC = () => {
     setTracksArr(filteredTracks);
   }, [playlistData, filterOptions.explicit, filterOptions.selectedDuration]);
 
+  //to clean the state when user leave the page
+  useEffect(() => {
+    setPlaylistData(undefined);
+  }, [pathname]);
+
   return playlistData ? (
     <div className="tracks-list-main">
       <table className="tracks-table">
@@ -156,7 +160,10 @@ const TracksList: React.FC = () => {
               <Track key={index} track={track} rowNumber={index + 1} />
             ))
           ) : (
-            <p className="no-tracks-msg">There are no favourite tracks.</p>
+            <tr>
+              <td></td>
+              <td className="no-tracks-msg">There are no favourite tracks.</td>
+            </tr>
           )}
         </tbody>
       </table>

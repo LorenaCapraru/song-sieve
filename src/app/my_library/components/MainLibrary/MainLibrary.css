@@ -1,0 +1,17 @@
+.library-container {
+  background-color: var(--trans-black);
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.library-container h2 {
+  font-size: 28px;
+  font-weight: normal;
+  color: #fff;
+  margin-bottom: 2%;
+}
+
+.library-loader {
+  display: flex;
+  justify-content: center;
+}

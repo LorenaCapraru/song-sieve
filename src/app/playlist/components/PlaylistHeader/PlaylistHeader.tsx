@@ -68,6 +68,8 @@ const PlaylistHeader = () => {
               isFavouriteTracksPage
                 ? "/background_images/favourite_tracks.jpeg"
                 : playlistData.images[0]?.url
+                ? playlistData.images[0]?.url
+                : "/background_images/logo_back_2.jpg"
             })`,
           }}
         >

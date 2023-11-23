@@ -70,7 +70,13 @@ const Playlist = () => {
   return (
     playlistData &&
     isGetPlaylistButtonClicked && (
-      <div className="playlist-section-wrapper">
+      <div
+        className={
+          smallIdSection
+            ? "playlist-small-section-wrapper"
+            : "playlist-section-wrapper"
+        }
+      >
         <div className="heart-icon-container">
           <Image
             src="/icons/heart-icon.svg"
@@ -82,7 +88,6 @@ const Playlist = () => {
           />
         </div>
 
-        {/* <Link href={`/playlist/${playlistData.id}`}> */}
         <div
           className={
             smallIdSection ? "playlist-small-section" : "playlist-section"
@@ -93,7 +98,7 @@ const Playlist = () => {
             src={
               playlistData?.images[0]?.url
                 ? playlistData.images[0].url
-                : "/background_images/background_2.jpg"
+                : "/background_images/logo_back.jpg"
             }
             alt="album cover"
             width={300}

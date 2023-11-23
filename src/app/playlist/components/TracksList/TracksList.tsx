@@ -1,10 +1,9 @@
 "use client";
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./TracksList.css";
 import {
   playlistDataState,
   PlaylistData,
-  favouriteTracksState,
   isFavouriteTracksPageState,
   currentUserState,
   CurrentUser,
@@ -14,17 +13,19 @@ import {
 import { useRecoilState, useRecoilValue } from "recoil";
 import Track, { TrackObject } from "../Track/Track";
 import { Bars } from "react-loader-spinner";
+import {
+  getFavouriteTracksForUser,
+  getIdFromLibraryPlaylistUrl,
+} from "@/utils/utils";
+import { usePathname } from "next/navigation";
+import { getOnePlaylistFromLibraryForUser } from "@/utils/utils";
 import { DBFavouriteTrack } from "@/app/recoil/atoms";
-import { getFavouriteTracksForUser } from "@/utils/utils";
 import PopupConfirm from "../Track/components/PopupConfirm/PopupConfirm";
 
 const TracksList: React.FC = () => {
   const [playlistData, setPlaylistData] = useRecoilState<
     PlaylistData | undefined
   >(playlistDataState);
-  const [favouriteTracks, setFavouriteTracks] = useRecoilState<
-    DBFavouriteTrack[] | undefined
-  >(favouriteTracksState);
   const isFavouriteTracksPage = useRecoilValue<boolean>(
     isFavouriteTracksPageState
   );
@@ -36,6 +37,7 @@ const TracksList: React.FC = () => {
   const [tracksArr, setTracksArr] = useRecoilState<TrackObject[] | undefined>(
     tracksArrState
   );
+  const pathname = usePathname();
 
   // Fetches favourite tracks for a user
   useEffect(() => {
@@ -63,6 +65,27 @@ const TracksList: React.FC = () => {
         });
     }
   }, [isFavouriteTracksPage]);
+
+  //check if the url includes "custom_playlists"
+  useEffect(() => {
+    if (pathname.includes("custom_playlist") && currentUser) {
+      const id = getIdFromLibraryPlaylistUrl(pathname);
+      console.log("id");
+      if (id !== null) {
+        getOnePlaylistFromLibraryForUser(currentUser?.id, id)
+          .then((playlist) => {
+            console.log("playlist", playlist);
+            setPlaylistData(playlist);
+          })
+          .catch((error) => {
+            console.log(
+              "There was a problem with fetchin a playlist from library, ",
+              error
+            );
+          });
+      }
+    }
+  }, []);
 
   // Get tracks for all pages except Favourite_tracks
   useEffect(() => {

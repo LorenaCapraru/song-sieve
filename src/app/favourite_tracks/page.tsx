@@ -6,7 +6,6 @@ import PopupLogin from "../components/PopupLogIn/PopupLogin";
 import SideBar from "../components/SideBar/SideBar";
 import FilterOptions from "../components/SideBar/components/FilterOptions/FilterOptions";
 import MainPlaylist from "../playlist/components/MainPlaylist/MainPlaylist";
-import "./page.css";
 import { isMobileFilterOptionsOpenState } from "../recoil/atoms";
 import { useEffect } from "react";
 

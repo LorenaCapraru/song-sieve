@@ -9,6 +9,7 @@ import {
   setDoc,
   doc,
   getDoc,
+  addDoc,
 } from "firebase/firestore";
 import {
   CurrentUser,
@@ -340,4 +341,33 @@ export const addUserToDatabase = async (user: CurrentUser) => {
       error
     );
   }
+};
+
+export const createPlaylist = async (
+  userId: string,
+  playlist: DBLibraryPlaylist
+): Promise<boolean> => {
+  try {
+    const libraryCollectionRef = collection(db, "users", userId, "library");
+    // Add a new document with auto-generated ID in the library collection
+    await addDoc(libraryCollectionRef, playlist);
+    console.log("Playlist created in the library successfully!");
+    return true;
+  } catch (error) {
+    console.error("Error creating playlist:", error);
+    return false;
+  }
+};
+
+export const generateCustomPlaylistID = (): string => {
+  const min = 10000000;
+  const max = 99999999;
+  const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+  const id = `custom_playlist_${randomNumber}`;
+  return id;
+};
+
+// Function to extract only the spotify_id from an array of TrackObjects
+export const extractSpotifyIds = (trackObjects: TrackObject[]): string[] => {
+  return trackObjects.map((trackObject) => trackObject.id);
 };

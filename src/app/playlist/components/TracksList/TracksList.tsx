@@ -64,7 +64,7 @@ const TracksList: React.FC = () => {
           console.error("Error fetching favorite tracks: ", error);
         });
     }
-  }, [isFavouriteTracksPage]);
+  }, [isFavouriteTracksPage, currentUser, setPlaylistData, setTracksArr]);
 
   //check if the url includes "custom_playlists"
   useEffect(() => {
@@ -85,7 +85,7 @@ const TracksList: React.FC = () => {
           });
       }
     }
-  }, []);
+  }, [currentUser, pathname, setPlaylistData]);
 
   // Get tracks for all pages except Favourite_tracks
   useEffect(() => {
@@ -94,7 +94,7 @@ const TracksList: React.FC = () => {
         playlistData?.tracks?.items?.map((el) => el.track) || [];
       setTracksArr(arr);
     }
-  }, [playlistData]);
+  }, [playlistData, isFavouriteTracksPage, setTracksArr]);
 
   useEffect(() => {
     const updatedTracksArr =
@@ -134,7 +134,12 @@ const TracksList: React.FC = () => {
       }
     }
     setTracksArr(filteredTracks);
-  }, [playlistData, filterOptions.explicit, filterOptions.selectedDuration]);
+  }, [
+    playlistData,
+    filterOptions.explicit,
+    filterOptions.selectedDuration,
+    setTracksArr,
+  ]);
 
   return playlistData ? (
     <div className="tracks-list-main">

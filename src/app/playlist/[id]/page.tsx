@@ -49,7 +49,7 @@ const PlaylistPage = ({ params }: { params: { id: string } }) => {
     };
 
     fetchPlaylist();
-  }, []);
+  }, [params.id, setPlaylistData]);
 
   return (
     <div className="bg-template home-template">

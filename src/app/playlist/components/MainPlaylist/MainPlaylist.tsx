@@ -19,7 +19,7 @@ const MainPlaylist = () => {
     pathname.includes("favourite_tracks")
       ? setIsFavouriteTracksPage(true)
       : setIsFavouriteTracksPage(false);
-  }, []);
+  }, [pathname, setIsFavouriteTracksPage]);
 
   return (
     <div className="main-section">

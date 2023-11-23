@@ -28,7 +28,7 @@ const PopupConfirm = () => {
       setIsPopupConfirmOpen(false);
     }, 5000);
     return () => clearTimeout(timer);
-  }, [isPopupConfirmOpen]);
+  }, [isPopupConfirmOpen, setIsPopupConfirmOpen]);
 
   return (
     <>

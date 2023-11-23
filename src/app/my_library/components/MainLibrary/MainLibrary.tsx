@@ -43,7 +43,7 @@ const MainLibrary = () => {
     pathname.includes("favourite_tracks")
       ? setIsFavouriteTracksPage(true)
       : setIsFavouriteTracksPage(false);
-  }, []);
+  }, [currentUser, pathname, setIsFavouriteTracksPage, setLibraryPlaylists]);
 
   //fetch library playlists when user is removed
   useEffect(() => {
@@ -58,7 +58,7 @@ const MainLibrary = () => {
           console.error("Error fetching playlists from library: ", error);
         });
     }
-  }, [isPlaylistRemoved]);
+  }, [isPlaylistRemoved, currentUser, setLibraryPlaylists]);
 
   return (
     <div className="main-section">

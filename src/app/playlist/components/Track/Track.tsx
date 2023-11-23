@@ -120,7 +120,7 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
       },
     ];
     setMyLibraryPlaylists(libraryPlaylists);
-  }, []);
+  }, [setMyLibraryPlaylists]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

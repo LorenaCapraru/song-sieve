@@ -45,6 +45,7 @@ npm run dev
 * <b>Firebase</b> for Authentication and for Database Storage and Management
 * <b>Typescript</b> as Language
 * <b>Recoil</b> for Efficient State Management Across Components
+* <b>Spotify API</b> to retrieve data from Spotify.
 
 ## Features
 

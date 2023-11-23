@@ -39,6 +39,13 @@ npm run dev
 
 6. Access the application at http://localhost:3000/
 
+## Build with
+
+* <b>Next.js</b> as Framework
+* <b>Firebase</b> for Authentication and for Database Storage and Management
+* <b>Typescript</b> as Language
+* <b>Recoil</b> for Efficient State Management Across Components
+
 ## Features
 
 1. **Copy Playlist ID:**
@@ -85,12 +92,11 @@ npm run dev
 [pr-shield]:https://img.shields.io/github/issues-pr/lorenacapraru/song-sieve.svg?style=for-the-badge
 [pr-url]: https://github.com//lorenacapraru/song-sieve/pulls
 
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/lorenacapraru
-[product-screenshot]: images/screenshot.png
+
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [React-url]: https://reactjs.org/
-
+[Firebase]: https://img.shields.io/badge/firebase-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
+[Firebase-url]: https://firebase.org/
 

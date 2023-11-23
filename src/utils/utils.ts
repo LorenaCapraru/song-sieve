@@ -191,18 +191,11 @@ export const getPlaylistsFromLibraryForUser = async (userId: string) => {
         }
       }
 
-      //fetch info about all playlists
-      let playlistSpotifyObject: PlaylistData | undefined = undefined;
-
-      if (!playlist.custom_id.includes("custom_playlist")) {
-        playlistSpotifyObject = await fetchPlaylist(playlist.custom_id);
-      }
-
       const libraryPlaylistData: PlaylistData = {
         name: playlist.name,
         description: "Custom playlist",
         id: playlist.custom_id,
-        images: playlistSpotifyObject ? playlistSpotifyObject.images : [],
+        images: [],
         tracks: {
           total: tracksList.length,
           items: tracksList,

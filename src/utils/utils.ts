@@ -299,11 +299,23 @@ export const addUserToDatabase = async (user: CurrentUser) => {
         email: user.email,
         type: user.type,
       });
-      console.log("User data added to database successfully!");
+
+      // Create empty collections for the user
+      const favouriteTracksRef = collection(userDocRef, "favourite_tracks");
+      const libraryRef = collection(userDocRef, "library");
+
+      // Add empty documents to the collections to create them
+      await setDoc(doc(favouriteTracksRef, "empty_collection"), {});
+      await setDoc(doc(libraryRef, "empty_collection"), {});
+
+      console.log(
+        "User data and empty collections added to database successfully!"
+      );
     }
-    console.log("User data added to database successfully!");
   } catch (error) {
-    // Handle Firestore data addition errors
-    console.error("Error adding user data to database:", error);
+    console.error(
+      "Error checking/adding user data and collections in database:",
+      error
+    );
   }
 };

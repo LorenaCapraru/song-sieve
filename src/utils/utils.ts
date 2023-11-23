@@ -144,7 +144,9 @@ export const getFavouriteTracksForUser = async (userId: string) => {
   const arrayWithFavouriteTracks: DBFavouriteTrack[] = [];
 
   querySnapshot.forEach((doc) => {
-    arrayWithFavouriteTracks.push(doc.data() as DBFavouriteTrack);
+    if (doc.data().spotify_id !== "11111111") {
+      arrayWithFavouriteTracks.push(doc.data() as DBFavouriteTrack);
+    }
   });
 
   const tracksList: Array<{ track: TrackObject }> = [];
@@ -167,7 +169,10 @@ export const getPlaylistsFromLibraryForUser = async (userId: string) => {
   const arrayWithPlaylistsFromLibrary: DBLibraryPlaylist[] = [];
 
   querySnapshot.forEach((doc) => {
-    arrayWithPlaylistsFromLibrary.push(doc.data() as DBLibraryPlaylist);
+    //check if it's not fake playlist
+    if (doc.data().custom_id !== "11111111") {
+      arrayWithPlaylistsFromLibrary.push(doc.data() as DBLibraryPlaylist);
+    }
   });
 
   const libraryPlaylists: PlaylistData[] = [];

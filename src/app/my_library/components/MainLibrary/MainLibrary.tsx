@@ -66,13 +66,17 @@ const MainLibrary = () => {
         <h2>My library</h2>
         <div className="library-playlists-container">
           {libraryPlaylists ? (
-            libraryPlaylists.map((playlist, index) => (
-              <LibraryPlaylist
-                key={index}
-                playlist={playlist}
-                setIsPlaylistRemoved={setIsPlaylistRemoved}
-              />
-            ))
+            libraryPlaylists.length > 0 ? (
+              libraryPlaylists.map((playlist, index) => (
+                <LibraryPlaylist
+                  key={index}
+                  playlist={playlist}
+                  setIsPlaylistRemoved={setIsPlaylistRemoved}
+                />
+              ))
+            ) : (
+              <p>There are no playlists in your library.</p>
+            )
           ) : (
             <div className="library-loader">
               <Bars

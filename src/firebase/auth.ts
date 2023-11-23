@@ -4,9 +4,11 @@ import {
   Auth,
   UserCredential,
   signInWithEmailAndPassword,
+  updateProfile,
   GoogleAuthProvider,
   signInWithPopup,
   GithubAuthProvider,
+
 } from "firebase/auth";
 import { SignUpState, SingInState } from "../app/recoil/atoms";
 import { auth } from "./firebase";
@@ -15,7 +17,8 @@ const authInstance: Auth = auth;
 
 // Sign Up
 export async function signUpUser(
-  authData: SignUpState
+  authData: SignUpState,
+  fullName: string
 ): Promise<UserCredential> {
   const { email, password } = authData;
 
@@ -25,6 +28,13 @@ export async function signUpUser(
       email,
       password
     );
+    //to save the user's name
+    if (auth.currentUser) {
+      await updateProfile(auth.currentUser, {
+        displayName: fullName,
+      });
+    }
+
     return userCredential;
   } catch (error: any) {
     console.error("Error signing up:", error.message);
@@ -51,6 +61,7 @@ export async function signInUser(
   }
 }
 
+
 // Sign Up/In with Google
 export async function signUpWithGoogle(): Promise<UserCredential> {
   const provider = new GoogleAuthProvider();
@@ -74,3 +85,4 @@ export async function signUpWithGitHub(): Promise<UserCredential> {
     throw error;
   }
 }
+

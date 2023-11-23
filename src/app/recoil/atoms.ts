@@ -30,13 +30,6 @@ export interface DBPlaylistData {
   name: string;
 }
 
-export const playlistDataState = atom<PlaylistData | undefined>({
-  key: "playlistDataState",
-  default: undefined,
-});
-
-//  const [tracksArr, setTracksArr] = useState<TrackObject[]>([]);
-
 export const tracksArrState = atom<TrackObject[] | undefined>({
   key: "tracksArrState",
   default: undefined,
@@ -189,7 +182,7 @@ export const favouriteTracksState = atom<DBFavouriteTrack[] | undefined>({
 export const isFavouriteTracksPageState = atom<boolean>({
   key: "isFavouriteTracksPageState",
   default: false,
-
+});
 
 export const currentUserState = atom<CurrentUser | undefined>({
   key: "currentUserState",

@@ -12,7 +12,7 @@ import {
   tracksArrState,
 } from "@/app/recoil/atoms";
 import { useRecoilState, useRecoilValue } from "recoil";
-import Track from "../Track/Track";
+import Track, { TrackObject } from "../Track/Track";
 import { Bars } from "react-loader-spinner";
 import { DBFavouriteTrack } from "@/app/recoil/atoms";
 import { getFavouriteTracksForUser } from "@/utils/utils";
@@ -29,11 +29,13 @@ const TracksList: React.FC = () => {
     isFavouriteTracksPageState
   );
   const currentUser = useRecoilValue<CurrentUser | undefined>(currentUserState);
-  const [tracksArr, setTracksArr] = useState<TrackObject[] | undefined>(
-    undefined
-  );
+  // const [tracksArr, setTracksArr] = useState<TrackObject[] | undefined>(
+  //   undefined
+  // );
   const [filterOptions, setFilterOptions] = useRecoilState(filterOptionsState);
-  const [tracksArr, setTracksArr] = useRecoilState(tracksArrState);
+  const [tracksArr, setTracksArr] = useRecoilState<TrackObject[] | undefined>(
+    tracksArrState
+  );
 
   // Fetches favourite tracks for a user
   useEffect(() => {
@@ -70,7 +72,6 @@ const TracksList: React.FC = () => {
       setTracksArr(arr);
     }
   }, [playlistData]);
- 
 
   useEffect(() => {
     const updatedTracksArr =

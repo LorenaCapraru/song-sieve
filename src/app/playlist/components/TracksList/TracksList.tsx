@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./TracksList.css";
 import {
   playlistDataState,
@@ -7,9 +7,8 @@ import {
   filterOptionsState,
   tracksArrState,
 } from "@/app/recoil/atoms";
-import { useRecoilValue, useRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import Track from "../Track/Track";
-import { TrackObject } from "../Track/Track";
 import { Bars } from "react-loader-spinner";
 import PopupConfirm from "../Track/components/PopupConfirm/PopupConfirm";
 
@@ -69,7 +68,6 @@ const TracksList: React.FC = () => {
             <th>Title</th>
             <th></th>
             <th className="col-hide-on-mobile">Album</th>
-            <th className="col-hide-on-mobile">Date added</th>
             <th>Duration</th>
             <th></th>
             <th>Explicit</th>

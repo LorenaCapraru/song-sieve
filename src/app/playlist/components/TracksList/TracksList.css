@@ -25,7 +25,8 @@ td {
   cursor: pointer;
 }
 
-thead td {
+thead th {
+  text-align: left;
   padding: 0 5px 5px 5px;
   vertical-align: bottom;
 }

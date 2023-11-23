@@ -5,6 +5,7 @@ import Main from "./components/Main/Main";
 import MobileMenu from "./components/MobileMenu/MobileMenu";
 import SideBar from "./components/SideBar/SideBar";
 import PopupLogin from "./components/PopupLogIn/PopupLogin";
+import PopupConfirm from "./playlist/components/Track/components/PopupConfirm/PopupConfirm";
 
 export default function Home() {
   //update background image on first load
@@ -19,6 +20,7 @@ export default function Home() {
       <Main />
       <MobileMenu />
       <PopupLogin />
+      <PopupConfirm />
     </div>
   );
 }

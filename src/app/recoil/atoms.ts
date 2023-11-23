@@ -24,6 +24,24 @@ export interface PlaylistData {
   };
 }
 
+export interface DBPlaylistData {
+  id: string;
+  spotifyId: string;
+  name: string;
+}
+
+export const playlistDataState = atom<PlaylistData | undefined>({
+  key: "playlistDataState",
+  default: undefined,
+});
+
+//  const [tracksArr, setTracksArr] = useState<TrackObject[]>([]);
+
+export const tracksArrState = atom<TrackObject[] | undefined>({
+  key: "tracksArrState",
+  default: undefined,
+});
+
 // ------------------> AuthState
 export interface SingInState {
   email: string;
@@ -66,18 +84,6 @@ export const signUpState = atom<SignUpState>({
 export const isUserLoggedInState = atom<boolean>({
   key: "isUserLoggedInState",
   default: true,
-});
-
-export const currentUserState = atom<CurrentUser | undefined>({
-  key: "currentUserState",
-  default: {
-    id: "Lhrr9RIlj253cRYAH3ap",
-    image: "nothing",
-    name: "Vitalina",
-    surname: "Kuzmenko",
-    email: "vitalina.kuzmenko.a@gmail.com",
-    type: "Trainee",
-  },
 });
 
 //sidebar page and header page
@@ -139,6 +145,22 @@ export const popupLoginTextState = atom<string>({
   default: "",
 });
 
+export const myLibraryPlaylistsState = atom<DBPlaylistData[] | undefined>({
+  key: "myLibraryPlaylistsState",
+  default: undefined,
+});
+
+//TrackList.tsx and Track.tsx
+export const isPopupConfirmOpenState = atom<boolean>({
+  key: "isPopupConfirmOpenState",
+  default: false,
+});
+
+export const popupConfirmTextState = atom<string>({
+  key: "popupConfirmTextState",
+  default: "",
+});
+
 // Home page - popular playlists sections
 export const popularPlaylistsState = atom<PlaylistData[] | undefined>({
   key: "popularPlaylistsState",
@@ -167,4 +189,9 @@ export const favouriteTracksState = atom<DBFavouriteTrack[] | undefined>({
 export const isFavouriteTracksPageState = atom<boolean>({
   key: "isFavouriteTracksPageState",
   default: false,
+
+
+export const currentUserState = atom<CurrentUser | undefined>({
+  key: "currentUserState",
+  default: undefined,
 });

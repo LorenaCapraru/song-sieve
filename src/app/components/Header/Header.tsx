@@ -1,14 +1,62 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import { isSideBarOpenState, isUserLoggedInState } from "@/app/recoil/atoms";
+import {
+  CurrentUser,
+  currentUserState,
+  isSideBarOpenState,
+  isUserLoggedInState,
+} from "@/app/recoil/atoms";
 import "./Header.css";
 import Image from "next/image";
 import Link from "next/link";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { useEffect } from "react";
+import { auth } from "@/firebase/firebase";
 
 const Header = () => {
-  const isUserLoggedIn = useRecoilValue(isUserLoggedInState);
+  const [isUserLoggedIn, setIsUserLoggedIn] =
+    useRecoilState<boolean>(isUserLoggedInState);
+  const [currentUser, setCurrentUser] = useRecoilState<CurrentUser | undefined>(
+    currentUserState
+  );
   const isSideBarOpen = useRecoilValue(isSideBarOpenState);
+
+  //check if user is logged in
+  useEffect(() => {
+    auth.onAuthStateChanged(function (user) {
+      if (user) {
+        console.log("user logged in", user);
+
+        setIsUserLoggedIn(true);
+
+        if (user && user.email) {
+          let name = "";
+          let surname = "";
+          if (user.displayName !== null) {
+            const nameParts = user.displayName.split(" ");
+            name = nameParts[0];
+            surname = nameParts[1];
+          }
+
+          const input: CurrentUser = {
+            id: user.uid,
+            image: "",
+            name: name,
+            surname: surname,
+            email: user.email,
+            type: "",
+          };
+
+          //TODO: to fetch user from db - to get image and type
+
+          setCurrentUser(input);
+        }
+      } else {
+        setIsUserLoggedIn(false);
+        console.log("there is no user");
+      }
+    });
+  }, []);
 
   return (
     <header>
@@ -63,9 +111,9 @@ const Header = () => {
           )}
 
           {isUserLoggedIn && (
-            <Link href="/dashboard">
+            <Link href="/">
               <div className="login-container">
-                <p>Name</p>
+                {currentUser && <p>{currentUser.name}</p>}
                 <Image
                   src="/icons/login-icon.svg"
                   alt="logo"

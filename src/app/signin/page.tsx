@@ -2,13 +2,28 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRecoilState } from "recoil";
-import { singInState, SingInState } from "../recoil/atoms";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import {
+  isPopupConfirmOpenState,
+  popupConfirmTextState,
+  singInState,
+  SingInState,
+} from "../recoil/atoms";
 import "./page.css";
 import { useEffect } from "react";
+import { signInUser } from "@/firebase/auth";
+import { useRouter } from "next/navigation";
+import GoogleGithub from "./components/GoogleGithub";
+import PopupConfirm from "../playlist/components/Track/components/PopupConfirm/PopupConfirm";
 
 export default function SignIn() {
+  const router = useRouter();
+
   const [auth, setAuth] = useRecoilState<SingInState>(singInState);
+  const setIsPopupConfirmOpen = useSetRecoilState<boolean>(
+    isPopupConfirmOpenState
+  );
+  const setPopupConfirmText = useSetRecoilState<string>(popupConfirmTextState);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -19,7 +34,7 @@ export default function SignIn() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const { email, password } = auth;
     let formIsValid = true;
@@ -42,8 +57,32 @@ export default function SignIn() {
         errors: newErrors,
       }));
     } else {
-      // Handle successful login
-      console.log("Logged in:", email);
+      try {
+        const userCredential = await signInUser(auth);
+
+        console.log("Logged in:", userCredential.user?.email);
+
+        // Clear form fields and errors
+        setAuth({
+          email: "",
+          password: "",
+          errors: {
+            email: "",
+            password: "",
+          },
+        });
+
+        // redirect user to dashboard or new page)
+        router.push("/");
+        setPopupConfirmText("You have been successfully logged in!");
+        setIsPopupConfirmOpen(true);
+      } catch (error: any) {
+        console.error("Error signing in:", error.message);
+        setAuth((prevAuth) => ({
+          ...prevAuth,
+          errors: { ...prevAuth.errors, email: error.message },
+        }));
+      }
     }
   };
 
@@ -128,50 +167,18 @@ export default function SignIn() {
           </form>
         </div>
 
+        <GoogleGithub />
+
         <div className="connect-container">
-          <p>Be connect with</p>
-
-          <div className="icon-connect">
-            <Image
-              src="/icons/google-icon.svg"
-              alt="Google icon"
-              width={40}
-              height={40}
-              className="icon"
-              style={{
-                filter: "invert(100%)",
-                border: "1px solid black",
-                borderRadius: "50%",
-                padding: "5px",
-                background: "white",
-              }}
-            />
-            <Image
-              src="/icons/github-icon.svg"
-              alt="GitHub icon"
-              width={40}
-              height={40}
-              className="icon"
-              style={{
-                filter: "invert(100%)",
-                border: "1px solid black",
-                borderRadius: "50%",
-                padding: "5px",
-                background: "white",
-              }}
-            />
-          </div>
-
-          <div className="connect-container">
-            <p>
-              Don’t have an account?{" "}
-              <Link href="/signup" className="sign-link">
-                Sign up
-              </Link>
-            </p>
-          </div>
+          <p>
+            Don’t have an account?{" "}
+            <Link href="/signup" className="sign-link">
+              Sign up
+            </Link>
+          </p>
         </div>
       </section>
+      <PopupConfirm />
     </main>
   );
 }

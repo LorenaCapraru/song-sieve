@@ -7,6 +7,8 @@ import {
   isUserLoggedInState,
   isPopupLoginOpenState,
   popupLoginTextState,
+  isPopupConfirmOpenState,
+  popupConfirmTextState,
   isMobileFilterOptionsOpenState,
   isFavouriteTracksPageState,
   favouriteTracksState,
@@ -22,12 +24,18 @@ const PlaylistHeader = () => {
   const setPopupLoginText = useSetRecoilState(popupLoginTextState);
   const isFavouriteTracksPage = useRecoilValue(isFavouriteTracksPageState);
   const favouriteTracks = useRecoilValue(favouriteTracksState);
+  const setIsPopupConfirmOpen = useSetRecoilState<boolean>(
+    isPopupConfirmOpenState
+  );
+  const setPopupConfirmText = useSetRecoilState<string>(popupConfirmTextState);
 
-  const handleAddPlaylistToMyLibrary = () => {
+  const handleAddPlaylistToMyLibrary = (id: string, name: string) => {
     if (!isUserLoggedIn) {
       setIsPopupLoginOpen(true);
       setPopupLoginText("add playlist to your library");
     } else {
+      setIsPopupConfirmOpen(true);
+      setPopupConfirmText(`The playlist ${name} was added to your library.`);
       //add playlist to library - make a request to db
     }
   };
@@ -84,22 +92,26 @@ const PlaylistHeader = () => {
                 onClick={handlePlaySong}
               />
             </div>
-            <Image
+            <button className="create-playlist-button">Create Playlist</button>
+            {/* <Image
               src="/icons/heart-icon.svg"
               alt="heart icon used to save"
               width={22}
               height={22}
               className="playlist-header-heart-icon"
-              onClick={handleAddPlaylistToMyLibrary}
-            />
-            <Image
+              onClick={() =>
+                handleAddPlaylistToMyLibrary(playlistData.id, playlistData.name)
+              }
+            /> */}
+            {/* <Image
               src="/icons/ellipsis-icon.svg"
               alt="ellipsis icon used for more options"
               width={22}
               height={22}
               className="playlist-header-ellipsis-icon"
-            />
+            /> */}
           </div>
+
           <button className="filter-button" onClick={handleFilterButtonClick}>
             Filter
           </button>

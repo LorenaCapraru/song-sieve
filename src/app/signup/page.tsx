@@ -2,16 +2,32 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRecoilState } from "recoil";
-import { signUpState, SignUpState, userTypeState } from "../recoil/atoms";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import {
+  isPopupConfirmOpenState,
+  popupConfirmTextState,
+  signUpState,
+  SignUpState,
+  userTypeState,
+} from "../recoil/atoms";
 import "../signin/page.css";
 import "./page.css";
 import { useEffect } from "react";
 
+import { signUpUser } from "@/firebase/auth";
+import { useRouter } from "next/navigation";
+import GoogleGithub from "../signin/components/GoogleGithub";
+
 export default function SignIn() {
+  const router = useRouter();
+
   const [auth, setAuth] = useRecoilState<SignUpState>(signUpState);
   const [selectedOption, setSelectedOption] =
     useRecoilState<string>(userTypeState);
+  const setIsPopupConfirmOpen = useSetRecoilState<boolean>(
+    isPopupConfirmOpenState
+  );
+  const setPopupConfirmText = useSetRecoilState<string>(popupConfirmTextState);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -22,7 +38,7 @@ export default function SignIn() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const { name, surname, email, password } = auth;
     let formIsValid = true;
@@ -55,13 +71,38 @@ export default function SignIn() {
         errors: newErrors,
       }));
     } else {
-      // Reset errors on successful form submission
-      setAuth((prevAuth) => ({
-        ...prevAuth,
-        errors: { name: "", surname: "", email: "", password: "" },
-      }));
-      // Handle successful login
-      console.log("Sign Up successful:", email);
+      try {
+        const fullName = `${auth.name} ${auth.surname}`;
+        const userCredential = await signUpUser(auth, fullName);
+
+        console.log("Sign Up successful:", userCredential.user?.email);
+
+        // Clear form fields and errors after successful signup
+        setAuth({
+          name: "",
+          surname: "",
+          email: "",
+          password: "",
+          errors: {
+            name: "",
+            surname: "",
+            email: "",
+            password: "",
+          },
+        });
+        // redirect user to a sign-in page or new page)
+        router.push("/signin");
+        setPopupConfirmText(
+          "You have been successfully registered! Please sign in now to access all the features of the Song Sieve."
+        );
+        setIsPopupConfirmOpen(true);
+      } catch (error: any) {
+        console.error("Error signing up:", error.message);
+        setAuth((prevAuth) => ({
+          ...prevAuth,
+          errors: { ...prevAuth.errors, email: error.message },
+        }));
+      }
     }
   };
 
@@ -211,48 +252,15 @@ export default function SignIn() {
           </form>
         </div>
 
+        <GoogleGithub />
+
         <div className="connect-container">
-          <p>Be connect with</p>
-
-          <div className="icon-connect">
-            <Image
-              src="/icons/google-icon.svg"
-              alt="Google icon"
-              width={40}
-              height={40}
-              className="icon"
-              style={{
-                filter: "invert(100%)",
-                border: "1px solid black",
-                borderRadius: "50%",
-                padding: "5px",
-                background: "white",
-              }}
-            />
-            <Image
-              src="/icons/github-icon.svg"
-              alt="GitHub icon"
-              width={40}
-              height={40}
-              className="icon"
-              style={{
-                filter: "invert(100%)",
-                border: "1px solid black",
-                borderRadius: "50%",
-                padding: "5px",
-                background: "white",
-              }}
-            />
-          </div>
-
-          <div className="connect-container">
-            <p>
-              Already have an account!{" "}
-              <Link href="/signin" className="sign-link">
-                Sign in
-              </Link>
-            </p>
-          </div>
+          <p>
+            Already have an account!{" "}
+            <Link href="/signin" className="sign-link">
+              Sign in
+            </Link>
+          </p>
         </div>
       </section>
     </main>

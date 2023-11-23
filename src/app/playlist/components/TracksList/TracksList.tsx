@@ -9,8 +9,9 @@ import {
   CurrentUser,
   filterOptionsState,
   tracksArrState,
+  isPopupConfirmOpenState,
 } from "@/app/recoil/atoms";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import Track, { TrackObject } from "../Track/Track";
 import { Bars } from "react-loader-spinner";
 import {
@@ -32,6 +33,9 @@ const TracksList: React.FC = () => {
   const [filterOptions, setFilterOptions] = useRecoilState(filterOptionsState);
   const [tracksArr, setTracksArr] = useRecoilState<TrackObject[] | undefined>(
     tracksArrState
+  );
+  const setIsPopupConfirmOpen = useSetRecoilState<boolean>(
+    isPopupConfirmOpenState
   );
   const pathname = usePathname();
 
@@ -136,7 +140,9 @@ const TracksList: React.FC = () => {
 
   //to clean the state when user leave the page
   useEffect(() => {
+    setIsPopupConfirmOpen(false);
     setPlaylistData(undefined);
+    setFilterOptions({ selectedDuration: null, explicit: null });
   }, [pathname]);
 
   return playlistData ? (

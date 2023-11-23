@@ -304,9 +304,26 @@ export const addUserToDatabase = async (user: CurrentUser) => {
       const favouriteTracksRef = collection(userDocRef, "favourite_tracks");
       const libraryRef = collection(userDocRef, "library");
 
-      // Add empty documents to the collections to create them
-      await setDoc(doc(favouriteTracksRef, "empty_collection"), {});
-      await setDoc(doc(libraryRef, "empty_collection"), {});
+      //Create fake objects
+      const fakeFavouriteTrack: DBFavouriteTrack = {
+        spotify_id: "11111111",
+      };
+
+      const fakeLibraryPlaylist: DBLibraryPlaylist = {
+        name: "",
+        custom_id: "11111111",
+        tracks: [],
+      };
+
+      // Add empty documents to the collections with custom IDs
+      await setDoc(
+        doc(favouriteTracksRef, fakeFavouriteTrack.spotify_id),
+        fakeFavouriteTrack
+      );
+      await setDoc(
+        doc(libraryRef, fakeLibraryPlaylist.custom_id),
+        fakeLibraryPlaylist
+      );
 
       console.log(
         "User data and empty collections added to database successfully!"

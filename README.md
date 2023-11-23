@@ -6,13 +6,29 @@ This Next.js app allows users to interact with Spotify playlists, fetching track
 ## Getting Started
 
 1. Clone the repository:
-
    ```bash
    git clone https://github.com/LorenaCapraru/song-sieve
+   
 2. Install dependencies
    ```bash
    npm install
-3. 
+   
+3. Set up Firebase:
+- Create a Firebase project: [Firebase Console](https://console.firebase.google.com/).
+- Obtain your Firebase configuration and update it in src/firebase/firebase.ts.
+- Enable Firebase Authentication (e.g., Email/Password) and Firestore Database.
+  
+4. Set up Spotify API:
+- Create a Spotify Developer account and register your app: [Spotify Developer Dashboard](https://developer.spotify.com/dashboard).
+- Obtain your Spotify client ID and secret ID and update them in src/constants.js.
+
+5. Run the app:
+
+```bash
+npm run dev
+```
+
+6. Access the application at http://localhost:3000/
 
 ## Features
 

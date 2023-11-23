@@ -43,20 +43,30 @@ npm run dev
 
 1. **Copy Playlist ID:**
    - Users can input a Spotify playlist ID into the app to fetch the playlist data.
+   <img width="500" alt="Screenshot 2023-11-23 at 19 28 11" src="https://github.com/LorenaCapraru/song-sieve/assets/108892538/9cc8b8e0-50d9-4f96-9264-99c7087c861b">
 
 2. **Fetch Playlist Tracks:**
    - The app fetches the list of tracks in the specified Spotify playlist using the Spotify API.
+   <img width="500" alt="Screenshot 2023-11-23 at 19 29 20" src="https://github.com/LorenaCapraru/song-sieve/assets/108892538/d9e5003b-60c4-4379-83e9-c1d1b5ba7e41">
+
 
 3. **Filter Playlist Tracks:**
    - Users can filter the playlist based on various metrics:
      - Track Length
      - Explicit Content
+   <img width="500" alt="Screenshot 2023-11-23 at 19 31 35" src="https://github.com/LorenaCapraru/song-sieve/assets/108892538/3e60bc71-90bb-40db-9edc-48121a341311">
 
 4. **User Authentication and Database:**
    - Firebase authentication is used for user sign-in.
    - User-specific playlist data is stored in a Firebase database.
+   <img width="400" alt="Screenshot 2023-11-23 at 19 47 12" src="https://github.com/LorenaCapraru/song-sieve/assets/108892538/e5402006-cba3-4371-a8d7-b59e3cdd28c0">
+   <img width="400" alt="Screenshot 2023-11-23 at 19 45 51" src="https://github.com/LorenaCapraru/song-sieve/assets/108892538/49209bd9-ac98-4365-ae4f-c89970fc0c2a">
 
-5. **State Management with Recoil:**
+4. **Create New Playlist:**
+   - User can create new playlist based on the filtered tracks
+   <img width="500" alt="Screenshot 2023-11-23 at 19 39 50" src="https://github.com/LorenaCapraru/song-sieve/assets/108892538/a0cb8a00-6177-421e-b99c-d8b22c5dfdce">
+  
+6. **State Management with Recoil:**
    - Recoil is utilized for efficient state management across components.
 
 

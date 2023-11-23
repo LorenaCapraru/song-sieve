@@ -1,4 +1,5 @@
 .track-row {
+  position: relative;
   padding: 5px;
   vertical-align: middle;
   cursor: pointer;
@@ -80,6 +81,92 @@
 
 .tracks-date {
   white-space: nowrap;
+}
+
+.playlist-options {
+  position: absolute;
+  top: 80%;
+  right: 0;
+  background-color: var(--purple);
+  padding: 15px 20px;
+  border-radius: 15px;
+  border: 1px solid white;
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  z-index: 2;
+  max-height: 300px;
+  min-width: 280px;
+  overflow-y: auto;
+}
+
+.playlist-options div {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid white;
+  padding-bottom: 10px;
+}
+
+.playlist-options .create-playlist-container:hover,
+.playlist-options .create-playlist-container:focus,
+.playlist-options .my-library-playlist-option:hover,
+.playlist-options .my-library-playlist-option:focus {
+  color: var(--pink);
+  cursor: pointer;
+}
+
+.playlist-options .create-playlist-container > img {
+  filter: var(--white-icon);
+}
+
+.playlist-options .create-playlist-container:hover > img,
+.playlist-options .create-playlist-container:focus > img {
+  filter: var(--pink-icon);
+}
+
+.create-playlist-input {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.create-playlist-input input {
+  background-color: transparent;
+  border: 1px solid white;
+  border-radius: 5px;
+  color: white;
+  padding: 4px 8px;
+}
+
+.create-playlist-input .create-playlist-input-buttons {
+  align-self: flex-end;
+  display: flex;
+  gap: 5px;
+  border-bottom: none;
+  padding: 0;
+}
+
+.create-playlist-input button {
+  padding: 5px;
+  background-color: white;
+  border: 1px solid white;
+  border-radius: 10px;
+  color: var(--purple);
+  font-family: var(--font);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all ease-in-out 200ms;
+}
+
+.create-playlist-input button:hover,
+.create-playlist-input button:focus {
+  color: white;
+  background-color: transparent;
+}
+
+.create-playlist-input .err-msg {
+  color: red;
 }
 
 @media only screen and (min-width: 768px) {

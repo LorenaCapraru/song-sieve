@@ -4,6 +4,7 @@ import { useRecoilState } from "recoil";
 import {
   filterOptionsState,
   isMobileFilterOptionsOpenState,
+  tracksArrState,
 } from "@/app/recoil/atoms";
 import { useEffect, useState } from "react";
 
@@ -18,6 +19,7 @@ const FilterOptions = () => {
     useState<boolean>(false);
   const [isMobileFilterOptionsOpen, setIsMobileFilterOptionsOpen] =
     useRecoilState(isMobileFilterOptionsOpenState);
+  const [tracksArr, setTracksArr] = useRecoilState(tracksArrState);
 
   const durations = [
     "less than 2 minutes",
@@ -123,8 +125,8 @@ const FilterOptions = () => {
           Clear all filters
         </button>
       )}
-
-      <p className="filter-result">Found 5 tracks</p>
+      {/* <button className="create-playlist-button">Create Playlist</button> */}
+      <p className="filter-result">Found {tracksArr?.length} tracks</p>
     </div>
   );
 };

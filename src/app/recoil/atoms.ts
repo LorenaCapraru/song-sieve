@@ -192,11 +192,11 @@ export const isFavouriteTracksPageState = atom<boolean>({
   default: false,
 });
 
-
 // My library page
 export const libraryPlaylistsState = atom<PlaylistData[] | undefined>({
   key: "libraryPlaylistsState",
-  });
+  default: undefined,
+});
 
 export const currentUserState = atom<CurrentUser | undefined>({
   key: "currentUserState",

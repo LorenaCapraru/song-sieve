@@ -10,6 +10,7 @@ import { useEffect } from "react";
 
 import { signUpUser } from "@/firebase/auth";
 import { useRouter } from "next/navigation";
+import GoogleGithub from "../signin/components/GoogleGithub";
 
 export default function SignIn() {
   const router = useRouter();
@@ -236,48 +237,15 @@ export default function SignIn() {
           </form>
         </div>
 
+        <GoogleGithub />
+
         <div className="connect-container">
-          <p>Be connect with</p>
-
-          <div className="icon-connect">
-            <Image
-              src="/icons/google-icon.svg"
-              alt="Google icon"
-              width={40}
-              height={40}
-              className="icon"
-              style={{
-                filter: "invert(100%)",
-                border: "1px solid black",
-                borderRadius: "50%",
-                padding: "5px",
-                background: "white",
-              }}
-            />
-            <Image
-              src="/icons/github-icon.svg"
-              alt="GitHub icon"
-              width={40}
-              height={40}
-              className="icon"
-              style={{
-                filter: "invert(100%)",
-                border: "1px solid black",
-                borderRadius: "50%",
-                padding: "5px",
-                background: "white",
-              }}
-            />
-          </div>
-
-          <div className="connect-container">
-            <p>
-              Already have an account!{" "}
-              <Link href="/signin" className="sign-link">
-                Sign in
-              </Link>
-            </p>
-          </div>
+          <p>
+            Already have an account!{" "}
+            <Link href="/signin" className="sign-link">
+              Sign in
+            </Link>
+          </p>
         </div>
       </section>
     </main>

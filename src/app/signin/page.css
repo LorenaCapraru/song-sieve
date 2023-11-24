@@ -147,7 +147,7 @@ h2 {
 .sign-link {
   text-decoration: underline;
   font-weight: bold;
-  color: mediumseagreen;
+  color: var(--pink);
   transition: all ease-in-out 200ms;
 }
 .sign-link:hover {

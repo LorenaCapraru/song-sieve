@@ -1,17 +1,22 @@
+"use client";
 import { PlaylistData } from "@/app/recoil/atoms";
 import "./PlaylistCover.css";
 import Image from "next/image";
 import { shortenString } from "@/utils/utils";
+import Link from "next/link";
 
 interface PlaylistProps {
   popularPlaylist: PlaylistData;
 }
 
 const PlaylistCover = ({ popularPlaylist }: PlaylistProps) => {
-  const { name, description, images } = popularPlaylist;
+  const { id, name, description, images } = popularPlaylist;
 
   return (
-    <div className="popular-playlist-container">
+    <Link
+      href={`/playlist/${popularPlaylist.id}`}
+      className="popular-playlist-container"
+    >
       <div className="popular-playlist-image">
         <Image
           src={images[0].url}
@@ -26,7 +31,7 @@ const PlaylistCover = ({ popularPlaylist }: PlaylistProps) => {
           {shortenString(description, 27)}
         </p>
       </div>
-    </div>
+    </Link>
   );
 };
 export default PlaylistCover;

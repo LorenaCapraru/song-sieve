@@ -14,6 +14,7 @@ import {
   CurrentUser,
   DBFavouriteTrack,
   DBLibraryPlaylist,
+  DBLibraryPlaylistNameId,
   PlaylistData,
 } from "@/app/recoil/atoms";
 import { checkTokenTime, generateCustomPlaylistID } from "./utils";
@@ -136,6 +137,25 @@ export const getPlaylistsFromLibraryForUser = async (userId: string) => {
   }
 
   return libraryPlaylists;
+};
+
+//fetching only playlists names from library
+export const getPlaylistNamesIdsFromLibraryForUser = async (userId: string) => {
+  const playlistsFromLibraryRef = collection(db, "users", userId, "library");
+  const querySnapshot = await getDocs(playlistsFromLibraryRef);
+  const playlistData: DBLibraryPlaylistNameId[] = [];
+
+  querySnapshot.forEach((doc) => {
+    const playlist = doc.data();
+    if (playlist && playlist.name && playlist.custom_id !== "11111111") {
+      playlistData.push({
+        custom_id: playlist.custom_id,
+        name: playlist.name,
+      });
+    }
+  });
+
+  return playlistData;
 };
 
 //fetching one playlist from library

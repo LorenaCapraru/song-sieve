@@ -25,9 +25,8 @@ export interface PlaylistData {
   };
 }
 
-export interface DBPlaylistData {
-  id: string;
-  spotifyId: string;
+export interface DBLibraryPlaylistNameId {
+  custom_id: string;
   name: string;
 }
 
@@ -146,7 +145,9 @@ export const popupLoginTextState = atom<string>({
   default: "",
 });
 
-export const myLibraryPlaylistsState = atom<DBPlaylistData[] | undefined>({
+export const myLibraryPlaylistsState = atom<
+  DBLibraryPlaylistNameId[] | undefined
+>({
   key: "myLibraryPlaylistsState",
   default: undefined,
 });
@@ -201,4 +202,9 @@ export const libraryPlaylistsState = atom<PlaylistData[] | undefined>({
 export const currentUserState = atom<CurrentUser | undefined>({
   key: "currentUserState",
   default: undefined,
+});
+
+export const isDBLibraryPlaylistChangedState = atom<boolean>({
+  key: "isDBLibraryPlaylistChangedState",
+  default: false,
 });

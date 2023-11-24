@@ -41,7 +41,7 @@ td:first-child {
   border-radius: 10px 0 0 10px;
 }
 
-td:last-child {
+.td-last-child {
   padding-right: 20px;
   border-radius: 0 10px 10px 0;
 }

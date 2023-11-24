@@ -429,3 +429,25 @@ export const addSongToPlaylist = async (
     return false;
   }
 };
+
+export const addFavouriteTrack = async (
+  userId: string,
+  passedId: string
+): Promise<boolean> => {
+  try {
+    const favouriteTracksRef = collection(
+      db,
+      "users",
+      userId,
+      "favourite_tracks"
+    );
+
+    // Create a new document in the favourite_tracks collection
+    await addDoc(favouriteTracksRef, { spotify_id: passedId });
+    console.log("Favourite track added successfully!");
+    return true;
+  } catch (error) {
+    console.error("Error adding favourite track:", error);
+    return false;
+  }
+};

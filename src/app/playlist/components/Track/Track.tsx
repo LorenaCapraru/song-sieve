@@ -3,8 +3,9 @@ import Image from "next/image";
 import "./Track.css";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
-  DBPlaylistData,
+  DBLibraryPlaylistNameId,
   currentUserState,
+  isDBLibraryPlaylistChangedState,
   isPopupConfirmOpenState,
   isPopupLoginOpenState,
   isUserLoggedInState,
@@ -13,7 +14,10 @@ import {
   popupLoginTextState,
 } from "@/app/recoil/atoms";
 import { millisecondsToMinutes, shortenString } from "@/utils/utils";
-import { createEmptyPlaylistWithName } from "@/utils/dbUtils";
+import {
+  createEmptyPlaylistWithName,
+  getPlaylistNamesIdsFromLibraryForUser,
+} from "@/utils/dbUtils";
 
 export interface TrackObject {
   id: string;
@@ -34,7 +38,7 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
   const setIsPopupLoginOpen = useSetRecoilState(isPopupLoginOpenState);
   const setPopupLoginText = useSetRecoilState(popupLoginTextState);
   const [myLibraryPlaylists, setMyLibraryPlaylists] = useRecoilState<
-    DBPlaylistData[] | undefined
+    DBLibraryPlaylistNameId[] | undefined
   >(myLibraryPlaylistsState);
   const [arePlaylistOptionOpen, setArePlaylistOptionsOpen] =
     useState<boolean>(false);
@@ -48,6 +52,8 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
   );
   const setPopupConfirmText = useSetRecoilState<string>(popupConfirmTextState);
   const currentUser = useRecoilValue(currentUserState);
+  const [isDBLibraryPlaylistChanged, setIsDBLibraryPlaylistChanged] =
+    useRecoilState(isDBLibraryPlaylistChangedState);
 
   const handleAddSongToFavouriteTracks = () => {
     if (!isUserLoggedIn) {
@@ -85,6 +91,7 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
           newPlaylistName
         );
         if (status) {
+          setIsDBLibraryPlaylistChanged(!isDBLibraryPlaylistChanged);
           setIsPopupConfirmOpen(true);
           setPopupConfirmText(
             `Playlist ${newPlaylistName} was created. Now you can add a song to the playlist.`
@@ -101,44 +108,35 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
     }
   };
 
-  const handleMyLibraryPlaylistClick = (spotifyId: string, name: string) => {
+  const handleMyLibraryPlaylistClick = (playlistId: string, name: string) => {
     setIsPopupConfirmOpen(true);
     setPopupConfirmText(`The song was added to playlist ${name}.`);
     setArePlaylistOptionsOpen(false);
     //add this song to playlist - send request to db
   };
 
-  const handleRemovePlaylistClick = (name: string) => {
+  const handleRemoveSongFromPLaylist = (name: string) => {
     //check if user is logged in
     //then check if there is a playlist in current user's library
     //then remove the song
     //display a PopupConfirm component => displaying the info
   };
 
+  //fetch library playlist names
   useEffect(() => {
-    //fetch all playlists names from library of user
+    const fetchLibraryPlaylists = async () => {
+      if (currentUser) {
+        const libraryPlaylists = await getPlaylistNamesIdsFromLibraryForUser(
+          currentUser.id
+        );
+        setMyLibraryPlaylists(libraryPlaylists);
+      }
+    };
 
-    // temporarily create an object
-    const libraryPlaylists: DBPlaylistData[] = [
-      {
-        id: "db_id1",
-        spotifyId: "37i9dQZF1E38So9B6KJSly",
-        name: "Mix of the day 3",
-      },
-      {
-        id: "db_id2",
-        spotifyId: "0vvXsWCC9xrXsKd4FyS8kM",
-        name: "Lofi girl - beats to relax/study to",
-      },
-      {
-        id: "db_id3",
-        spotifyId: "5aE6bhMLYXJWBvEIWm6ZaO",
-        name: "Music for Stretching",
-      },
-    ];
-    setMyLibraryPlaylists(libraryPlaylists);
-  }, []);
+    fetchLibraryPlaylists();
+  }, [currentUser, isDBLibraryPlaylistChanged]);
 
+  //handle click outside of track's options
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -197,7 +195,7 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
             />
           </td>
           <td>{track.explicit === true ? "Yes" : "No"}</td>
-          <td>
+          <td className="td-last-child">
             <Image
               src="/icons/ellipsis-icon.svg"
               alt="ellipsis icon used to play"
@@ -221,7 +219,7 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
               {/* to check if playlist is in user's library => then display */}
               {/* <div
               className="create-playlist-container"
-              onClick={() => handleRemovePlaylistClick(track.name)}
+              onClick={() => handleRemoveSongFromPLaylist(track.name)}
             >
               <p>Remove song from the playlist</p>
               <Image
@@ -261,11 +259,11 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
                 myLibraryPlaylists &&
                 myLibraryPlaylists.map((playlist) => (
                   <p
-                    key={playlist.id}
+                    key={playlist.custom_id}
                     className="my-library-playlist-option"
                     onClick={() =>
                       handleMyLibraryPlaylistClick(
-                        playlist.spotifyId,
+                        playlist.custom_id,
                         playlist.name
                       )
                     }

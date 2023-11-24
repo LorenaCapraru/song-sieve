@@ -5,6 +5,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   DBLibraryPlaylistNameId,
   currentUserState,
+  favouriteTracksIdsState,
   isDBLibraryPlaylistChangedState,
   isPopupConfirmOpenState,
   isPopupLoginOpenState,
@@ -57,6 +58,11 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
   const currentUser = useRecoilValue(currentUserState);
   const [isDBLibraryPlaylistChanged, setIsDBLibraryPlaylistChanged] =
     useRecoilState(isDBLibraryPlaylistChangedState);
+  const favouriteTracksIds = useRecoilValue<Set<string>>(
+    favouriteTracksIdsState
+  );
+
+  const isFavorite = favouriteTracksIds.has(track.id);
 
   const handleAddSongToFavouriteTracks = async (
     trackId: string,
@@ -212,7 +218,7 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
             <div>
               <Image
                 src={track.album.images[0].url}
-                alt="heart icon used to play"
+                alt="album cover"
                 width={50}
                 height={50}
                 className="tracks-list-image"
@@ -234,22 +240,35 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
           <td>{millisecondsToMinutes(track.duration_ms)}</td>
 
           <td>
-            <Image
-              src="/icons/heart-icon.svg"
-              alt="heart icon used to play"
-              width={18}
-              height={18}
-              className="playlist-table-heart-icon"
-              onClick={() =>
-                handleAddSongToFavouriteTracks(track.id, track.name)
-              }
-            />
+            {isFavorite ? (
+              <Image
+                src="/icons/full-heart-icon.svg"
+                alt="heart icon"
+                width={18}
+                height={18}
+                className="playlist-table-heart-icon"
+                onClick={() =>
+                  handleAddSongToFavouriteTracks(track.id, track.name)
+                }
+              />
+            ) : (
+              <Image
+                src="/icons/heart-icon.svg"
+                alt="heart icon"
+                width={18}
+                height={18}
+                className="playlist-table-heart-icon"
+                onClick={() =>
+                  handleAddSongToFavouriteTracks(track.id, track.name)
+                }
+              />
+            )}
           </td>
           <td>{track.explicit === true ? "Yes" : "No"}</td>
           <td className="td-last-child">
             <Image
               src="/icons/ellipsis-icon.svg"
-              alt="ellipsis icon used to play"
+              alt="ellipsis icon"
               width={18}
               height={18}
               className="playlist-table-ellipsis-icon"

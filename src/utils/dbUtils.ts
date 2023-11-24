@@ -451,3 +451,34 @@ export const addFavouriteTrack = async (
     return false;
   }
 };
+
+export const getFavouriteTracksIdsForUser = async (
+  userId: string
+): Promise<string[]> => {
+  try {
+    const favouriteTracksRef = collection(
+      db,
+      "users",
+      userId,
+      "favourite_tracks"
+    );
+    const q = query(favouriteTracksRef);
+
+    const querySnapshot = await getDocs(q);
+    const favoriteTrackIds: string[] = [];
+
+    querySnapshot.forEach((doc) => {
+      const { spotify_id } = doc.data();
+      if (spotify_id) {
+        favoriteTrackIds.push(spotify_id);
+      }
+    });
+
+    console.log("favourtie tracks", favoriteTrackIds);
+
+    return favoriteTrackIds;
+  } catch (error) {
+    console.error("Error fetching favorite track IDs:", error);
+    return [];
+  }
+};

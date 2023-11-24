@@ -10,6 +10,7 @@ import {
   filterOptionsState,
   tracksArrState,
   isPopupConfirmOpenState,
+  favouriteTracksIdsState,
 } from "@/app/recoil/atoms";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import Track, { TrackObject } from "../Track/Track";
@@ -20,6 +21,7 @@ import { usePathname } from "next/navigation";
 import PopupConfirm from "../Track/components/PopupConfirm/PopupConfirm";
 import {
   getFavouriteTracksForUser,
+  getFavouriteTracksIdsForUser,
   getOnePlaylistFromLibraryForUser,
 } from "@/utils/dbUtils";
 
@@ -38,6 +40,9 @@ const TracksList: React.FC = () => {
   const setIsPopupConfirmOpen = useSetRecoilState<boolean>(
     isPopupConfirmOpenState
   );
+  const [favouriteTracksIds, setFavouriteTracksIds] = useRecoilState<
+    Set<string>
+  >(favouriteTracksIdsState);
   const pathname = usePathname();
 
   // Fetches favourite tracks for a user
@@ -65,6 +70,22 @@ const TracksList: React.FC = () => {
         });
     }
   }, [isFavouriteTracksPage, currentUser]);
+
+  // Fetch the user's favorite tracks ids and update the state
+  useEffect(() => {
+    if (currentUser) {
+      getFavouriteTracksIdsForUser(currentUser.id)
+        .then((tracksList) => {
+          const trackIds = new Set(tracksList.map((id) => id));
+          setFavouriteTracksIds(trackIds);
+
+          console.log("ids", trackIds);
+        })
+        .catch((error) => {
+          console.error("Error fetching favorite tracks: ", error);
+        });
+    }
+  }, [currentUser]);
 
   //check if the url includes "custom_playlists"
   useEffect(() => {

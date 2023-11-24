@@ -208,3 +208,8 @@ export const isDBLibraryPlaylistChangedState = atom<boolean>({
   key: "isDBLibraryPlaylistChangedState",
   default: false,
 });
+
+export const favouriteTracksIdsState = atom<Set<string>>({
+  key: "favouriteTracksIdsState",
+  default: new Set(),
+});

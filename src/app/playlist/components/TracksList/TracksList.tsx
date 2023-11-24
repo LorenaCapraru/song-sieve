@@ -68,9 +68,7 @@ const TracksList: React.FC = () => {
 
   //check if the url includes "custom_playlists"
   useEffect(() => {
-    console.log("pathname", pathname);
     if (pathname.includes("custom_playlist") && currentUser) {
-      console.log("yes");
       const id = getIdFromLibraryPlaylistUrl(pathname);
 
       if (id !== null) {

@@ -98,6 +98,7 @@
   z-index: 2;
   max-height: 300px;
   min-width: 280px;
+  max-width: 320px;
   overflow-y: auto;
 }
 
@@ -167,6 +168,7 @@
 
 .create-playlist-input .err-msg {
   color: red;
+  overflow-wrap: anywhere;
 }
 
 @media only screen and (min-width: 768px) {

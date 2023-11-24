@@ -12,13 +12,14 @@ import PopupLogin from "@/app/components/PopupLogIn/PopupLogin";
 import { useRecoilValue } from "recoil";
 import { isMobileFilterOptionsOpenState } from "@/app/recoil/atoms";
 import FilterOptions from "@/app/components/SideBar/components/FilterOptions/FilterOptions";
+import { usePathname } from "next/navigation";
 
 const PlaylistPage = ({ params }: { params: { id: string } }) => {
-  console.log("id", params.id);
   const setPlaylistData = useSetRecoilState(playlistDataState);
   const isMobileFilterOptionsOpen = useRecoilValue(
     isMobileFilterOptionsOpenState
   );
+  const pathname = usePathname();
 
   //update background image on first load and fetch the playlist data if it's needed
   useEffect(() => {
@@ -28,23 +29,25 @@ const PlaylistPage = ({ params }: { params: { id: string } }) => {
       await checkTokenTime();
       const accessToken = localStorage.getItem("access_token");
 
-      try {
-        const response = await fetch(
-          `https://api.spotify.com/v1/playlists/${params.id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
+      if (!pathname.includes("custom_playlist")) {
+        try {
+          const response = await fetch(
+            `https://api.spotify.com/v1/playlists/${params.id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
+          if (!response.ok) {
+            throw new Error(`Error fetching playlist: ${response.status}`);
           }
-        );
-        if (!response.ok) {
-          throw new Error(`Error fetching playlist: ${response.status}`);
+          const data = await response.json();
+          setPlaylistData(data);
+          console.log("Playlist Data:", data);
+        } catch (error) {
+          console.error("Error fetching playlist" + error);
         }
-        const data = await response.json();
-        setPlaylistData(data);
-        console.log("Playlist Data:", data);
-      } catch (error) {
-        console.error("Error fetching playlist" + error);
       }
     };
 

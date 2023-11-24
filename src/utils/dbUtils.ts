@@ -68,7 +68,7 @@ const fetchPlaylist = async (id: string) => {
   return playlist;
 };
 
-//fetching a list of favourite tracks from db
+//fetching a list of favourite tracks from db k
 export const getFavouriteTracksForUser = async (userId: string) => {
   const favoriteTracksRef = collection(db, "users", userId, "favourite_tracks");
   const querySnapshot = await getDocs(favoriteTracksRef);

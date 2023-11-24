@@ -86,12 +86,14 @@ export async function signUpWithGitHub(): Promise<UserCredential> {
 }
 
 //sign out
-export async function signOutUser(): Promise<void> {
+export async function signOutUser(): Promise<boolean> {
   const auth: Auth = getAuth();
   try {
     await signOut(auth);
+    return true;
   } catch (error: any) {
     console.error("Error signing out:", error.message);
     throw error;
+    return false;
   }
 }

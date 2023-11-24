@@ -13,6 +13,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { useEffect } from "react";
 import { auth } from "@/firebase/firebase";
 import { signOutUser } from "@/firebase/auth";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
   const [isUserLoggedIn, setIsUserLoggedIn] =
@@ -21,9 +22,16 @@ const Header = () => {
     currentUserState
   );
   const isSideBarOpen = useRecoilValue(isSideBarOpenState);
+  const router = useRouter();
 
   const handleLogOutOnClick = async () => {
-    await signOutUser();
+    await signOutUser()
+      .then((result) => {
+        result ? router.push("/") : console.log("The logout was unsuccessful");
+      })
+      .catch((error) => {
+        console.log("The logout was unsuccessful with error:", error);
+      });
   };
 
   //check if user is logged in
@@ -76,14 +84,20 @@ const Header = () => {
         <Link href="/signin">
           <div className="login-container">
             {isUserLoggedIn ? (
-              <Link href="/">
+              <>
                 <p
                   className="header-logout-button"
                   onClick={handleLogOutOnClick}
                 >
                   Log out
                 </p>
-              </Link>
+                <Image
+                  src="/icons/login-icon.svg"
+                  alt="logo"
+                  width={35}
+                  height={35}
+                />
+              </>
             ) : (
               <>
                 <p>Log in</p>
@@ -94,19 +108,6 @@ const Header = () => {
                   height={35}
                 />
               </>
-            )}
-            {isUserLoggedIn && (
-              <Link href="/">
-                <div className="login-container">
-                  {currentUser && <p>{currentUser.name}</p>}
-                  <Image
-                    src="/icons/login-icon.svg"
-                    alt="logo"
-                    width={35}
-                    height={35}
-                  />
-                </div>
-              </Link>
             )}
           </div>
         </Link>

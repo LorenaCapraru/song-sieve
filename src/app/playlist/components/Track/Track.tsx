@@ -141,21 +141,10 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      console.log("click outside");
-      console.log("playlist", playlistOptionsRef.current);
-      // console.log(
-      //   "contains",
-      //   !playlistOptionsRef.current.contains(event.target as Node)
-      // );
       if (
         playlistOptionsRef.current &&
         !playlistOptionsRef.current.contains(event.target as Node)
       ) {
-        console.log("playlist", playlistOptionsRef.current);
-        console.log(
-          "contains",
-          !playlistOptionsRef.current.contains(event.target as Node)
-        );
         setArePlaylistOptionsOpen(false);
       }
     };

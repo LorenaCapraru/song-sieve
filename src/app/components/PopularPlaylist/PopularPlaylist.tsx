@@ -58,7 +58,7 @@ const PopularPlaylist = () => {
           </div>
         </div>
       ) : (
-        <div className="tracklist-loader">
+        <div className="popular-playlists-loader">
           <Bars
             height="70"
             width="70"

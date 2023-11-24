@@ -16,3 +16,12 @@
 .popular-playlist-row a {
   text-decoration: none;
 }
+
+.popular-playlists-loader {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  background-color: var(--trans-black);
+  padding: 30px;
+  border-radius: 25px;
+}

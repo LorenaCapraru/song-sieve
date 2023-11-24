@@ -9,6 +9,7 @@ import {
   setDoc,
   doc,
   getDoc,
+  addDoc,
 } from "firebase/firestore";
 import {
   CurrentUser,
@@ -190,18 +191,11 @@ export const getPlaylistsFromLibraryForUser = async (userId: string) => {
         }
       }
 
-      //fetch info about all playlists
-      let playlistSpotifyObject: PlaylistData | undefined = undefined;
-
-      if (!playlist.custom_id.includes("custom_playlist")) {
-        playlistSpotifyObject = await fetchPlaylist(playlist.custom_id);
-      }
-
       const libraryPlaylistData: PlaylistData = {
         name: playlist.name,
         description: "Custom playlist",
         id: playlist.custom_id,
-        images: playlistSpotifyObject ? playlistSpotifyObject.images : [],
+        images: [],
         tracks: {
           total: tracksList.length,
           items: tracksList,
@@ -340,4 +334,61 @@ export const addUserToDatabase = async (user: CurrentUser) => {
       error
     );
   }
+};
+
+export const createPlaylist = async (
+  userId: string,
+  playlist: DBLibraryPlaylist
+): Promise<boolean> => {
+  try {
+    const libraryCollectionRef = collection(db, "users", userId, "library");
+    // Add a new document with auto-generated ID in the library collection
+    await addDoc(libraryCollectionRef, playlist);
+    console.log("Playlist created in the library successfully!");
+    return true;
+  } catch (error) {
+    console.error("Error creating playlist:", error);
+    return false;
+  }
+};
+
+export const checkIfPlaylistNameExists = async (
+  userId: string,
+  playlistName: string
+): Promise<boolean> => {
+  try {
+    const libraryCollectionRef = collection(db, "users", userId, "library");
+
+    // Query for playlists in the library with the same name
+    const querySnapshot = await getDocs(
+      query(libraryCollectionRef, where("name", "==", playlistName))
+    );
+
+    // Check if there are any playlists with the same name
+    if (!querySnapshot.empty) {
+      return true; // Playlist with the same name exists
+    } else {
+      return false; // Playlist with the same name does not exist
+    }
+  } catch (error) {
+    console.error("Error checking playlist existence:", error);
+    return false; // Return false on error
+  }
+};
+
+export const generateCustomPlaylistID = (): string => {
+  const min = 10000000;
+  const max = 99999999;
+  const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+  const id = `custom_playlist_${randomNumber}`;
+  return id;
+};
+
+// Function to extract only the spotify_id from an array of TrackObjects
+export const extractSpotifyIds = (trackObjects: TrackObject[]): string[] => {
+  return trackObjects.map((trackObject) => trackObject.id);
+};
+
+export const getRandomNumber = (): number => {
+  return Math.floor(Math.random() * 100);
 };

@@ -11,9 +11,20 @@ import {
   popupConfirmTextState,
   isMobileFilterOptionsOpenState,
   isFavouriteTracksPageState,
-  favouriteTracksState,
+  tracksArrState,
+  DBLibraryPlaylist,
+  CurrentUser,
+  currentUserState,
 } from "@/app/recoil/atoms";
 import Image from "next/image";
+import { TrackObject } from "../Track/Track";
+import {
+  checkIfPlaylistNameExists,
+  createPlaylist,
+  extractSpotifyIds,
+  generateCustomPlaylistID,
+  getRandomNumber,
+} from "@/utils/utils";
 
 const PlaylistHeader = () => {
   const playlistData = useRecoilValue<PlaylistData | undefined>(
@@ -23,20 +34,57 @@ const PlaylistHeader = () => {
   const setIsPopupLoginOpen = useSetRecoilState(isPopupLoginOpenState);
   const setPopupLoginText = useSetRecoilState(popupLoginTextState);
   const isFavouriteTracksPage = useRecoilValue(isFavouriteTracksPageState);
-  const favouriteTracks = useRecoilValue(favouriteTracksState);
   const setIsPopupConfirmOpen = useSetRecoilState<boolean>(
     isPopupConfirmOpenState
   );
   const setPopupConfirmText = useSetRecoilState<string>(popupConfirmTextState);
+  const tracksArr = useRecoilValue<TrackObject[] | undefined>(tracksArrState);
+  const currentUser = useRecoilValue<CurrentUser | undefined>(currentUserState);
 
-  const handleAddPlaylistToMyLibrary = (id: string, name: string) => {
+  const handleCreatePlaylist = async (id: string, name: string) => {
     if (!isUserLoggedIn) {
       setIsPopupLoginOpen(true);
       setPopupLoginText("add playlist to your library");
     } else {
-      setIsPopupConfirmOpen(true);
-      setPopupConfirmText(`The playlist ${name} was added to your library.`);
-      //add playlist to library - make a request to db
+      if (currentUser) {
+        let playlistName: string = "";
+        let tracksId: string[] = [];
+        if (playlistData) {
+          playlistName = playlistData.name;
+
+          const isPlaylistNameExists = await checkIfPlaylistNameExists(
+            currentUser.id,
+            playlistName
+          );
+
+          playlistName = isPlaylistNameExists
+            ? (playlistName = `${playlistName} ${getRandomNumber()}`)
+            : playlistName;
+        }
+
+        if (tracksArr) {
+          tracksId = extractSpotifyIds(tracksArr);
+        }
+
+        const libraryPlaylist: DBLibraryPlaylist = {
+          name: playlistName,
+          custom_id: generateCustomPlaylistID(),
+          tracks: tracksId,
+        };
+
+        createPlaylist(currentUser.id, libraryPlaylist).then((status) => {
+          setIsPopupConfirmOpen(true);
+          if (status) {
+            setPopupConfirmText(
+              `The playlist ${playlistName} was added to your library.`
+            );
+          } else {
+            setPopupConfirmText(
+              `There was a problem adding playlist ${name} to your library. Try again later.`
+            );
+          }
+        });
+      }
     }
   };
 
@@ -94,7 +142,14 @@ const PlaylistHeader = () => {
                 onClick={handlePlaySong}
               />
             </div>
-            <button className="create-playlist-button">Create Playlist</button>
+            <button
+              className="create-playlist-button"
+              onClick={() =>
+                handleCreatePlaylist(playlistData.id, playlistData.name)
+              }
+            >
+              Create Playlist
+            </button>
             {/* <Image
               src="/icons/heart-icon.svg"
               alt="heart icon used to save"

@@ -9,8 +9,9 @@ import {
   CurrentUser,
   filterOptionsState,
   tracksArrState,
+  isPopupConfirmOpenState,
 } from "@/app/recoil/atoms";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import Track, { TrackObject } from "../Track/Track";
 import { Bars } from "react-loader-spinner";
 import {
@@ -19,7 +20,6 @@ import {
 } from "@/utils/utils";
 import { usePathname } from "next/navigation";
 import { getOnePlaylistFromLibraryForUser } from "@/utils/utils";
-import { DBFavouriteTrack } from "@/app/recoil/atoms";
 import PopupConfirm from "../Track/components/PopupConfirm/PopupConfirm";
 
 const TracksList: React.FC = () => {
@@ -30,18 +30,17 @@ const TracksList: React.FC = () => {
     isFavouriteTracksPageState
   );
   const currentUser = useRecoilValue<CurrentUser | undefined>(currentUserState);
-  // const [tracksArr, setTracksArr] = useState<TrackObject[] | undefined>(
-  //   undefined
-  // );
   const [filterOptions, setFilterOptions] = useRecoilState(filterOptionsState);
   const [tracksArr, setTracksArr] = useRecoilState<TrackObject[] | undefined>(
     tracksArrState
+  );
+  const setIsPopupConfirmOpen = useSetRecoilState<boolean>(
+    isPopupConfirmOpenState
   );
   const pathname = usePathname();
 
   // Fetches favourite tracks for a user
   useEffect(() => {
-    console.log("isFavouriteTracksPage", isFavouriteTracksPage);
     if (isFavouriteTracksPage && currentUser) {
       getFavouriteTracksForUser(currentUser.id)
         .then((tracksList) => {
@@ -64,13 +63,15 @@ const TracksList: React.FC = () => {
           console.error("Error fetching favorite tracks: ", error);
         });
     }
-  }, [isFavouriteTracksPage]);
+  }, [isFavouriteTracksPage, currentUser]);
 
   //check if the url includes "custom_playlists"
   useEffect(() => {
+    console.log("pathname", pathname);
     if (pathname.includes("custom_playlist") && currentUser) {
+      console.log("yes");
       const id = getIdFromLibraryPlaylistUrl(pathname);
-      console.log("id");
+
       if (id !== null) {
         getOnePlaylistFromLibraryForUser(currentUser?.id, id)
           .then((playlist) => {
@@ -85,7 +86,7 @@ const TracksList: React.FC = () => {
           });
       }
     }
-  }, []);
+  }, [currentUser]);
 
   // Get tracks for all pages except Favourite_tracks
   useEffect(() => {
@@ -96,6 +97,7 @@ const TracksList: React.FC = () => {
     }
   }, [playlistData]);
 
+  //filter functionality
   useEffect(() => {
     const updatedTracksArr =
       playlistData?.tracks?.items?.map((el) => el.track) || [];
@@ -136,6 +138,13 @@ const TracksList: React.FC = () => {
     setTracksArr(filteredTracks);
   }, [playlistData, filterOptions.explicit, filterOptions.selectedDuration]);
 
+  //to clean the state when user leave the page
+  useEffect(() => {
+    setIsPopupConfirmOpen(false);
+    setPlaylistData(undefined);
+    setFilterOptions({ selectedDuration: null, explicit: null });
+  }, [pathname]);
+
   return playlistData ? (
     <div className="tracks-list-main">
       <table className="tracks-table">
@@ -157,7 +166,10 @@ const TracksList: React.FC = () => {
               <Track key={index} track={track} rowNumber={index + 1} />
             ))
           ) : (
-            <p className="no-tracks-msg">There are no favourite tracks.</p>
+            <tr>
+              <td></td>
+              <td className="no-tracks-msg">There are no favourite tracks.</td>
+            </tr>
           )}
         </tbody>
       </table>

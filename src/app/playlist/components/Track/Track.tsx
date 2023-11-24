@@ -1,4 +1,4 @@
-import { FC, createRef, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import "./Track.css";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
@@ -38,8 +38,8 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
   >(myLibraryPlaylistsState);
   const [arePlaylistOptionOpen, setArePlaylistOptionsOpen] =
     useState<boolean>(false);
-  // const playlistOptionsRef = useRef<HTMLTableCellElement | undefined>(null);
-  const playlistOptionsRef = createRef<HTMLTableCellElement>();
+  // const playlistOptionsRef = createRef<HTMLDivElement>();
+  const playlistOptionsRef = useRef<HTMLDivElement>(null);
   const [isCreatingPlaylist, setIsCreatingPlaylist] = useState<boolean>(false);
   const [newPlaylistName, setNewPlaylistName] = useState<string>("");
   const [errMsg, setErrMSg] = useState<string>("");
@@ -116,7 +116,7 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
   };
 
   useEffect(() => {
-    //fetch all playlists from library of user
+    //fetch all playlists names from library of user
 
     // temporarily create an object
     const libraryPlaylists: DBPlaylistData[] = [
@@ -141,10 +141,21 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
+      console.log("click outside");
+      console.log("playlist", playlistOptionsRef.current);
+      // console.log(
+      //   "contains",
+      //   !playlistOptionsRef.current.contains(event.target as Node)
+      // );
       if (
         playlistOptionsRef.current &&
         !playlistOptionsRef.current.contains(event.target as Node)
       ) {
+        console.log("playlist", playlistOptionsRef.current);
+        console.log(
+          "contains",
+          !playlistOptionsRef.current.contains(event.target as Node)
+        );
         setArePlaylistOptionsOpen(false);
       }
     };
@@ -158,65 +169,68 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
 
   return (
     track && (
-      <tr className="track-row">
-        <td className="col-hide-on-mobile">{rowNumber}</td>
-        <td className="track-list-image-container">
-          <div>
-            <Image
-              src={track.album.images[0].url}
-              alt="heart icon used to play"
-              width={50}
-              height={50}
-              className="tracks-list-image"
-            />
-          </div>
-        </td>
-        <td>
-          <div className="track-artist-name">
-            <span className="track-name">{shortenString(track.name, 25)}</span>
-            <span className="artist-name">{track.artists[0]?.name}</span>
-          </div>
-        </td>
-        <td className="col-hide-on-mobile">
-          {shortenString(track.album.name, 25)}
-        </td>
-
-        <td>{millisecondsToMinutes(track.duration_ms)}</td>
-
-        <td>
-          <Image
-            src="/icons/heart-icon.svg"
-            alt="heart icon used to play"
-            width={18}
-            height={18}
-            className="playlist-table-heart-icon"
-            onClick={handleAddSongToFavouriteTracks}
-          />
-        </td>
-        <td>{track.explicit === true ? "Yes" : "No"}</td>
-        <td>
-          <Image
-            src="/icons/ellipsis-icon.svg"
-            alt="ellipsis icon used to play"
-            width={18}
-            height={18}
-            className="playlist-table-ellipsis-icon"
-            onClick={() => setArePlaylistOptionsOpen(true)}
-          />
-        </td>
-        {arePlaylistOptionOpen && (
-          <td ref={playlistOptionsRef} className="playlist-options">
+      <>
+        <tr className="track-row">
+          <td className="col-hide-on-mobile">{rowNumber}</td>
+          <td className="track-list-image-container">
             <div>
-              <p>Add song to the playlist</p>
               <Image
-                src="/icons/arrow-icon_2.svg"
-                alt="arrow"
-                width={18}
-                height={18}
+                src={track.album.images[0].url}
+                alt="heart icon used to play"
+                width={50}
+                height={50}
+                className="tracks-list-image"
               />
             </div>
-            {/* to check if playlist is in user's library => then display */}
-            {/* <div
+          </td>
+          <td>
+            <div className="track-artist-name">
+              <span className="track-name">
+                {shortenString(track.name, 25)}
+              </span>
+              <span className="artist-name">{track.artists[0]?.name}</span>
+            </div>
+          </td>
+          <td className="col-hide-on-mobile">
+            {shortenString(track.album.name, 25)}
+          </td>
+
+          <td>{millisecondsToMinutes(track.duration_ms)}</td>
+
+          <td>
+            <Image
+              src="/icons/heart-icon.svg"
+              alt="heart icon used to play"
+              width={18}
+              height={18}
+              className="playlist-table-heart-icon"
+              onClick={handleAddSongToFavouriteTracks}
+            />
+          </td>
+          <td>{track.explicit === true ? "Yes" : "No"}</td>
+          <td>
+            <Image
+              src="/icons/ellipsis-icon.svg"
+              alt="ellipsis icon used to play"
+              width={18}
+              height={18}
+              className="playlist-table-ellipsis-icon"
+              onClick={() => setArePlaylistOptionsOpen(true)}
+            />
+          </td>
+          {arePlaylistOptionOpen && (
+            <div ref={playlistOptionsRef} className="playlist-options">
+              <div>
+                <p>Add song to the playlist</p>
+                <Image
+                  src="/icons/arrow-icon_2.svg"
+                  alt="arrow"
+                  width={18}
+                  height={18}
+                />
+              </div>
+              {/* to check if playlist is in user's library => then display */}
+              {/* <div
               className="create-playlist-container"
               onClick={() => handleRemovePlaylistClick(track.name)}
             >
@@ -228,53 +242,57 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
                 height={16}
               />
             </div> */}
-            <div
-              className="create-playlist-container"
-              onClick={handleCreatePlaylistClick}
-            >
-              <p>Create a new playlist</p>
-              <Image
-                src="/icons/plus_icon.svg"
-                alt="arrow"
-                width={18}
-                height={18}
-              />
-            </div>
-            {isCreatingPlaylist && (
-              <div className="create-playlist-input">
-                <input
-                  type="text"
-                  value={newPlaylistName}
-                  onChange={(e) => setNewPlaylistName(e.target.value)}
+              <div
+                className="create-playlist-container"
+                onClick={handleCreatePlaylistClick}
+              >
+                <p>Create a new playlist</p>
+                <Image
+                  src="/icons/plus_icon.svg"
+                  alt="arrow"
+                  width={18}
+                  height={18}
                 />
-                {errMsg && <p className="err-msg">{errMsg}</p>}
-                <div className="create-playlist-input-buttons">
-                  <button onClick={handleCancelClick}>Cancel</button>
-                  <button onClick={handleCreateClick}>Create</button>
-                </div>
               </div>
-            )}
-            {isUserLoggedIn &&
-              myLibraryPlaylists &&
-              myLibraryPlaylists.map((playlist) => (
-                <p
-                  key={playlist.id}
-                  className="my-library-playlist-option"
-                  onClick={() =>
-                    handleMyLibraryPlaylistClick(
-                      playlist.spotifyId,
-                      playlist.name
-                    )
-                  }
-                >
-                  {playlist.name}
-                </p>
-              ))}
-          </td>
-        )}
-      </tr>
+              {isCreatingPlaylist && (
+                <div className="create-playlist-input">
+                  <input
+                    type="text"
+                    value={newPlaylistName}
+                    onChange={(e) => setNewPlaylistName(e.target.value)}
+                  />
+                  {errMsg && <p className="err-msg">{errMsg}</p>}
+                  <div className="create-playlist-input-buttons">
+                    <button onClick={handleCancelClick}>Cancel</button>
+                    <button onClick={handleCreateClick}>Create</button>
+                  </div>
+                </div>
+              )}
+              {isUserLoggedIn &&
+                myLibraryPlaylists &&
+                myLibraryPlaylists.map((playlist) => (
+                  <p
+                    key={playlist.id}
+                    className="my-library-playlist-option"
+                    onClick={() =>
+                      handleMyLibraryPlaylistClick(
+                        playlist.spotifyId,
+                        playlist.name
+                      )
+                    }
+                  >
+                    {playlist.name}
+                  </p>
+                ))}
+            </div>
+          )}
+        </tr>
+      </>
     )
   );
 };
 
 export default Track;
+function MutableRefObject<T>() {
+  throw new Error("Function not implemented.");
+}

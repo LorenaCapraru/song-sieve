@@ -38,8 +38,6 @@ const Header = () => {
   useEffect(() => {
     auth.onAuthStateChanged(function (user) {
       if (user) {
-        console.log("user logged in", user);
-
         setIsUserLoggedIn(true);
 
         if (user && user.email) {

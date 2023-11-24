@@ -44,6 +44,57 @@ const fetchTrack = async (id: string) => {
   return track;
 };
 
+// Fetches and return several tracks from Spotify API (max: 50)
+const fetchSeveralTracks = async (ids: string) => {
+  await checkTokenTime();
+  const accessToken = localStorage.getItem("access_token");
+  let tracks: TrackObject[] | undefined = undefined;
+
+  try {
+    const response = await fetch(
+      `https://api.spotify.com/v1/tracks?ids=${ids}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    if (!response.ok) {
+      throw new Error(`Error fetching playlist: ${response.status}`);
+    }
+    const data = await response.json();
+    const tracks: TrackObject[] = data.tracks;
+    return tracks;
+  } catch (error) {
+    console.error("Error fetching track" + error);
+    return [];
+  }
+};
+
+const fetchTracksInBatches = async (
+  trackIds: string[]
+): Promise<TrackObject[]> => {
+  const batchSize = 50;
+  const batches: string[][] = [];
+
+  // Split trackIds into batches of size 50
+  for (let i = 0; i < trackIds.length; i += batchSize) {
+    batches.push(trackIds.slice(i, i + batchSize));
+  }
+
+  const tracks: TrackObject[] = [];
+
+  // Fetch tracks for each batch
+  for (const batch of batches) {
+    const batchTrackObjects = await fetchSeveralTracks(batch.join(",")); // Join IDs into a single string
+    if (batchTrackObjects) {
+      tracks.push(...batchTrackObjects);
+    }
+  }
+
+  return tracks;
+};
+
 //Fetches and return a single  playlist from Spotify API
 const fetchPlaylist = async (id: string) => {
   await checkTokenTime();
@@ -113,12 +164,10 @@ export const getPlaylistsFromLibraryForUser = async (userId: string) => {
     for (const playlist of arrayWithPlaylistsFromLibrary) {
       const tracksList: Array<{ track: TrackObject }> = [];
       if (playlist.tracks.length > 0) {
-        for (const track of playlist.tracks) {
-          const trackObject = await fetchTrack(track);
-          if (trackObject) {
-            tracksList.push({ track: trackObject });
-          }
-        }
+        const fetchedTracks = await fetchTracksInBatches(playlist.tracks);
+        fetchedTracks.forEach((trackObject) => {
+          tracksList.push({ track: trackObject });
+        });
       }
 
       const libraryPlaylistData: PlaylistData = {
@@ -185,12 +234,10 @@ export const getOnePlaylistFromLibraryForUser = async (
   if (foundPlaylist) {
     const tracksList: Array<{ track: TrackObject }> = [];
     if (foundPlaylist.tracks.length > 0) {
-      for (const track of foundPlaylist.tracks) {
-        const trackObject = await fetchTrack(track);
-        if (trackObject) {
-          tracksList.push({ track: trackObject });
-        }
-      }
+      const fetchedTracks = await fetchTracksInBatches(foundPlaylist.tracks);
+      fetchedTracks.forEach((trackObject) => {
+        tracksList.push({ track: trackObject });
+      });
     }
 
     playlist = {
@@ -219,7 +266,6 @@ export const removePlaylistFromLibrary = async (
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach(async (doc) => {
       await deleteDoc(doc.ref);
-      console.log("Document successfully deleted!");
     });
     return true;
   } catch (error) {
@@ -236,9 +282,7 @@ export const addUserToDatabase = async (user: CurrentUser) => {
     const userDocRef = doc(usersCollection, user.id); // Use user's ID as the document ID
     const userSnapshot = await getDoc(userDocRef);
 
-    if (userSnapshot.exists()) {
-      console.log("User already exists in database. Not adding again.");
-    } else {
+    if (!userSnapshot.exists()) {
       // User doesn't exist, add the user to database
       await setDoc(userDocRef, {
         image: user.image,
@@ -272,10 +316,6 @@ export const addUserToDatabase = async (user: CurrentUser) => {
         doc(libraryRef, fakeLibraryPlaylist.custom_id),
         fakeLibraryPlaylist
       );
-
-      console.log(
-        "User data and empty collections added to database successfully!"
-      );
     }
   } catch (error) {
     console.error(
@@ -293,7 +333,6 @@ export const createPlaylist = async (
     const libraryCollectionRef = collection(db, "users", userId, "library");
     // Add a new document with auto-generated ID in the library collection
     await addDoc(libraryCollectionRef, playlist);
-    console.log("Playlist created in the library successfully!");
     return true;
   } catch (error) {
     console.error("Error creating playlist:", error);
@@ -318,7 +357,6 @@ export const createEmptyPlaylistWithName = async (
 
     await addDoc(libraryCollectionRef, newPlaylist);
 
-    console.log("Empty playlist created successfully in Firestore!");
     return true;
   } catch (error) {
     console.error("Error creating empty playlist:", error);

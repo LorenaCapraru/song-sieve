@@ -77,7 +77,7 @@ const Playlist = () => {
             : "playlist-section-wrapper"
         }
       >
-        <div className="heart-icon-container">
+        {/* <div className="heart-icon-container">
           <Image
             src="/icons/heart-icon.svg"
             alt="heart icon to save"
@@ -86,7 +86,7 @@ const Playlist = () => {
             className="heart-save"
             onClick={handleAddPlaylistToMyLibrary}
           />
-        </div>
+        </div> */}
 
         <div
           className={

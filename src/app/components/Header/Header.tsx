@@ -75,13 +75,39 @@ const Header = () => {
 
         <Link href="/signin">
           <div className="login-container">
-            <p>Log in</p>
-            <Image
-              src="/icons/login-icon.svg"
-              alt="logo"
-              width={35}
-              height={35}
-            />
+            {isUserLoggedIn ? (
+              <Link href="/">
+                <p
+                  className="header-logout-button"
+                  onClick={handleLogOutOnClick}
+                >
+                  Log out
+                </p>
+              </Link>
+            ) : (
+              <>
+                <p>Log in</p>
+                <Image
+                  src="/icons/login-icon.svg"
+                  alt="logo"
+                  width={35}
+                  height={35}
+                />
+              </>
+            )}
+            {isUserLoggedIn && (
+              <Link href="/">
+                <div className="login-container">
+                  {currentUser && <p>{currentUser.name}</p>}
+                  <Image
+                    src="/icons/login-icon.svg"
+                    alt="logo"
+                    width={35}
+                    height={35}
+                  />
+                </div>
+              </Link>
+            )}
           </div>
         </Link>
       </div>
@@ -108,7 +134,9 @@ const Header = () => {
         </div>
         <div className="login-account-container">
           {isUserLoggedIn ? (
-            <button onClick={handleLogOutOnClick}> Log out</button>
+            <Link href="/">
+              <button onClick={handleLogOutOnClick}>Log out</button>
+            </Link>
           ) : (
             <Link href="/signin">
               <button> Log in</button>

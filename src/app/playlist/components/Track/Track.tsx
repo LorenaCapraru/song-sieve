@@ -12,7 +12,7 @@ import {
   popupConfirmTextState,
   popupLoginTextState,
 } from "@/app/recoil/atoms";
-import { millisecondsToMinutes } from "@/utils/utils";
+import { millisecondsToMinutes, shortenString } from "@/utils/utils";
 import { createEmptyPlaylistWithName } from "@/utils/dbUtils";
 
 export interface TrackObject {
@@ -173,11 +173,13 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
         </td>
         <td>
           <div className="track-artist-name">
-            <span className="track-name">{track?.name}</span>
-            <span className="artist-name">{track?.artists[0]?.name}</span>
+            <span className="track-name">{shortenString(track.name, 25)}</span>
+            <span className="artist-name">{track.artists[0]?.name}</span>
           </div>
         </td>
-        <td className="col-hide-on-mobile">{track.album.name}</td>
+        <td className="col-hide-on-mobile">
+          {shortenString(track.album.name, 25)}
+        </td>
 
         <td>{millisecondsToMinutes(track.duration_ms)}</td>
 

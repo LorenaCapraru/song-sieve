@@ -5,7 +5,7 @@ import { useRecoilValue } from "recoil";
 import { PlaylistData } from "@/app/recoil/atoms";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { removePlaylistFromLibrary } from "@/utils/utils";
+import { removePlaylistFromLibrary } from "@/utils/dbUtils";
 
 interface LibraryPlaylistProps {
   playlist: PlaylistData;

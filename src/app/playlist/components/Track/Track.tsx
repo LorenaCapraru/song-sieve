@@ -4,6 +4,7 @@ import "./Track.css";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   DBPlaylistData,
+  currentUserState,
   isPopupConfirmOpenState,
   isPopupLoginOpenState,
   isUserLoggedInState,
@@ -11,7 +12,8 @@ import {
   popupConfirmTextState,
   popupLoginTextState,
 } from "@/app/recoil/atoms";
-import { millisecondsToMinutes } from "@/utils/utils";
+import { millisecondsToMinutes, shortenString } from "@/utils/utils";
+import { createEmptyPlaylistWithName } from "@/utils/dbUtils";
 
 export interface TrackObject {
   id: string;
@@ -36,6 +38,7 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
   >(myLibraryPlaylistsState);
   const [arePlaylistOptionOpen, setArePlaylistOptionsOpen] =
     useState<boolean>(false);
+  // const playlistOptionsRef = createRef<HTMLDivElement>();
   const playlistOptionsRef = useRef<HTMLDivElement>(null);
   const [isCreatingPlaylist, setIsCreatingPlaylist] = useState<boolean>(false);
   const [newPlaylistName, setNewPlaylistName] = useState<string>("");
@@ -44,6 +47,7 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
     isPopupConfirmOpenState
   );
   const setPopupConfirmText = useSetRecoilState<string>(popupConfirmTextState);
+  const currentUser = useRecoilValue(currentUserState);
 
   const handleAddSongToFavouriteTracks = () => {
     if (!isUserLoggedIn) {
@@ -68,21 +72,33 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
     setNewPlaylistName("");
   };
 
-  const handleCreateClick = () => {
+  const handleCreateClick = async () => {
     setErrMSg("");
     if (newPlaylistName.trim() === "") {
       setErrMSg("Please provide a valid playlist name");
       return;
     }
-    console.log("Creating playlist:", newPlaylistName);
-    setIsPopupConfirmOpen(true);
-    setPopupConfirmText(
-      `Playlist ${newPlaylistName} was created. Now you can add a song to the playlist.`
-    );
-    setArePlaylistOptionsOpen(false);
-    setIsCreatingPlaylist(false);
-    setNewPlaylistName("");
-    // send the new playlist to db
+    if (currentUser) {
+      try {
+        const status = await createEmptyPlaylistWithName(
+          currentUser.id,
+          newPlaylistName
+        );
+        if (status) {
+          setIsPopupConfirmOpen(true);
+          setPopupConfirmText(
+            `Playlist ${newPlaylistName} was created. Now you can add a song to the playlist.`
+          );
+          setArePlaylistOptionsOpen(false);
+          setIsCreatingPlaylist(false);
+          setNewPlaylistName("");
+        } else {
+          console.error("Failed to create playlist");
+        }
+      } catch (error) {
+        console.error("Error creating playlist:", error);
+      }
+    }
   };
 
   const handleMyLibraryPlaylistClick = (spotifyId: string, name: string) => {
@@ -100,7 +116,7 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
   };
 
   useEffect(() => {
-    //fetch all playlists from library of user
+    //fetch all playlists names from library of user
 
     // temporarily create an object
     const libraryPlaylists: DBPlaylistData[] = [
@@ -142,63 +158,68 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
 
   return (
     track && (
-      <tr className="track-row">
-        <td className="col-hide-on-mobile">{rowNumber}</td>
-        <td className="track-list-image-container">
-          <div>
-            <Image
-              src={track.album.images[0].url}
-              alt="heart icon used to play"
-              width={50}
-              height={50}
-              className="tracks-list-image"
-            />
-          </div>
-        </td>
-        <td>
-          <div className="track-artist-name">
-            <span className="track-name">{track?.name}</span>
-            <span className="artist-name">{track?.artists[0]?.name}</span>
-          </div>
-        </td>
-        <td className="col-hide-on-mobile">{track.album.name}</td>
-
-        <td>{millisecondsToMinutes(track.duration_ms)}</td>
-
-        <td>
-          <Image
-            src="/icons/heart-icon.svg"
-            alt="heart icon used to play"
-            width={18}
-            height={18}
-            className="playlist-table-heart-icon"
-            onClick={handleAddSongToFavouriteTracks}
-          />
-        </td>
-        <td>{track.explicit === true ? "Yes" : "No"}</td>
-        <td>
-          <Image
-            src="/icons/ellipsis-icon.svg"
-            alt="ellipsis icon used to play"
-            width={18}
-            height={18}
-            className="playlist-table-ellipsis-icon"
-            onClick={() => setArePlaylistOptionsOpen(true)}
-          />
-        </td>
-        {arePlaylistOptionOpen && (
-          <div ref={playlistOptionsRef} className="playlist-options">
+      <>
+        <tr className="track-row">
+          <td className="col-hide-on-mobile">{rowNumber}</td>
+          <td className="track-list-image-container">
             <div>
-              <p>Add song to the playlist</p>
               <Image
-                src="/icons/arrow-icon_2.svg"
-                alt="arrow"
-                width={18}
-                height={18}
+                src={track.album.images[0].url}
+                alt="heart icon used to play"
+                width={50}
+                height={50}
+                className="tracks-list-image"
               />
             </div>
-            {/* to check if playlist is in user's library => then display */}
-            {/* <div
+          </td>
+          <td>
+            <div className="track-artist-name">
+              <span className="track-name">
+                {shortenString(track.name, 25)}
+              </span>
+              <span className="artist-name">{track.artists[0]?.name}</span>
+            </div>
+          </td>
+          <td className="col-hide-on-mobile">
+            {shortenString(track.album.name, 25)}
+          </td>
+
+          <td>{millisecondsToMinutes(track.duration_ms)}</td>
+
+          <td>
+            <Image
+              src="/icons/heart-icon.svg"
+              alt="heart icon used to play"
+              width={18}
+              height={18}
+              className="playlist-table-heart-icon"
+              onClick={handleAddSongToFavouriteTracks}
+            />
+          </td>
+          <td>{track.explicit === true ? "Yes" : "No"}</td>
+          <td>
+            <Image
+              src="/icons/ellipsis-icon.svg"
+              alt="ellipsis icon used to play"
+              width={18}
+              height={18}
+              className="playlist-table-ellipsis-icon"
+              onClick={() => setArePlaylistOptionsOpen(true)}
+            />
+          </td>
+          {arePlaylistOptionOpen && (
+            <div ref={playlistOptionsRef} className="playlist-options">
+              <div>
+                <p>Add song to the playlist</p>
+                <Image
+                  src="/icons/arrow-icon_2.svg"
+                  alt="arrow"
+                  width={18}
+                  height={18}
+                />
+              </div>
+              {/* to check if playlist is in user's library => then display */}
+              {/* <div
               className="create-playlist-container"
               onClick={() => handleRemovePlaylistClick(track.name)}
             >
@@ -210,53 +231,57 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
                 height={16}
               />
             </div> */}
-            <div
-              className="create-playlist-container"
-              onClick={handleCreatePlaylistClick}
-            >
-              <p>Create a new playlist</p>
-              <Image
-                src="/icons/plus_icon.svg"
-                alt="arrow"
-                width={18}
-                height={18}
-              />
-            </div>
-            {isCreatingPlaylist && (
-              <div className="create-playlist-input">
-                <input
-                  type="text"
-                  value={newPlaylistName}
-                  onChange={(e) => setNewPlaylistName(e.target.value)}
+              <div
+                className="create-playlist-container"
+                onClick={handleCreatePlaylistClick}
+              >
+                <p>Create a new playlist</p>
+                <Image
+                  src="/icons/plus_icon.svg"
+                  alt="arrow"
+                  width={18}
+                  height={18}
                 />
-                {errMsg && <p className="err-msg">{errMsg}</p>}
-                <div className="create-playlist-input-buttons">
-                  <button onClick={handleCancelClick}>Cancel</button>
-                  <button onClick={handleCreateClick}>Create</button>
-                </div>
               </div>
-            )}
-            {isUserLoggedIn &&
-              myLibraryPlaylists &&
-              myLibraryPlaylists.map((playlist) => (
-                <p
-                  key={playlist.id}
-                  className="my-library-playlist-option"
-                  onClick={() =>
-                    handleMyLibraryPlaylistClick(
-                      playlist.spotifyId,
-                      playlist.name
-                    )
-                  }
-                >
-                  {playlist.name}
-                </p>
-              ))}
-          </div>
-        )}
-      </tr>
+              {isCreatingPlaylist && (
+                <div className="create-playlist-input">
+                  <input
+                    type="text"
+                    value={newPlaylistName}
+                    onChange={(e) => setNewPlaylistName(e.target.value)}
+                  />
+                  {errMsg && <p className="err-msg">{errMsg}</p>}
+                  <div className="create-playlist-input-buttons">
+                    <button onClick={handleCancelClick}>Cancel</button>
+                    <button onClick={handleCreateClick}>Create</button>
+                  </div>
+                </div>
+              )}
+              {isUserLoggedIn &&
+                myLibraryPlaylists &&
+                myLibraryPlaylists.map((playlist) => (
+                  <p
+                    key={playlist.id}
+                    className="my-library-playlist-option"
+                    onClick={() =>
+                      handleMyLibraryPlaylistClick(
+                        playlist.spotifyId,
+                        playlist.name
+                      )
+                    }
+                  >
+                    {playlist.name}
+                  </p>
+                ))}
+            </div>
+          )}
+        </tr>
+      </>
     )
   );
 };
 
 export default Track;
+function MutableRefObject<T>() {
+  throw new Error("Function not implemented.");
+}

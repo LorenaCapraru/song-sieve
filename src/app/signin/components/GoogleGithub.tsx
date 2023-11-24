@@ -4,7 +4,7 @@ import {
   popupConfirmTextState,
 } from "@/app/recoil/atoms";
 import { signUpWithGitHub, signUpWithGoogle } from "@/firebase/auth";
-import { addUserToDatabase } from "@/utils/utils";
+import { addUserToDatabase } from "@/utils/dbUtils";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useSetRecoilState } from "recoil";

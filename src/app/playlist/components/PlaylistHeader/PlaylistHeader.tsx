@@ -19,12 +19,11 @@ import {
 import Image from "next/image";
 import { TrackObject } from "../Track/Track";
 import {
-  checkIfPlaylistNameExists,
-  createPlaylist,
   extractSpotifyIds,
   generateCustomPlaylistID,
   getRandomNumber,
 } from "@/utils/utils";
+import { checkIfPlaylistNameExists, createPlaylist } from "@/utils/dbUtils";
 
 const PlaylistHeader = () => {
   const playlistData = useRecoilValue<PlaylistData | undefined>(

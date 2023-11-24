@@ -18,7 +18,7 @@ import { useEffect } from "react";
 import { signUpUser } from "@/firebase/auth";
 import { useRouter } from "next/navigation";
 import GoogleGithub from "../signin/components/GoogleGithub";
-import { addUserToDatabase } from "@/utils/utils";
+import { addUserToDatabase } from "@/utils/dbUtils";
 
 export default function SignIn() {
   const router = useRouter();

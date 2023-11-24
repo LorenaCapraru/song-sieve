@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./MainLibrary.css";
-import { getPlaylistsFromLibraryForUser } from "@/utils/utils";
+
 import LibraryPlaylist from "../Playlist/LibraryPlaylist";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
@@ -12,6 +12,7 @@ import {
 } from "@/app/recoil/atoms";
 import { Bars } from "react-loader-spinner";
 import { usePathname } from "next/navigation";
+import { getPlaylistsFromLibraryForUser } from "@/utils/dbUtils";
 
 const MainLibrary = () => {
   const currentUser = useRecoilValue<CurrentUser | undefined>(currentUserState);

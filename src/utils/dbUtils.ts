@@ -9,6 +9,7 @@ import {
   doc,
   getDoc,
   addDoc,
+  updateDoc,
 } from "firebase/firestore";
 import {
   CurrentUser,
@@ -385,5 +386,46 @@ export const checkIfPlaylistNameExists = async (
   } catch (error) {
     console.error("Error checking playlist existence:", error);
     return false; // Return false on error
+  }
+};
+
+export const addSongToPlaylist = async (
+  userId: string,
+  playlistId: string,
+  newTrackId: string
+): Promise<boolean> => {
+  try {
+    const libraryRef = collection(db, "users", userId, "library");
+
+    // Query the library collection to find the playlist with the given custom_id
+    const playlistQuery = query(
+      libraryRef,
+      where("custom_id", "==", playlistId)
+    );
+    const querySnapshot = await getDocs(playlistQuery);
+
+    if (!querySnapshot.empty) {
+      const playlistDocSnapshot = querySnapshot.docs[0];
+      const playlistData = playlistDocSnapshot.data();
+
+      if (playlistData) {
+        // Update the tracks array with the new song ID
+        const updatedTracks = [...playlistData.tracks, newTrackId];
+
+        // Update the playlist in the database with the new tracks array
+        await updateDoc(playlistDocSnapshot.ref, { tracks: updatedTracks });
+        console.log("Song added to the playlist successfully!");
+        return true;
+      } else {
+        console.error("Playlist data is empty or undefined.");
+        return false;
+      }
+    } else {
+      console.error("Playlist document does not exist.");
+      return false;
+    }
+  } catch (error) {
+    console.error("Error adding song to playlist:", error);
+    return false;
   }
 };

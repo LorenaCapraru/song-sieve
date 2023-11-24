@@ -1,5 +1,4 @@
 [![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![Pull Requests](https://img.shields.io/github/issues-pr/lorenacapraru/song-sieve.svg?style=for-the-badge)](https://github.com//lorenacapraru/song-sieve/pulls)
@@ -106,4 +105,6 @@ Contributions are welcome! Feel free to open issues or submit pull requests.
 
 [pr-shield]:https://img.shields.io/github/issues-pr/lorenacapraru/song-sieve.svg?style=for-the-badge
 [pr-url]: https://github.com//lorenacapraru/song-sieve/pulls
+
+  <!--[![Forks][forks-shield]][forks-url]-->
 

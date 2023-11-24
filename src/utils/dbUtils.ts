@@ -430,6 +430,48 @@ export const addSongToPlaylist = async (
   }
 };
 
+export const removeSongFromPlaylist = async (
+  userId: string,
+  playlistId: string,
+  trackIdToRemove: string
+): Promise<boolean> => {
+  try {
+    const libraryRef = collection(db, "users", userId, "library");
+
+    const playlistQuery = query(
+      libraryRef,
+      where("custom_id", "==", playlistId)
+    );
+    const querySnapshot = await getDocs(playlistQuery);
+
+    if (!querySnapshot.empty) {
+      const playlistDocSnapshot = querySnapshot.docs[0];
+      const playlistData = playlistDocSnapshot.data();
+
+      if (playlistData) {
+        // Filter out the track to be removed from the tracks array
+        const updatedTracks = playlistData.tracks.filter(
+          (track: string) => track !== trackIdToRemove
+        );
+
+        // Update the playlist in the database with the updated tracks array
+        await updateDoc(playlistDocSnapshot.ref, { tracks: updatedTracks });
+        console.log("Song removed from the playlist successfully!");
+        return true;
+      } else {
+        console.error("Playlist data is empty or undefined.");
+        return false;
+      }
+    } else {
+      console.error("Playlist document does not exist.");
+      return false;
+    }
+  } catch (error) {
+    console.error("Error removing song from playlist:", error);
+    return false;
+  }
+};
+
 export const addFavouriteTrack = async (
   userId: string,
   passedId: string
@@ -449,5 +491,70 @@ export const addFavouriteTrack = async (
   } catch (error) {
     console.error("Error adding favourite track:", error);
     return false;
+  }
+};
+
+export const removeFavouriteTrack = async (
+  userId: string,
+  spotifyId: string
+): Promise<boolean> => {
+  try {
+    const favouriteTracksRef = collection(
+      db,
+      "users",
+      userId,
+      "favourite_tracks"
+    );
+    const q = query(favouriteTracksRef, where("spotify_id", "==", spotifyId));
+
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+      const docId = querySnapshot.docs[0].id;
+      const trackDocRef = doc(favouriteTracksRef, docId);
+
+      await deleteDoc(trackDocRef);
+      console.log(
+        `Track with Spotify ID ${spotifyId} removed from favourites!`
+      );
+      return true;
+    } else {
+      console.error("Track not found in favourites!");
+      return false;
+    }
+  } catch (error) {
+    console.error("Error removing favourite track:", error);
+    return false;
+  }
+};
+
+export const getFavouriteTracksIdsForUser = async (
+  userId: string
+): Promise<string[]> => {
+  try {
+    const favouriteTracksRef = collection(
+      db,
+      "users",
+      userId,
+      "favourite_tracks"
+    );
+    const q = query(favouriteTracksRef);
+
+    const querySnapshot = await getDocs(q);
+    const favoriteTrackIds: string[] = [];
+
+    querySnapshot.forEach((doc) => {
+      const { spotify_id } = doc.data();
+      if (spotify_id) {
+        favoriteTrackIds.push(spotify_id);
+      }
+    });
+
+    console.log("favourtie tracks", favoriteTrackIds);
+
+    return favoriteTrackIds;
+  } catch (error) {
+    console.error("Error fetching favorite track IDs:", error);
+    return [];
   }
 };

@@ -10,6 +10,9 @@ import {
   filterOptionsState,
   tracksArrState,
   isPopupConfirmOpenState,
+  favouriteTracksIdsState,
+  isDBFavouriteTracksChangedState,
+  isDBLibraryPlaylistChangedState,
 } from "@/app/recoil/atoms";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import Track, { TrackObject } from "../Track/Track";
@@ -20,6 +23,7 @@ import { usePathname } from "next/navigation";
 import PopupConfirm from "../Track/components/PopupConfirm/PopupConfirm";
 import {
   getFavouriteTracksForUser,
+  getFavouriteTracksIdsForUser,
   getOnePlaylistFromLibraryForUser,
 } from "@/utils/dbUtils";
 
@@ -27,9 +31,8 @@ const TracksList: React.FC = () => {
   const [playlistData, setPlaylistData] = useRecoilState<
     PlaylistData | undefined
   >(playlistDataState);
-  const isFavouriteTracksPage = useRecoilValue<boolean>(
-    isFavouriteTracksPageState
-  );
+  const [isFavouriteTracksPage, setIsFavouriteTracksPage] =
+    useRecoilState<boolean>(isFavouriteTracksPageState);
   const currentUser = useRecoilValue<CurrentUser | undefined>(currentUserState);
   const [filterOptions, setFilterOptions] = useRecoilState(filterOptionsState);
   const [tracksArr, setTracksArr] = useRecoilState<TrackObject[] | undefined>(
@@ -38,6 +41,14 @@ const TracksList: React.FC = () => {
   const setIsPopupConfirmOpen = useSetRecoilState<boolean>(
     isPopupConfirmOpenState
   );
+  const [favouriteTracksIds, setFavouriteTracksIds] = useRecoilState<
+    Set<string>
+  >(favouriteTracksIdsState);
+  const isDBLibraryPlaylistChanged = useRecoilValue<boolean>(
+    isDBLibraryPlaylistChangedState
+  );
+  const [isDBFavouriteTracksChanged, setIsDBFavouriteTracksChanged] =
+    useRecoilState<boolean>(isDBFavouriteTracksChangedState);
   const pathname = usePathname();
 
   // Fetches favourite tracks for a user
@@ -64,10 +75,27 @@ const TracksList: React.FC = () => {
           console.error("Error fetching favorite tracks: ", error);
         });
     }
-  }, [isFavouriteTracksPage, currentUser]);
+  }, [isFavouriteTracksPage, currentUser, isDBFavouriteTracksChanged]);
 
-  //check if the url includes "custom_playlists"
+  // Fetch the user's favorite tracks ids and update the state
   useEffect(() => {
+    if (currentUser) {
+      getFavouriteTracksIdsForUser(currentUser.id)
+        .then((tracksList) => {
+          const trackIds = new Set(tracksList.map((id) => id));
+          setFavouriteTracksIds(trackIds);
+
+          console.log("ids", trackIds);
+        })
+        .catch((error) => {
+          console.error("Error fetching favorite tracks: ", error);
+        });
+    }
+  }, [currentUser, isDBFavouriteTracksChanged]);
+
+  //check if the url includes "custom_playlists" and fetch the playlist
+  useEffect(() => {
+    console.log("here");
     if (pathname.includes("custom_playlist") && currentUser) {
       const id = getIdFromLibraryPlaylistUrl(pathname);
 
@@ -85,7 +113,7 @@ const TracksList: React.FC = () => {
           });
       }
     }
-  }, [currentUser]);
+  }, [currentUser, isDBLibraryPlaylistChanged]);
 
   // Get tracks for all pages except Favourite_tracks
   useEffect(() => {
@@ -142,6 +170,7 @@ const TracksList: React.FC = () => {
     setIsPopupConfirmOpen(false);
     setPlaylistData(undefined);
     setFilterOptions({ selectedDuration: null, explicit: null });
+    setIsFavouriteTracksPage(false);
   }, [pathname]);
 
   return playlistData ? (

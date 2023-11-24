@@ -15,6 +15,7 @@ import {
 } from "@/app/recoil/atoms";
 import { millisecondsToMinutes, shortenString } from "@/utils/utils";
 import {
+  addSongToPlaylist,
   checkIfPlaylistNameExists,
   createEmptyPlaylistWithName,
   getPlaylistNamesIdsFromLibraryForUser,
@@ -120,11 +121,29 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
     }
   };
 
-  const handleMyLibraryPlaylistClick = (playlistId: string, name: string) => {
-    setIsPopupConfirmOpen(true);
-    setPopupConfirmText(`The song was added to playlist ${name}.`);
-    setArePlaylistOptionsOpen(false);
-    //add this song to playlist - send request to db
+  const handleAddSongToPlaylist = async (
+    playlistId: string,
+    playlistName: string,
+    trackId: string,
+    songName: string
+  ) => {
+    if (currentUser) {
+      await addSongToPlaylist(currentUser.id, playlistId, trackId).then(
+        (result) => {
+          setIsPopupConfirmOpen(true);
+          setArePlaylistOptionsOpen(false);
+          if (result) {
+            setPopupConfirmText(
+              `The song ${songName} was added to playlist ${playlistName}.`
+            );
+          } else {
+            setPopupConfirmText(
+              `Sorry it was a problem to add a song to playlist. Try again later.`
+            );
+          }
+        }
+      );
+    }
   };
 
   const handleRemoveSongFromPLaylist = (name: string) => {
@@ -274,9 +293,11 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
                     key={playlist.custom_id}
                     className="my-library-playlist-option"
                     onClick={() =>
-                      handleMyLibraryPlaylistClick(
+                      handleAddSongToPlaylist(
                         playlist.custom_id,
-                        playlist.name
+                        playlist.name,
+                        track.id,
+                        track.name
                       )
                     }
                   >

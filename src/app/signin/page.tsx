@@ -16,7 +16,7 @@ import { signInUser } from "@/firebase/auth";
 import { useRouter } from "next/navigation";
 import GoogleGithub from "./components/GoogleGithub";
 import PopupConfirm from "../playlist/components/Track/components/PopupConfirm/PopupConfirm";
-import { addUserToDatabase } from "@/utils/utils";
+import { addUserToDatabase } from "@/utils/dbUtils";
 
 export default function SignIn() {
   const router = useRouter();

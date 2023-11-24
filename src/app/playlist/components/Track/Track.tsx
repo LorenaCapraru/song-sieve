@@ -1,9 +1,10 @@
-import { FC, RefObject, createRef, useEffect, useRef, useState } from "react";
+import { FC, createRef, useEffect, useState } from "react";
 import Image from "next/image";
 import "./Track.css";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   DBPlaylistData,
+  currentUserState,
   isPopupConfirmOpenState,
   isPopupLoginOpenState,
   isUserLoggedInState,
@@ -12,6 +13,7 @@ import {
   popupLoginTextState,
 } from "@/app/recoil/atoms";
 import { millisecondsToMinutes } from "@/utils/utils";
+import { createEmptyPlaylistWithName } from "@/utils/dbUtils";
 
 export interface TrackObject {
   id: string;
@@ -45,6 +47,7 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
     isPopupConfirmOpenState
   );
   const setPopupConfirmText = useSetRecoilState<string>(popupConfirmTextState);
+  const currentUser = useRecoilValue(currentUserState);
 
   const handleAddSongToFavouriteTracks = () => {
     if (!isUserLoggedIn) {
@@ -69,21 +72,33 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
     setNewPlaylistName("");
   };
 
-  const handleCreateClick = () => {
+  const handleCreateClick = async () => {
     setErrMSg("");
     if (newPlaylistName.trim() === "") {
       setErrMSg("Please provide a valid playlist name");
       return;
     }
-    console.log("Creating playlist:", newPlaylistName);
-    setIsPopupConfirmOpen(true);
-    setPopupConfirmText(
-      `Playlist ${newPlaylistName} was created. Now you can add a song to the playlist.`
-    );
-    setArePlaylistOptionsOpen(false);
-    setIsCreatingPlaylist(false);
-    setNewPlaylistName("");
-    // send the new playlist to db
+    if (currentUser) {
+      try {
+        const status = await createEmptyPlaylistWithName(
+          currentUser.id,
+          newPlaylistName
+        );
+        if (status) {
+          setIsPopupConfirmOpen(true);
+          setPopupConfirmText(
+            `Playlist ${newPlaylistName} was created. Now you can add a song to the playlist.`
+          );
+          setArePlaylistOptionsOpen(false);
+          setIsCreatingPlaylist(false);
+          setNewPlaylistName("");
+        } else {
+          console.error("Failed to create playlist");
+        }
+      } catch (error) {
+        console.error("Error creating playlist:", error);
+      }
+    }
   };
 
   const handleMyLibraryPlaylistClick = (spotifyId: string, name: string) => {

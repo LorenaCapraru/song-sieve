@@ -12,6 +12,7 @@ import {
   isPopupConfirmOpenState,
   favouriteTracksIdsState,
   isDBFavouriteTracksChangedState,
+  isDBLibraryPlaylistChangedState,
 } from "@/app/recoil/atoms";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import Track, { TrackObject } from "../Track/Track";
@@ -43,6 +44,9 @@ const TracksList: React.FC = () => {
   const [favouriteTracksIds, setFavouriteTracksIds] = useRecoilState<
     Set<string>
   >(favouriteTracksIdsState);
+  const isDBLibraryPlaylistChanged = useRecoilValue<boolean>(
+    isDBLibraryPlaylistChangedState
+  );
   const [isDBFavouriteTracksChanged, setIsDBFavouriteTracksChanged] =
     useRecoilState<boolean>(isDBFavouriteTracksChangedState);
   const pathname = usePathname();
@@ -89,8 +93,9 @@ const TracksList: React.FC = () => {
     }
   }, [currentUser, isDBFavouriteTracksChanged]);
 
-  //check if the url includes "custom_playlists"
+  //check if the url includes "custom_playlists" and fetch the playlist
   useEffect(() => {
+    console.log("here");
     if (pathname.includes("custom_playlist") && currentUser) {
       const id = getIdFromLibraryPlaylistUrl(pathname);
 
@@ -108,7 +113,7 @@ const TracksList: React.FC = () => {
           });
       }
     }
-  }, [currentUser]);
+  }, [currentUser, isDBLibraryPlaylistChanged]);
 
   // Get tracks for all pages except Favourite_tracks
   useEffect(() => {

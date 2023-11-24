@@ -4,6 +4,7 @@ import "./Track.css";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   DBLibraryPlaylistNameId,
+  PlaylistData,
   currentUserState,
   favouriteTracksIdsState,
   isDBFavouriteTracksChangedState,
@@ -12,6 +13,7 @@ import {
   isPopupLoginOpenState,
   isUserLoggedInState,
   myLibraryPlaylistsState,
+  playlistDataState,
   popupConfirmTextState,
   popupLoginTextState,
 } from "@/app/recoil/atoms";
@@ -23,7 +25,9 @@ import {
   createEmptyPlaylistWithName,
   getPlaylistNamesIdsFromLibraryForUser,
   removeFavouriteTrack,
+  removeSongFromPlaylist,
 } from "@/utils/dbUtils";
+import { usePathname } from "next/navigation";
 
 export interface TrackObject {
   id: string;
@@ -65,8 +69,14 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
   );
   const [isDBFavouriteTracksChanged, setIsDBFavouriteTracksChanged] =
     useRecoilState<boolean>(isDBFavouriteTracksChangedState);
+  const [isCustomPlaylistOpen, setIsCustomPlaylistOpen] =
+    useState<boolean>(false);
+  const playlistData = useRecoilValue<PlaylistData | undefined>(
+    playlistDataState
+  );
 
   const isFavorite = favouriteTracksIds.has(track.id);
+  const pathname = usePathname();
 
   const handleAddSongToFavouriteTracks = async (
     trackId: string,
@@ -189,6 +199,7 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
           setIsPopupConfirmOpen(true);
           setArePlaylistOptionsOpen(false);
           if (result) {
+            setIsDBLibraryPlaylistChanged(!isDBLibraryPlaylistChanged);
             setPopupConfirmText(
               `The song ${songName} was added to playlist ${playlistName}.`
             );
@@ -202,12 +213,39 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
     }
   };
 
-  const handleRemoveSongFromPLaylist = (name: string) => {
-    //check if user is logged in
-    //then check if there is a playlist in current user's library
-    //then remove the song
-    //display a PopupConfirm component => displaying the info
+  const handleRemoveSongFromPLaylist = async (
+    playlistId: string,
+    playlistName: string,
+    trackId: string,
+    songName: string
+  ) => {
+    if (currentUser) {
+      await removeSongFromPlaylist(currentUser.id, playlistId, trackId).then(
+        (result) => {
+          setIsPopupConfirmOpen(true);
+          setArePlaylistOptionsOpen(false);
+          if (result) {
+            setIsDBLibraryPlaylistChanged(!isDBLibraryPlaylistChanged);
+            setPopupConfirmText(
+              `The song ${songName} was removed from playlist ${playlistName}.`
+            );
+          } else {
+            setPopupConfirmText(
+              `Sorry it was a problem to remove a song from playlist. Try again later.`
+            );
+          }
+        }
+      );
+    }
   };
+
+  useEffect(() => {
+    if (pathname.includes("custom_playlist") && currentUser) {
+      setIsCustomPlaylistOpen(true);
+    } else {
+      setIsCustomPlaylistOpen(false);
+    }
+  }, [pathname, currentUser]);
 
   //fetch library playlist names
   useEffect(() => {
@@ -318,19 +356,28 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
                   height={18}
                 />
               </div>
-              {/* to check if playlist is in user's library => then display */}
-              {/* <div
-              className="create-playlist-container"
-              onClick={() => handleRemoveSongFromPLaylist(track.name)}
-            >
-              <p>Remove song from the playlist</p>
-              <Image
-                src="/icons/trash-icon.svg"
-                alt="remove song"
-                width={16}
-                height={16}
-              />
-            </div> */}
+
+              {isCustomPlaylistOpen && playlistData && (
+                <div
+                  className="create-playlist-container"
+                  onClick={() =>
+                    handleRemoveSongFromPLaylist(
+                      playlistData.id,
+                      playlistData.name,
+                      track.id,
+                      track.name
+                    )
+                  }
+                >
+                  <p>Remove song from the playlist</p>
+                  <Image
+                    src="/icons/trash-icon.svg"
+                    alt="remove song"
+                    width={16}
+                    height={16}
+                  />
+                </div>
+              )}
               <div
                 className="create-playlist-container"
                 onClick={handleCreatePlaylistClick}
@@ -384,6 +431,3 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
 };
 
 export default Track;
-function MutableRefObject<T>() {
-  throw new Error("Function not implemented.");
-}

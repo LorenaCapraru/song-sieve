@@ -430,6 +430,48 @@ export const addSongToPlaylist = async (
   }
 };
 
+export const removeSongFromPlaylist = async (
+  userId: string,
+  playlistId: string,
+  trackIdToRemove: string
+): Promise<boolean> => {
+  try {
+    const libraryRef = collection(db, "users", userId, "library");
+
+    const playlistQuery = query(
+      libraryRef,
+      where("custom_id", "==", playlistId)
+    );
+    const querySnapshot = await getDocs(playlistQuery);
+
+    if (!querySnapshot.empty) {
+      const playlistDocSnapshot = querySnapshot.docs[0];
+      const playlistData = playlistDocSnapshot.data();
+
+      if (playlistData) {
+        // Filter out the track to be removed from the tracks array
+        const updatedTracks = playlistData.tracks.filter(
+          (track: string) => track !== trackIdToRemove
+        );
+
+        // Update the playlist in the database with the updated tracks array
+        await updateDoc(playlistDocSnapshot.ref, { tracks: updatedTracks });
+        console.log("Song removed from the playlist successfully!");
+        return true;
+      } else {
+        console.error("Playlist data is empty or undefined.");
+        return false;
+      }
+    } else {
+      console.error("Playlist document does not exist.");
+      return false;
+    }
+  } catch (error) {
+    console.error("Error removing song from playlist:", error);
+    return false;
+  }
+};
+
 export const addFavouriteTrack = async (
   userId: string,
   passedId: string

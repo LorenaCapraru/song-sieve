@@ -15,6 +15,7 @@ import {
 } from "@/app/recoil/atoms";
 import { millisecondsToMinutes, shortenString } from "@/utils/utils";
 import {
+  addFavouriteTrack,
   addSongToPlaylist,
   checkIfPlaylistNameExists,
   createEmptyPlaylistWithName,
@@ -57,12 +58,29 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
   const [isDBLibraryPlaylistChanged, setIsDBLibraryPlaylistChanged] =
     useRecoilState(isDBLibraryPlaylistChangedState);
 
-  const handleAddSongToFavouriteTracks = () => {
+  const handleAddSongToFavouriteTracks = async (
+    trackId: string,
+    trackName: string
+  ) => {
     if (!isUserLoggedIn) {
       setIsPopupLoginOpen(true);
       setPopupLoginText("add song to favourite tracks");
     } else {
-      //add playlist to library - make a request to db
+      if (currentUser) {
+        await addFavouriteTrack(currentUser.id, trackId).then((result) => {
+          setIsPopupConfirmOpen(true);
+          setArePlaylistOptionsOpen(false);
+          if (result) {
+            setPopupConfirmText(
+              `The song ${trackName} was added to favourite tracks.`
+            );
+          } else {
+            setPopupConfirmText(
+              `Sorry it was a problem to add a song to favourite tracks. Try again later.`
+            );
+          }
+        });
+      }
     }
   };
 
@@ -222,7 +240,9 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
               width={18}
               height={18}
               className="playlist-table-heart-icon"
-              onClick={handleAddSongToFavouriteTracks}
+              onClick={() =>
+                handleAddSongToFavouriteTracks(track.id, track.name)
+              }
             />
           </td>
           <td>{track.explicit === true ? "Yes" : "No"}</td>

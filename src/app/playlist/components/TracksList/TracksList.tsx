@@ -14,13 +14,14 @@ import {
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import Track, { TrackObject } from "../Track/Track";
 import { Bars } from "react-loader-spinner";
+import { getIdFromLibraryPlaylistUrl } from "@/utils/utils";
+import { usePathname } from "next/navigation";
+
+import PopupConfirm from "../Track/components/PopupConfirm/PopupConfirm";
 import {
   getFavouriteTracksForUser,
-  getIdFromLibraryPlaylistUrl,
-} from "@/utils/utils";
-import { usePathname } from "next/navigation";
-import { getOnePlaylistFromLibraryForUser } from "@/utils/utils";
-import PopupConfirm from "../Track/components/PopupConfirm/PopupConfirm";
+  getOnePlaylistFromLibraryForUser,
+} from "@/utils/dbUtils";
 
 const TracksList: React.FC = () => {
   const [playlistData, setPlaylistData] = useRecoilState<
@@ -168,7 +169,7 @@ const TracksList: React.FC = () => {
           ) : (
             <tr>
               <td></td>
-              <td className="no-tracks-msg">There are no favourite tracks.</td>
+              <td className="no-tracks-msg">There are no tracks.</td>
             </tr>
           )}
         </tbody>

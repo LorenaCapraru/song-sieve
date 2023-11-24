@@ -5,7 +5,7 @@ import PlaylistCover from "./components/PlaylistCover/PlaylistCover";
 import { PlaylistData, popularPlaylistsState } from "@/app/recoil/atoms";
 import { checkTokenTime } from "@/utils/utils";
 import { useEffect } from "react";
-import Link from "next/link";
+
 import { Bars } from "react-loader-spinner";
 
 const PopularPlaylist = () => {
@@ -51,9 +51,9 @@ const PopularPlaylist = () => {
           <h1 className="popular-playlist-header">Popular Playlists</h1>
           <div className="popular-playlist-row">
             {popularPlaylists.map((popularPlaylist, index) => (
-              <Link key={index} href={`/playlist/${popularPlaylist.id}`}>
-                <PlaylistCover popularPlaylist={popularPlaylist} />
-              </Link>
+              // <Link key={index} href={`/playlist/${popularPlaylist.id}`}>
+              <PlaylistCover key={index} popularPlaylist={popularPlaylist} />
+              // </Link>
             ))}
           </div>
         </div>

@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, RefObject, createRef, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import "./Track.css";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
@@ -36,7 +36,8 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
   >(myLibraryPlaylistsState);
   const [arePlaylistOptionOpen, setArePlaylistOptionsOpen] =
     useState<boolean>(false);
-  const playlistOptionsRef = useRef<HTMLDivElement>(null);
+  // const playlistOptionsRef = useRef<HTMLTableCellElement | undefined>(null);
+  const playlistOptionsRef = createRef<HTMLTableCellElement>();
   const [isCreatingPlaylist, setIsCreatingPlaylist] = useState<boolean>(false);
   const [newPlaylistName, setNewPlaylistName] = useState<string>("");
   const [errMsg, setErrMSg] = useState<string>("");
@@ -187,7 +188,7 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
           />
         </td>
         {arePlaylistOptionOpen && (
-          <div ref={playlistOptionsRef} className="playlist-options">
+          <td ref={playlistOptionsRef} className="playlist-options">
             <div>
               <p>Add song to the playlist</p>
               <Image
@@ -252,7 +253,7 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
                   {playlist.name}
                 </p>
               ))}
-          </div>
+          </td>
         )}
       </tr>
     )

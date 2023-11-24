@@ -15,6 +15,7 @@ import {
 } from "@/app/recoil/atoms";
 import { millisecondsToMinutes, shortenString } from "@/utils/utils";
 import {
+  checkIfPlaylistNameExists,
   createEmptyPlaylistWithName,
   getPlaylistNamesIdsFromLibraryForUser,
 } from "@/utils/dbUtils";
@@ -81,10 +82,21 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
   const handleCreateClick = async () => {
     setErrMSg("");
     if (newPlaylistName.trim() === "") {
-      setErrMSg("Please provide a valid playlist name");
+      setErrMSg("Please provide a valid playlist name.");
       return;
     }
     if (currentUser) {
+      const isPlaylistNameExists = await checkIfPlaylistNameExists(
+        currentUser.id,
+        newPlaylistName
+      );
+      if (isPlaylistNameExists) {
+        setErrMSg(
+          "This name already exists. Please provide another playlist name."
+        );
+        return;
+      }
+
       try {
         const status = await createEmptyPlaylistWithName(
           currentUser.id,

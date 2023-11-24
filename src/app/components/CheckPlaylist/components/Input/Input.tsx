@@ -102,8 +102,8 @@ const Input = () => {
             placeholder="Spotify playlist link"
             className="input-field"
           />
-          {inputErrMsg.length > 0 && <p className="error-msg">{inputErrMsg}</p>}
         </div>
+        {inputErrMsg.length > 0 && <p className="error-msg">{inputErrMsg}</p>}
         <div className="submit-button-section">
           <button className="submit-button" type="submit">
             GET THE PLAYLIST

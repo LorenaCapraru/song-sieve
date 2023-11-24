@@ -11,6 +11,7 @@ import {
   tracksArrState,
   isPopupConfirmOpenState,
   favouriteTracksIdsState,
+  isDBFavouriteTracksChangedState,
 } from "@/app/recoil/atoms";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import Track, { TrackObject } from "../Track/Track";
@@ -29,9 +30,8 @@ const TracksList: React.FC = () => {
   const [playlistData, setPlaylistData] = useRecoilState<
     PlaylistData | undefined
   >(playlistDataState);
-  const isFavouriteTracksPage = useRecoilValue<boolean>(
-    isFavouriteTracksPageState
-  );
+  const [isFavouriteTracksPage, setIsFavouriteTracksPage] =
+    useRecoilState<boolean>(isFavouriteTracksPageState);
   const currentUser = useRecoilValue<CurrentUser | undefined>(currentUserState);
   const [filterOptions, setFilterOptions] = useRecoilState(filterOptionsState);
   const [tracksArr, setTracksArr] = useRecoilState<TrackObject[] | undefined>(
@@ -43,6 +43,8 @@ const TracksList: React.FC = () => {
   const [favouriteTracksIds, setFavouriteTracksIds] = useRecoilState<
     Set<string>
   >(favouriteTracksIdsState);
+  const [isDBFavouriteTracksChanged, setIsDBFavouriteTracksChanged] =
+    useRecoilState<boolean>(isDBFavouriteTracksChangedState);
   const pathname = usePathname();
 
   // Fetches favourite tracks for a user
@@ -69,7 +71,7 @@ const TracksList: React.FC = () => {
           console.error("Error fetching favorite tracks: ", error);
         });
     }
-  }, [isFavouriteTracksPage, currentUser]);
+  }, [isFavouriteTracksPage, currentUser, isDBFavouriteTracksChanged]);
 
   // Fetch the user's favorite tracks ids and update the state
   useEffect(() => {
@@ -85,7 +87,7 @@ const TracksList: React.FC = () => {
           console.error("Error fetching favorite tracks: ", error);
         });
     }
-  }, [currentUser]);
+  }, [currentUser, isDBFavouriteTracksChanged]);
 
   //check if the url includes "custom_playlists"
   useEffect(() => {
@@ -163,6 +165,7 @@ const TracksList: React.FC = () => {
     setIsPopupConfirmOpen(false);
     setPlaylistData(undefined);
     setFilterOptions({ selectedDuration: null, explicit: null });
+    setIsFavouriteTracksPage(false);
   }, [pathname]);
 
   return playlistData ? (

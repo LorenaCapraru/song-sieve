@@ -6,6 +6,7 @@ import {
   DBLibraryPlaylistNameId,
   currentUserState,
   favouriteTracksIdsState,
+  isDBFavouriteTracksChangedState,
   isDBLibraryPlaylistChangedState,
   isPopupConfirmOpenState,
   isPopupLoginOpenState,
@@ -21,6 +22,7 @@ import {
   checkIfPlaylistNameExists,
   createEmptyPlaylistWithName,
   getPlaylistNamesIdsFromLibraryForUser,
+  removeFavouriteTrack,
 } from "@/utils/dbUtils";
 
 export interface TrackObject {
@@ -61,6 +63,8 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
   const favouriteTracksIds = useRecoilValue<Set<string>>(
     favouriteTracksIdsState
   );
+  const [isDBFavouriteTracksChanged, setIsDBFavouriteTracksChanged] =
+    useRecoilState<boolean>(isDBFavouriteTracksChangedState);
 
   const isFavorite = favouriteTracksIds.has(track.id);
 
@@ -77,12 +81,40 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
           setIsPopupConfirmOpen(true);
           setArePlaylistOptionsOpen(false);
           if (result) {
+            setIsDBFavouriteTracksChanged(!isDBFavouriteTracksChanged);
             setPopupConfirmText(
               `The song ${trackName} was added to favourite tracks.`
             );
           } else {
             setPopupConfirmText(
               `Sorry it was a problem to add a song to favourite tracks. Try again later.`
+            );
+          }
+        });
+      }
+    }
+  };
+
+  const handleRemoveSongFromFavouriteTracks = async (
+    trackId: string,
+    trackName: string
+  ) => {
+    if (!isUserLoggedIn) {
+      setIsPopupLoginOpen(true);
+      setPopupLoginText("add song to favourite tracks");
+    } else {
+      if (currentUser) {
+        await removeFavouriteTrack(currentUser.id, trackId).then((result) => {
+          setIsPopupConfirmOpen(true);
+          setArePlaylistOptionsOpen(false);
+          if (result) {
+            setIsDBFavouriteTracksChanged(!isDBFavouriteTracksChanged);
+            setPopupConfirmText(
+              `The song ${trackName} was removed from favourite tracks.`
+            );
+          } else {
+            setPopupConfirmText(
+              `Sorry it was a problem to remove a song from favourite tracks. Try again later.`
             );
           }
         });
@@ -248,7 +280,7 @@ const Track: FC<TrackProps> = ({ track, rowNumber }) => {
                 height={18}
                 className="playlist-table-heart-icon"
                 onClick={() =>
-                  handleAddSongToFavouriteTracks(track.id, track.name)
+                  handleRemoveSongFromFavouriteTracks(track.id, track.name)
                 }
               />
             ) : (

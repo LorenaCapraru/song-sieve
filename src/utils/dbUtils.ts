@@ -452,6 +452,40 @@ export const addFavouriteTrack = async (
   }
 };
 
+export const removeFavouriteTrack = async (
+  userId: string,
+  spotifyId: string
+): Promise<boolean> => {
+  try {
+    const favouriteTracksRef = collection(
+      db,
+      "users",
+      userId,
+      "favourite_tracks"
+    );
+    const q = query(favouriteTracksRef, where("spotify_id", "==", spotifyId));
+
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+      const docId = querySnapshot.docs[0].id;
+      const trackDocRef = doc(favouriteTracksRef, docId);
+
+      await deleteDoc(trackDocRef);
+      console.log(
+        `Track with Spotify ID ${spotifyId} removed from favourites!`
+      );
+      return true;
+    } else {
+      console.error("Track not found in favourites!");
+      return false;
+    }
+  } catch (error) {
+    console.error("Error removing favourite track:", error);
+    return false;
+  }
+};
+
 export const getFavouriteTracksIdsForUser = async (
   userId: string
 ): Promise<string[]> => {
